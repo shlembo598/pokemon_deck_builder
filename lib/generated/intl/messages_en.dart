@@ -24,6 +24,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "decks_screen_title": MessageLookupByLibrary.simpleMessage("Decks"),
         "explore_screen_title": MessageLookupByLibrary.simpleMessage("Explore"),
+        "message_error":
+            MessageLookupByLibrary.simpleMessage("Something went wrong"),
+        "message_noData": MessageLookupByLibrary.simpleMessage("No data"),
         "search_screen_title": MessageLookupByLibrary.simpleMessage("Search")
       };
 }

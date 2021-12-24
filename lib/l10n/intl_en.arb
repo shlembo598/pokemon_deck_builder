@@ -1,5 +1,7 @@
 {
   "search_screen_title" : "Search",
   "explore_screen_title" : "Explore",
-  "decks_screen_title" : "Decks"
+  "decks_screen_title" : "Decks",
+  "message_error" : "Something went wrong",
+  "message_noData" : "No data"
 }

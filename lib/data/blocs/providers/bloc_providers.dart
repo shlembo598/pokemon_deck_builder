@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_deck_builder/data/blocs/card_bloc/card_bloc.dart';
-import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
+import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 
 final List<BlocProvider> providersList = [
   BlocProvider<CardBloc>(

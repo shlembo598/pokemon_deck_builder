@@ -21,16 +21,8 @@ class _$SetsEventTearOff {
     return const InitialSetsEvent();
   }
 
-  ReadSetsEvent read() {
-    return const ReadSetsEvent();
-  }
-
-  UpdateSetsEvent update() {
-    return const UpdateSetsEvent();
-  }
-
-  DeleteSetsEvent delete() {
-    return const DeleteSetsEvent();
+  FetchSetsEvent fetch() {
+    return const FetchSetsEvent();
   }
 }
 
@@ -42,50 +34,38 @@ mixin _$SetsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() read,
-    required TResult Function() update,
-    required TResult Function() delete,
+    required TResult Function() fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsEvent value) initial,
-    required TResult Function(ReadSetsEvent value) read,
-    required TResult Function(UpdateSetsEvent value) update,
-    required TResult Function(DeleteSetsEvent value) delete,
+    required TResult Function(FetchSetsEvent value) fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -147,9 +127,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() read,
-    required TResult Function() update,
-    required TResult Function() delete,
+    required TResult Function() fetch,
   }) {
     return initial();
   }
@@ -158,9 +136,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
   }) {
     return initial?.call();
   }
@@ -169,9 +145,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -184,9 +158,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsEvent value) initial,
-    required TResult Function(ReadSetsEvent value) read,
-    required TResult Function(UpdateSetsEvent value) update,
-    required TResult Function(DeleteSetsEvent value) delete,
+    required TResult Function(FetchSetsEvent value) fetch,
   }) {
     return initial(this);
   }
@@ -195,9 +167,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
   }) {
     return initial?.call(this);
   }
@@ -206,9 +176,7 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -224,37 +192,37 @@ abstract class InitialSetsEvent extends SetsEvent {
 }
 
 /// @nodoc
-abstract class $ReadSetsEventCopyWith<$Res> {
-  factory $ReadSetsEventCopyWith(
-          ReadSetsEvent value, $Res Function(ReadSetsEvent) then) =
-      _$ReadSetsEventCopyWithImpl<$Res>;
+abstract class $FetchSetsEventCopyWith<$Res> {
+  factory $FetchSetsEventCopyWith(
+          FetchSetsEvent value, $Res Function(FetchSetsEvent) then) =
+      _$FetchSetsEventCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$ReadSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
-    implements $ReadSetsEventCopyWith<$Res> {
-  _$ReadSetsEventCopyWithImpl(
-      ReadSetsEvent _value, $Res Function(ReadSetsEvent) _then)
-      : super(_value, (v) => _then(v as ReadSetsEvent));
+class _$FetchSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
+    implements $FetchSetsEventCopyWith<$Res> {
+  _$FetchSetsEventCopyWithImpl(
+      FetchSetsEvent _value, $Res Function(FetchSetsEvent) _then)
+      : super(_value, (v) => _then(v as FetchSetsEvent));
 
   @override
-  ReadSetsEvent get _value => super._value as ReadSetsEvent;
+  FetchSetsEvent get _value => super._value as FetchSetsEvent;
 }
 
 /// @nodoc
 
-class _$ReadSetsEvent extends ReadSetsEvent {
-  const _$ReadSetsEvent() : super._();
+class _$FetchSetsEvent extends FetchSetsEvent {
+  const _$FetchSetsEvent() : super._();
 
   @override
   String toString() {
-    return 'SetsEvent.read()';
+    return 'SetsEvent.fetch()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is ReadSetsEvent);
+        (other.runtimeType == runtimeType && other is FetchSetsEvent);
   }
 
   @override
@@ -264,35 +232,29 @@ class _$ReadSetsEvent extends ReadSetsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function() read,
-    required TResult Function() update,
-    required TResult Function() delete,
+    required TResult Function() fetch,
   }) {
-    return read();
+    return fetch();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
   }) {
-    return read?.call();
+    return fetch?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
+    TResult Function()? fetch,
     required TResult orElse(),
   }) {
-    if (read != null) {
-      return read();
+    if (fetch != null) {
+      return fetch();
     }
     return orElse();
   }
@@ -301,289 +263,58 @@ class _$ReadSetsEvent extends ReadSetsEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsEvent value) initial,
-    required TResult Function(ReadSetsEvent value) read,
-    required TResult Function(UpdateSetsEvent value) update,
-    required TResult Function(DeleteSetsEvent value) delete,
+    required TResult Function(FetchSetsEvent value) fetch,
   }) {
-    return read(this);
+    return fetch(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
   }) {
-    return read?.call(this);
+    return fetch?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
+    TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) {
-    if (read != null) {
-      return read(this);
+    if (fetch != null) {
+      return fetch(this);
     }
     return orElse();
   }
 }
 
-abstract class ReadSetsEvent extends SetsEvent {
-  const factory ReadSetsEvent() = _$ReadSetsEvent;
-  const ReadSetsEvent._() : super._();
-}
-
-/// @nodoc
-abstract class $UpdateSetsEventCopyWith<$Res> {
-  factory $UpdateSetsEventCopyWith(
-          UpdateSetsEvent value, $Res Function(UpdateSetsEvent) then) =
-      _$UpdateSetsEventCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$UpdateSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
-    implements $UpdateSetsEventCopyWith<$Res> {
-  _$UpdateSetsEventCopyWithImpl(
-      UpdateSetsEvent _value, $Res Function(UpdateSetsEvent) _then)
-      : super(_value, (v) => _then(v as UpdateSetsEvent));
-
-  @override
-  UpdateSetsEvent get _value => super._value as UpdateSetsEvent;
-}
-
-/// @nodoc
-
-class _$UpdateSetsEvent extends UpdateSetsEvent {
-  const _$UpdateSetsEvent() : super._();
-
-  @override
-  String toString() {
-    return 'SetsEvent.update()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is UpdateSetsEvent);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() read,
-    required TResult Function() update,
-    required TResult Function() delete,
-  }) {
-    return update();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
-  }) {
-    return update?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
-    required TResult orElse(),
-  }) {
-    if (update != null) {
-      return update();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(InitialSetsEvent value) initial,
-    required TResult Function(ReadSetsEvent value) read,
-    required TResult Function(UpdateSetsEvent value) update,
-    required TResult Function(DeleteSetsEvent value) delete,
-  }) {
-    return update(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
-  }) {
-    return update?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
-    required TResult orElse(),
-  }) {
-    if (update != null) {
-      return update(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class UpdateSetsEvent extends SetsEvent {
-  const factory UpdateSetsEvent() = _$UpdateSetsEvent;
-  const UpdateSetsEvent._() : super._();
-}
-
-/// @nodoc
-abstract class $DeleteSetsEventCopyWith<$Res> {
-  factory $DeleteSetsEventCopyWith(
-          DeleteSetsEvent value, $Res Function(DeleteSetsEvent) then) =
-      _$DeleteSetsEventCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$DeleteSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
-    implements $DeleteSetsEventCopyWith<$Res> {
-  _$DeleteSetsEventCopyWithImpl(
-      DeleteSetsEvent _value, $Res Function(DeleteSetsEvent) _then)
-      : super(_value, (v) => _then(v as DeleteSetsEvent));
-
-  @override
-  DeleteSetsEvent get _value => super._value as DeleteSetsEvent;
-}
-
-/// @nodoc
-
-class _$DeleteSetsEvent extends DeleteSetsEvent {
-  const _$DeleteSetsEvent() : super._();
-
-  @override
-  String toString() {
-    return 'SetsEvent.delete()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is DeleteSetsEvent);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() read,
-    required TResult Function() update,
-    required TResult Function() delete,
-  }) {
-    return delete();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
-  }) {
-    return delete?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? read,
-    TResult Function()? update,
-    TResult Function()? delete,
-    required TResult orElse(),
-  }) {
-    if (delete != null) {
-      return delete();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(InitialSetsEvent value) initial,
-    required TResult Function(ReadSetsEvent value) read,
-    required TResult Function(UpdateSetsEvent value) update,
-    required TResult Function(DeleteSetsEvent value) delete,
-  }) {
-    return delete(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
-  }) {
-    return delete?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
-    TResult Function(ReadSetsEvent value)? read,
-    TResult Function(UpdateSetsEvent value)? update,
-    TResult Function(DeleteSetsEvent value)? delete,
-    required TResult orElse(),
-  }) {
-    if (delete != null) {
-      return delete(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class DeleteSetsEvent extends SetsEvent {
-  const factory DeleteSetsEvent() = _$DeleteSetsEvent;
-  const DeleteSetsEvent._() : super._();
+abstract class FetchSetsEvent extends SetsEvent {
+  const factory FetchSetsEvent() = _$FetchSetsEvent;
+  const FetchSetsEvent._() : super._();
 }
 
 /// @nodoc
 class _$SetsStateTearOff {
   const _$SetsStateTearOff();
 
-  InitialSetsState initial() {
-    return const InitialSetsState();
+  InitialSetsState initial([List<Datum>? sets]) {
+    return InitialSetsState(
+      sets,
+    );
   }
 
-  LoadedSetsState loaded(List<Datum> sets) {
+  LoadedSetsState loaded([List<Datum>? sets, bool hasReachedMax = false]) {
     return LoadedSetsState(
+      sets,
+      hasReachedMax,
+    );
+  }
+
+  ErrorSetsState error([List<Datum>? sets]) {
+    return ErrorSetsState(
       sets,
     );
   }
@@ -594,22 +325,27 @@ const $SetsState = _$SetsStateTearOff();
 
 /// @nodoc
 mixin _$SetsState {
+  List<Datum>? get sets => throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(List<Datum> sets) loaded,
+    required TResult Function(List<Datum>? sets) initial,
+    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
+    required TResult Function(List<Datum>? sets) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -617,20 +353,27 @@ mixin _$SetsState {
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
     required TResult Function(LoadedSetsState value) loaded,
+    required TResult Function(ErrorSetsState value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SetsStateCopyWith<SetsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -638,6 +381,7 @@ mixin _$SetsState {
 abstract class $SetsStateCopyWith<$Res> {
   factory $SetsStateCopyWith(SetsState value, $Res Function(SetsState) then) =
       _$SetsStateCopyWithImpl<$Res>;
+  $Res call({List<Datum>? sets});
 }
 
 /// @nodoc
@@ -647,13 +391,28 @@ class _$SetsStateCopyWithImpl<$Res> implements $SetsStateCopyWith<$Res> {
   final SetsState _value;
   // ignore: unused_field
   final $Res Function(SetsState) _then;
+
+  @override
+  $Res call({
+    Object? sets = freezed,
+  }) {
+    return _then(_value.copyWith(
+      sets: sets == freezed
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Datum>?,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class $InitialSetsStateCopyWith<$Res> {
+abstract class $InitialSetsStateCopyWith<$Res>
+    implements $SetsStateCopyWith<$Res> {
   factory $InitialSetsStateCopyWith(
           InitialSetsState value, $Res Function(InitialSetsState) then) =
       _$InitialSetsStateCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Datum>? sets});
 }
 
 /// @nodoc
@@ -665,54 +424,80 @@ class _$InitialSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 
   @override
   InitialSetsState get _value => super._value as InitialSetsState;
+
+  @override
+  $Res call({
+    Object? sets = freezed,
+  }) {
+    return _then(InitialSetsState(
+      sets == freezed
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Datum>?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$InitialSetsState extends InitialSetsState {
-  const _$InitialSetsState() : super._();
+  const _$InitialSetsState([this.sets]) : super._();
+
+  @override
+  final List<Datum>? sets;
 
   @override
   String toString() {
-    return 'SetsState.initial()';
+    return 'SetsState.initial(sets: $sets)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is InitialSetsState);
+        (other.runtimeType == runtimeType &&
+            other is InitialSetsState &&
+            const DeepCollectionEquality().equals(other.sets, sets));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(sets));
+
+  @JsonKey(ignore: true)
+  @override
+  $InitialSetsStateCopyWith<InitialSetsState> get copyWith =>
+      _$InitialSetsStateCopyWithImpl<InitialSetsState>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(List<Datum> sets) loaded,
+    required TResult Function(List<Datum>? sets) initial,
+    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
+    required TResult Function(List<Datum>? sets) error,
   }) {
-    return initial();
+    return initial(sets);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
   }) {
-    return initial?.call();
+    return initial?.call(sets);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial();
+      return initial(sets);
     }
     return orElse();
   }
@@ -722,6 +507,7 @@ class _$InitialSetsState extends InitialSetsState {
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
     required TResult Function(LoadedSetsState value) loaded,
+    required TResult Function(ErrorSetsState value) error,
   }) {
     return initial(this);
   }
@@ -731,6 +517,7 @@ class _$InitialSetsState extends InitialSetsState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
   }) {
     return initial?.call(this);
   }
@@ -740,6 +527,7 @@ class _$InitialSetsState extends InitialSetsState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -750,16 +538,25 @@ class _$InitialSetsState extends InitialSetsState {
 }
 
 abstract class InitialSetsState extends SetsState {
-  const factory InitialSetsState() = _$InitialSetsState;
+  const factory InitialSetsState([List<Datum>? sets]) = _$InitialSetsState;
   const InitialSetsState._() : super._();
+
+  @override
+  List<Datum>? get sets;
+  @override
+  @JsonKey(ignore: true)
+  $InitialSetsStateCopyWith<InitialSetsState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoadedSetsStateCopyWith<$Res> {
+abstract class $LoadedSetsStateCopyWith<$Res>
+    implements $SetsStateCopyWith<$Res> {
   factory $LoadedSetsStateCopyWith(
           LoadedSetsState value, $Res Function(LoadedSetsState) then) =
       _$LoadedSetsStateCopyWithImpl<$Res>;
-  $Res call({List<Datum> sets});
+  @override
+  $Res call({List<Datum>? sets, bool hasReachedMax});
 }
 
 /// @nodoc
@@ -775,12 +572,17 @@ class _$LoadedSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? sets = freezed,
+    Object? hasReachedMax = freezed,
   }) {
     return _then(LoadedSetsState(
       sets == freezed
           ? _value.sets
           : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>,
+              as List<Datum>?,
+      hasReachedMax == freezed
+          ? _value.hasReachedMax
+          : hasReachedMax // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -788,14 +590,17 @@ class _$LoadedSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedSetsState extends LoadedSetsState {
-  const _$LoadedSetsState(this.sets) : super._();
+  const _$LoadedSetsState([this.sets, this.hasReachedMax = false]) : super._();
 
   @override
-  final List<Datum> sets;
+  final List<Datum>? sets;
+  @JsonKey()
+  @override
+  final bool hasReachedMax;
 
   @override
   String toString() {
-    return 'SetsState.loaded(sets: $sets)';
+    return 'SetsState.loaded(sets: $sets, hasReachedMax: $hasReachedMax)';
   }
 
   @override
@@ -803,12 +608,16 @@ class _$LoadedSetsState extends LoadedSetsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is LoadedSetsState &&
-            const DeepCollectionEquality().equals(other.sets, sets));
+            const DeepCollectionEquality().equals(other.sets, sets) &&
+            const DeepCollectionEquality()
+                .equals(other.hasReachedMax, hasReachedMax));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(sets));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(sets),
+      const DeepCollectionEquality().hash(hasReachedMax));
 
   @JsonKey(ignore: true)
   @override
@@ -818,30 +627,33 @@ class _$LoadedSetsState extends LoadedSetsState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(List<Datum> sets) loaded,
+    required TResult Function(List<Datum>? sets) initial,
+    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
+    required TResult Function(List<Datum>? sets) error,
   }) {
-    return loaded(sets);
+    return loaded(sets, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
   }) {
-    return loaded?.call(sets);
+    return loaded?.call(sets, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(List<Datum> sets)? loaded,
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(sets);
+      return loaded(sets, hasReachedMax);
     }
     return orElse();
   }
@@ -851,6 +663,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
     required TResult Function(LoadedSetsState value) loaded,
+    required TResult Function(ErrorSetsState value) error,
   }) {
     return loaded(this);
   }
@@ -860,6 +673,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
   }) {
     return loaded?.call(this);
   }
@@ -869,6 +683,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
     TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -879,11 +694,159 @@ class _$LoadedSetsState extends LoadedSetsState {
 }
 
 abstract class LoadedSetsState extends SetsState {
-  const factory LoadedSetsState(List<Datum> sets) = _$LoadedSetsState;
+  const factory LoadedSetsState([List<Datum>? sets, bool hasReachedMax]) =
+      _$LoadedSetsState;
   const LoadedSetsState._() : super._();
 
-  List<Datum> get sets;
+  @override
+  List<Datum>? get sets;
+  bool get hasReachedMax;
+  @override
   @JsonKey(ignore: true)
   $LoadedSetsStateCopyWith<LoadedSetsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ErrorSetsStateCopyWith<$Res>
+    implements $SetsStateCopyWith<$Res> {
+  factory $ErrorSetsStateCopyWith(
+          ErrorSetsState value, $Res Function(ErrorSetsState) then) =
+      _$ErrorSetsStateCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Datum>? sets});
+}
+
+/// @nodoc
+class _$ErrorSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
+    implements $ErrorSetsStateCopyWith<$Res> {
+  _$ErrorSetsStateCopyWithImpl(
+      ErrorSetsState _value, $Res Function(ErrorSetsState) _then)
+      : super(_value, (v) => _then(v as ErrorSetsState));
+
+  @override
+  ErrorSetsState get _value => super._value as ErrorSetsState;
+
+  @override
+  $Res call({
+    Object? sets = freezed,
+  }) {
+    return _then(ErrorSetsState(
+      sets == freezed
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Datum>?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ErrorSetsState extends ErrorSetsState {
+  const _$ErrorSetsState([this.sets]) : super._();
+
+  @override
+  final List<Datum>? sets;
+
+  @override
+  String toString() {
+    return 'SetsState.error(sets: $sets)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ErrorSetsState &&
+            const DeepCollectionEquality().equals(other.sets, sets));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(sets));
+
+  @JsonKey(ignore: true)
+  @override
+  $ErrorSetsStateCopyWith<ErrorSetsState> get copyWith =>
+      _$ErrorSetsStateCopyWithImpl<ErrorSetsState>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(List<Datum>? sets) initial,
+    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
+    required TResult Function(List<Datum>? sets) error,
+  }) {
+    return error(sets);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
+  }) {
+    return error?.call(sets);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(List<Datum>? sets)? initial,
+    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
+    TResult Function(List<Datum>? sets)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(sets);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadedSetsState value) loaded,
+    required TResult Function(ErrorSetsState value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ErrorSetsState extends SetsState {
+  const factory ErrorSetsState([List<Datum>? sets]) = _$ErrorSetsState;
+  const ErrorSetsState._() : super._();
+
+  @override
+  List<Datum>? get sets;
+  @override
+  @JsonKey(ignore: true)
+  $ErrorSetsStateCopyWith<ErrorSetsState> get copyWith =>
       throw _privateConstructorUsedError;
 }

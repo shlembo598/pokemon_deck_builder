@@ -79,6 +79,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Something went wrong`
+  String get message_error {
+    return Intl.message(
+      'Something went wrong',
+      name: 'message_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No data`
+  String get message_noData {
+    return Intl.message(
+      'No data',
+      name: 'message_noData',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/models/sets.dart';
 import 'package:pokemon_deck_builder/data/repositories/cards_repository.dart';
 
@@ -15,57 +15,64 @@ class SetsEvent with _$SetsEvent {
 
   const factory SetsEvent.initial() = InitialSetsEvent;
 
-  const factory SetsEvent.read() = ReadSetsEvent;
-
-  const factory SetsEvent.update() = UpdateSetsEvent;
-
-  const factory SetsEvent.delete() = DeleteSetsEvent;
+  const factory SetsEvent.fetch() = FetchSetsEvent;
 }
 
 @freezed
 class SetsState with _$SetsState {
   const SetsState._();
 
-  const factory SetsState.initial() = InitialSetsState;
-  const factory SetsState.loaded(final List<Datum> sets) = LoadedSetsState;
+  const factory SetsState.initial([
+    List<Datum>? sets,
+  ]) = InitialSetsState;
+
+  const factory SetsState.loaded([
+    List<Datum>? sets,
+    @Default(false) bool hasReachedMax,
+  ]) = LoadedSetsState;
+
+  const factory SetsState.error([
+    List<Datum>? sets,
+  ]) = ErrorSetsState;
 }
 
 class SetsBloc extends Bloc<SetsEvent, SetsState> {
   final CardsRepository cardsRepository = CardsRepository();
+
   SetsBloc() : super(const InitialSetsState()) {
-    on<InitialSetsEvent>(_initialize, transformer: sequential());
-    on<ReadSetsEvent>(_read, transformer: sequential());
-    on<UpdateSetsEvent>(_update, transformer: sequential());
-    on<DeleteSetsEvent>(_delete, transformer: sequential());
+    on<SetsEvent>((event, emit) => event.map(
+          initial: (event) => _initialize(event, emit),
+          fetch: (event) => _fetch(event, emit),
+        ));
   }
+
   FutureOr<void> _initialize(
     InitialSetsEvent event,
     Emitter<SetsState> emit,
   ) async {
-    emit(const SetsState.initial());
-  }
-
-  FutureOr<void> _read(ReadSetsEvent event, Emitter<SetsState> emit) async {
-    List<Datum> setList = <Datum>[];
     try {
       final result = await cardsRepository.getSets();
-      if (result?.statusCode == 200) {
-        setList = Sets.fromJson(result?.data).data.toList();
-      }
-      log('${setList.length}');
-      emit(SetsState.loaded(setList));
+      emit(SetsState.loaded(result, false));
     } catch (e) {
+      emit(const SetsState.error());
       log(e.toString());
     }
   }
 
-  FutureOr<void> _update(
-    UpdateSetsEvent event,
-    Emitter<SetsState> emit,
-  ) {}
-
-  FutureOr<void> _delete(
-    DeleteSetsEvent event,
-    Emitter<SetsState> emit,
-  ) {}
+  FutureOr<void> _fetch(FetchSetsEvent event, Emitter<SetsState> emit) async {
+    try {
+      int length = state.sets != null ? state.sets!.length : listSize;
+      int page = length ~/ listSize + 1;
+      final result = await cardsRepository.getSets(page);
+      result.isEmpty
+          ? emit(SetsState.loaded(state.sets, true))
+          : emit(SetsState.loaded(
+              [...?state.sets, ...result],
+              false,
+            ));
+    } catch (e) {
+      emit(const SetsState.error());
+      log(e.toString());
+    }
+  }
 }

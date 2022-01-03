@@ -300,22 +300,23 @@ abstract class FetchSetsEvent extends SetsEvent {
 class _$SetsStateTearOff {
   const _$SetsStateTearOff();
 
-  InitialSetsState initial([List<Datum>? sets]) {
+  InitialSetsState initial([SetListContainer? setListContainer]) {
     return InitialSetsState(
-      sets,
+      setListContainer,
     );
   }
 
-  LoadedSetsState loaded([List<Datum>? sets, bool hasReachedMax = false]) {
+  LoadedSetsState loaded(
+      [SetListContainer? setListContainer, bool hasReachedMax = false]) {
     return LoadedSetsState(
-      sets,
+      setListContainer,
       hasReachedMax,
     );
   }
 
-  ErrorSetsState error([List<Datum>? sets]) {
+  ErrorSetsState error([SetListContainer? setListContainer]) {
     return ErrorSetsState(
-      sets,
+      setListContainer,
     );
   }
 }
@@ -325,27 +326,31 @@ const $SetsState = _$SetsStateTearOff();
 
 /// @nodoc
 mixin _$SetsState {
-  List<Datum>? get sets => throw _privateConstructorUsedError;
+  SetListContainer? get setListContainer => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Datum>? sets) initial,
-    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
-    required TResult Function(List<Datum>? sets) error,
+    required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(
+            SetListContainer? setListContainer, bool hasReachedMax)
+        loaded,
+    required TResult Function(SetListContainer? setListContainer) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -381,7 +386,9 @@ mixin _$SetsState {
 abstract class $SetsStateCopyWith<$Res> {
   factory $SetsStateCopyWith(SetsState value, $Res Function(SetsState) then) =
       _$SetsStateCopyWithImpl<$Res>;
-  $Res call({List<Datum>? sets});
+  $Res call({SetListContainer? setListContainer});
+
+  $SetListContainerCopyWith<$Res>? get setListContainer;
 }
 
 /// @nodoc
@@ -394,14 +401,25 @@ class _$SetsStateCopyWithImpl<$Res> implements $SetsStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? sets = freezed,
+    Object? setListContainer = freezed,
   }) {
     return _then(_value.copyWith(
-      sets: sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>?,
+      setListContainer: setListContainer == freezed
+          ? _value.setListContainer
+          : setListContainer // ignore: cast_nullable_to_non_nullable
+              as SetListContainer?,
     ));
+  }
+
+  @override
+  $SetListContainerCopyWith<$Res>? get setListContainer {
+    if (_value.setListContainer == null) {
+      return null;
+    }
+
+    return $SetListContainerCopyWith<$Res>(_value.setListContainer!, (value) {
+      return _then(_value.copyWith(setListContainer: value));
+    });
   }
 }
 
@@ -412,7 +430,10 @@ abstract class $InitialSetsStateCopyWith<$Res>
           InitialSetsState value, $Res Function(InitialSetsState) then) =
       _$InitialSetsStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Datum>? sets});
+  $Res call({SetListContainer? setListContainer});
+
+  @override
+  $SetListContainerCopyWith<$Res>? get setListContainer;
 }
 
 /// @nodoc
@@ -427,13 +448,13 @@ class _$InitialSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sets = freezed,
+    Object? setListContainer = freezed,
   }) {
     return _then(InitialSetsState(
-      sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>?,
+      setListContainer == freezed
+          ? _value.setListContainer
+          : setListContainer // ignore: cast_nullable_to_non_nullable
+              as SetListContainer?,
     ));
   }
 }
@@ -441,14 +462,14 @@ class _$InitialSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialSetsState extends InitialSetsState {
-  const _$InitialSetsState([this.sets]) : super._();
+  const _$InitialSetsState([this.setListContainer]) : super._();
 
   @override
-  final List<Datum>? sets;
+  final SetListContainer? setListContainer;
 
   @override
   String toString() {
-    return 'SetsState.initial(sets: $sets)';
+    return 'SetsState.initial(setListContainer: $setListContainer)';
   }
 
   @override
@@ -456,12 +477,13 @@ class _$InitialSetsState extends InitialSetsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is InitialSetsState &&
-            const DeepCollectionEquality().equals(other.sets, sets));
+            const DeepCollectionEquality()
+                .equals(other.setListContainer, setListContainer));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(sets));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(setListContainer));
 
   @JsonKey(ignore: true)
   @override
@@ -471,33 +493,37 @@ class _$InitialSetsState extends InitialSetsState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Datum>? sets) initial,
-    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
-    required TResult Function(List<Datum>? sets) error,
+    required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(
+            SetListContainer? setListContainer, bool hasReachedMax)
+        loaded,
+    required TResult Function(SetListContainer? setListContainer) error,
   }) {
-    return initial(sets);
+    return initial(setListContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
   }) {
-    return initial?.call(sets);
+    return initial?.call(setListContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(sets);
+      return initial(setListContainer);
     }
     return orElse();
   }
@@ -538,11 +564,12 @@ class _$InitialSetsState extends InitialSetsState {
 }
 
 abstract class InitialSetsState extends SetsState {
-  const factory InitialSetsState([List<Datum>? sets]) = _$InitialSetsState;
+  const factory InitialSetsState([SetListContainer? setListContainer]) =
+      _$InitialSetsState;
   const InitialSetsState._() : super._();
 
   @override
-  List<Datum>? get sets;
+  SetListContainer? get setListContainer;
   @override
   @JsonKey(ignore: true)
   $InitialSetsStateCopyWith<InitialSetsState> get copyWith =>
@@ -556,7 +583,10 @@ abstract class $LoadedSetsStateCopyWith<$Res>
           LoadedSetsState value, $Res Function(LoadedSetsState) then) =
       _$LoadedSetsStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Datum>? sets, bool hasReachedMax});
+  $Res call({SetListContainer? setListContainer, bool hasReachedMax});
+
+  @override
+  $SetListContainerCopyWith<$Res>? get setListContainer;
 }
 
 /// @nodoc
@@ -571,14 +601,14 @@ class _$LoadedSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sets = freezed,
+    Object? setListContainer = freezed,
     Object? hasReachedMax = freezed,
   }) {
     return _then(LoadedSetsState(
-      sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>?,
+      setListContainer == freezed
+          ? _value.setListContainer
+          : setListContainer // ignore: cast_nullable_to_non_nullable
+              as SetListContainer?,
       hasReachedMax == freezed
           ? _value.hasReachedMax
           : hasReachedMax // ignore: cast_nullable_to_non_nullable
@@ -590,17 +620,18 @@ class _$LoadedSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedSetsState extends LoadedSetsState {
-  const _$LoadedSetsState([this.sets, this.hasReachedMax = false]) : super._();
+  const _$LoadedSetsState([this.setListContainer, this.hasReachedMax = false])
+      : super._();
 
   @override
-  final List<Datum>? sets;
+  final SetListContainer? setListContainer;
   @JsonKey()
   @override
   final bool hasReachedMax;
 
   @override
   String toString() {
-    return 'SetsState.loaded(sets: $sets, hasReachedMax: $hasReachedMax)';
+    return 'SetsState.loaded(setListContainer: $setListContainer, hasReachedMax: $hasReachedMax)';
   }
 
   @override
@@ -608,7 +639,8 @@ class _$LoadedSetsState extends LoadedSetsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is LoadedSetsState &&
-            const DeepCollectionEquality().equals(other.sets, sets) &&
+            const DeepCollectionEquality()
+                .equals(other.setListContainer, setListContainer) &&
             const DeepCollectionEquality()
                 .equals(other.hasReachedMax, hasReachedMax));
   }
@@ -616,7 +648,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(sets),
+      const DeepCollectionEquality().hash(setListContainer),
       const DeepCollectionEquality().hash(hasReachedMax));
 
   @JsonKey(ignore: true)
@@ -627,33 +659,37 @@ class _$LoadedSetsState extends LoadedSetsState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Datum>? sets) initial,
-    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
-    required TResult Function(List<Datum>? sets) error,
+    required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(
+            SetListContainer? setListContainer, bool hasReachedMax)
+        loaded,
+    required TResult Function(SetListContainer? setListContainer) error,
   }) {
-    return loaded(sets, hasReachedMax);
+    return loaded(setListContainer, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
   }) {
-    return loaded?.call(sets, hasReachedMax);
+    return loaded?.call(setListContainer, hasReachedMax);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(sets, hasReachedMax);
+      return loaded(setListContainer, hasReachedMax);
     }
     return orElse();
   }
@@ -694,12 +730,13 @@ class _$LoadedSetsState extends LoadedSetsState {
 }
 
 abstract class LoadedSetsState extends SetsState {
-  const factory LoadedSetsState([List<Datum>? sets, bool hasReachedMax]) =
-      _$LoadedSetsState;
+  const factory LoadedSetsState(
+      [SetListContainer? setListContainer,
+      bool hasReachedMax]) = _$LoadedSetsState;
   const LoadedSetsState._() : super._();
 
   @override
-  List<Datum>? get sets;
+  SetListContainer? get setListContainer;
   bool get hasReachedMax;
   @override
   @JsonKey(ignore: true)
@@ -714,7 +751,10 @@ abstract class $ErrorSetsStateCopyWith<$Res>
           ErrorSetsState value, $Res Function(ErrorSetsState) then) =
       _$ErrorSetsStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<Datum>? sets});
+  $Res call({SetListContainer? setListContainer});
+
+  @override
+  $SetListContainerCopyWith<$Res>? get setListContainer;
 }
 
 /// @nodoc
@@ -729,13 +769,13 @@ class _$ErrorSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sets = freezed,
+    Object? setListContainer = freezed,
   }) {
     return _then(ErrorSetsState(
-      sets == freezed
-          ? _value.sets
-          : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>?,
+      setListContainer == freezed
+          ? _value.setListContainer
+          : setListContainer // ignore: cast_nullable_to_non_nullable
+              as SetListContainer?,
     ));
   }
 }
@@ -743,14 +783,14 @@ class _$ErrorSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ErrorSetsState extends ErrorSetsState {
-  const _$ErrorSetsState([this.sets]) : super._();
+  const _$ErrorSetsState([this.setListContainer]) : super._();
 
   @override
-  final List<Datum>? sets;
+  final SetListContainer? setListContainer;
 
   @override
   String toString() {
-    return 'SetsState.error(sets: $sets)';
+    return 'SetsState.error(setListContainer: $setListContainer)';
   }
 
   @override
@@ -758,12 +798,13 @@ class _$ErrorSetsState extends ErrorSetsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is ErrorSetsState &&
-            const DeepCollectionEquality().equals(other.sets, sets));
+            const DeepCollectionEquality()
+                .equals(other.setListContainer, setListContainer));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(sets));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(setListContainer));
 
   @JsonKey(ignore: true)
   @override
@@ -773,33 +814,37 @@ class _$ErrorSetsState extends ErrorSetsState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Datum>? sets) initial,
-    required TResult Function(List<Datum>? sets, bool hasReachedMax) loaded,
-    required TResult Function(List<Datum>? sets) error,
+    required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(
+            SetListContainer? setListContainer, bool hasReachedMax)
+        loaded,
+    required TResult Function(SetListContainer? setListContainer) error,
   }) {
-    return error(sets);
+    return error(setListContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
   }) {
-    return error?.call(sets);
+    return error?.call(setListContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Datum>? sets)? initial,
-    TResult Function(List<Datum>? sets, bool hasReachedMax)? loaded,
-    TResult Function(List<Datum>? sets)? error,
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(sets);
+      return error(setListContainer);
     }
     return orElse();
   }
@@ -840,13 +885,166 @@ class _$ErrorSetsState extends ErrorSetsState {
 }
 
 abstract class ErrorSetsState extends SetsState {
-  const factory ErrorSetsState([List<Datum>? sets]) = _$ErrorSetsState;
+  const factory ErrorSetsState([SetListContainer? setListContainer]) =
+      _$ErrorSetsState;
   const ErrorSetsState._() : super._();
 
   @override
-  List<Datum>? get sets;
+  SetListContainer? get setListContainer;
   @override
   @JsonKey(ignore: true)
   $ErrorSetsStateCopyWith<ErrorSetsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+class _$SetListContainerTearOff {
+  const _$SetListContainerTearOff();
+
+  _SetListContainer call({List<Datum> sets = const [], int currentPage = 1}) {
+    return _SetListContainer(
+      sets: sets,
+      currentPage: currentPage,
+    );
+  }
+}
+
+/// @nodoc
+const $SetListContainer = _$SetListContainerTearOff();
+
+/// @nodoc
+mixin _$SetListContainer {
+  List<Datum> get sets => throw _privateConstructorUsedError;
+  int get currentPage => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SetListContainerCopyWith<SetListContainer> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SetListContainerCopyWith<$Res> {
+  factory $SetListContainerCopyWith(
+          SetListContainer value, $Res Function(SetListContainer) then) =
+      _$SetListContainerCopyWithImpl<$Res>;
+  $Res call({List<Datum> sets, int currentPage});
+}
+
+/// @nodoc
+class _$SetListContainerCopyWithImpl<$Res>
+    implements $SetListContainerCopyWith<$Res> {
+  _$SetListContainerCopyWithImpl(this._value, this._then);
+
+  final SetListContainer _value;
+  // ignore: unused_field
+  final $Res Function(SetListContainer) _then;
+
+  @override
+  $Res call({
+    Object? sets = freezed,
+    Object? currentPage = freezed,
+  }) {
+    return _then(_value.copyWith(
+      sets: sets == freezed
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Datum>,
+      currentPage: currentPage == freezed
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$SetListContainerCopyWith<$Res>
+    implements $SetListContainerCopyWith<$Res> {
+  factory _$SetListContainerCopyWith(
+          _SetListContainer value, $Res Function(_SetListContainer) then) =
+      __$SetListContainerCopyWithImpl<$Res>;
+  @override
+  $Res call({List<Datum> sets, int currentPage});
+}
+
+/// @nodoc
+class __$SetListContainerCopyWithImpl<$Res>
+    extends _$SetListContainerCopyWithImpl<$Res>
+    implements _$SetListContainerCopyWith<$Res> {
+  __$SetListContainerCopyWithImpl(
+      _SetListContainer _value, $Res Function(_SetListContainer) _then)
+      : super(_value, (v) => _then(v as _SetListContainer));
+
+  @override
+  _SetListContainer get _value => super._value as _SetListContainer;
+
+  @override
+  $Res call({
+    Object? sets = freezed,
+    Object? currentPage = freezed,
+  }) {
+    return _then(_SetListContainer(
+      sets: sets == freezed
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<Datum>,
+      currentPage: currentPage == freezed
+          ? _value.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_SetListContainer implements _SetListContainer {
+  const _$_SetListContainer({this.sets = const [], this.currentPage = 1});
+
+  @JsonKey()
+  @override
+  final List<Datum> sets;
+  @JsonKey()
+  @override
+  final int currentPage;
+
+  @override
+  String toString() {
+    return 'SetListContainer(sets: $sets, currentPage: $currentPage)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SetListContainer &&
+            const DeepCollectionEquality().equals(other.sets, sets) &&
+            const DeepCollectionEquality()
+                .equals(other.currentPage, currentPage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(sets),
+      const DeepCollectionEquality().hash(currentPage));
+
+  @JsonKey(ignore: true)
+  @override
+  _$SetListContainerCopyWith<_SetListContainer> get copyWith =>
+      __$SetListContainerCopyWithImpl<_SetListContainer>(this, _$identity);
+}
+
+abstract class _SetListContainer implements SetListContainer {
+  const factory _SetListContainer({List<Datum> sets, int currentPage}) =
+      _$_SetListContainer;
+
+  @override
+  List<Datum> get sets;
+  @override
+  int get currentPage;
+  @override
+  @JsonKey(ignore: true)
+  _$SetListContainerCopyWith<_SetListContainer> get copyWith =>
       throw _privateConstructorUsedError;
 }

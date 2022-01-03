@@ -1,1 +1,1 @@
-const listSize = 10;
+const listSize = 12;

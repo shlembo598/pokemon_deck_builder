@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:pokemon_deck_builder/configuration/app_configuration.dart';
 import 'package:pokemon_deck_builder/configuration/constants.dart';
-import 'package:pokemon_deck_builder/data/models/sets.dart';
+import 'package:pokemon_deck_builder/data/models/set.dart';
 
 class CardsRepository {
   final AppConfiguration configuration = AppConfiguration();
@@ -26,7 +26,7 @@ class CardsRepository {
         ),
       );
       if (response.statusCode == 200) {
-        setList = Sets.fromJson(response.data).data.toList();
+        setList = Set.fromJson(response.data).data.toList();
       }
     } on DioError catch (error) {
       log(error.toString());

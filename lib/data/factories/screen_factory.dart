@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/ui/screens/screens.dart';
 
 class ScreenFactory {
@@ -11,7 +13,10 @@ class ScreenFactory {
   }
 
   Widget makeExploreScreen() {
-    return const ExploreScreen();
+    return BlocProvider<SetsBloc>(
+      create: (context) => SetsBloc()..add(const SetsEvent.initial()),
+      child: const ExploreScreen(),
+    );
   }
 
   Widget makeDecksScreen() {

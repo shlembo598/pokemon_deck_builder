@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'sets.dart';
+part of 'set.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,21 +13,21 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Sets _$SetsFromJson(Map<String, dynamic> json) {
-  return _Sets.fromJson(json);
+Set _$SetFromJson(Map<String, dynamic> json) {
+  return _Set.fromJson(json);
 }
 
 /// @nodoc
-class _$SetsTearOff {
-  const _$SetsTearOff();
+class _$SetTearOff {
+  const _$SetTearOff();
 
-  _Sets call(
+  _Set call(
       {required List<Datum> data,
       required int page,
       required int pageSize,
       required int count,
       required int totalCount}) {
-    return _Sets(
+    return _Set(
       data: data,
       page: page,
       pageSize: pageSize,
@@ -36,16 +36,16 @@ class _$SetsTearOff {
     );
   }
 
-  Sets fromJson(Map<String, Object?> json) {
-    return Sets.fromJson(json);
+  Set fromJson(Map<String, Object?> json) {
+    return Set.fromJson(json);
   }
 }
 
 /// @nodoc
-const $Sets = _$SetsTearOff();
+const $Set = _$SetTearOff();
 
 /// @nodoc
-mixin _$Sets {
+mixin _$Set {
   List<Datum> get data => throw _privateConstructorUsedError;
   int get page => throw _privateConstructorUsedError;
   int get pageSize => throw _privateConstructorUsedError;
@@ -54,24 +54,24 @@ mixin _$Sets {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SetsCopyWith<Sets> get copyWith => throw _privateConstructorUsedError;
+  $SetCopyWith<Set> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SetsCopyWith<$Res> {
-  factory $SetsCopyWith(Sets value, $Res Function(Sets) then) =
-      _$SetsCopyWithImpl<$Res>;
+abstract class $SetCopyWith<$Res> {
+  factory $SetCopyWith(Set value, $Res Function(Set) then) =
+      _$SetCopyWithImpl<$Res>;
   $Res call(
       {List<Datum> data, int page, int pageSize, int count, int totalCount});
 }
 
 /// @nodoc
-class _$SetsCopyWithImpl<$Res> implements $SetsCopyWith<$Res> {
-  _$SetsCopyWithImpl(this._value, this._then);
+class _$SetCopyWithImpl<$Res> implements $SetCopyWith<$Res> {
+  _$SetCopyWithImpl(this._value, this._then);
 
-  final Sets _value;
+  final Set _value;
   // ignore: unused_field
-  final $Res Function(Sets) _then;
+  final $Res Function(Set) _then;
 
   @override
   $Res call({
@@ -107,22 +107,22 @@ class _$SetsCopyWithImpl<$Res> implements $SetsCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$SetsCopyWith<$Res> implements $SetsCopyWith<$Res> {
-  factory _$SetsCopyWith(_Sets value, $Res Function(_Sets) then) =
-      __$SetsCopyWithImpl<$Res>;
+abstract class _$SetCopyWith<$Res> implements $SetCopyWith<$Res> {
+  factory _$SetCopyWith(_Set value, $Res Function(_Set) then) =
+      __$SetCopyWithImpl<$Res>;
   @override
   $Res call(
       {List<Datum> data, int page, int pageSize, int count, int totalCount});
 }
 
 /// @nodoc
-class __$SetsCopyWithImpl<$Res> extends _$SetsCopyWithImpl<$Res>
-    implements _$SetsCopyWith<$Res> {
-  __$SetsCopyWithImpl(_Sets _value, $Res Function(_Sets) _then)
-      : super(_value, (v) => _then(v as _Sets));
+class __$SetCopyWithImpl<$Res> extends _$SetCopyWithImpl<$Res>
+    implements _$SetCopyWith<$Res> {
+  __$SetCopyWithImpl(_Set _value, $Res Function(_Set) _then)
+      : super(_value, (v) => _then(v as _Set));
 
   @override
-  _Sets get _value => super._value as _Sets;
+  _Set get _value => super._value as _Set;
 
   @override
   $Res call({
@@ -132,7 +132,7 @@ class __$SetsCopyWithImpl<$Res> extends _$SetsCopyWithImpl<$Res>
     Object? count = freezed,
     Object? totalCount = freezed,
   }) {
-    return _then(_Sets(
+    return _then(_Set(
       data: data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -160,15 +160,15 @@ class __$SetsCopyWithImpl<$Res> extends _$SetsCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_Sets implements _Sets {
-  const _$_Sets(
+class _$_Set implements _Set {
+  const _$_Set(
       {required this.data,
       required this.page,
       required this.pageSize,
       required this.count,
       required this.totalCount});
 
-  factory _$_Sets.fromJson(Map<String, dynamic> json) => _$$_SetsFromJson(json);
+  factory _$_Set.fromJson(Map<String, dynamic> json) => _$$_SetFromJson(json);
 
   @override
   final List<Datum> data;
@@ -183,14 +183,14 @@ class _$_Sets implements _Sets {
 
   @override
   String toString() {
-    return 'Sets(data: $data, page: $page, pageSize: $pageSize, count: $count, totalCount: $totalCount)';
+    return 'Set(data: $data, page: $page, pageSize: $pageSize, count: $count, totalCount: $totalCount)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Sets &&
+            other is _Set &&
             const DeepCollectionEquality().equals(other.data, data) &&
             const DeepCollectionEquality().equals(other.page, page) &&
             const DeepCollectionEquality().equals(other.pageSize, pageSize) &&
@@ -210,24 +210,24 @@ class _$_Sets implements _Sets {
 
   @JsonKey(ignore: true)
   @override
-  _$SetsCopyWith<_Sets> get copyWith =>
-      __$SetsCopyWithImpl<_Sets>(this, _$identity);
+  _$SetCopyWith<_Set> get copyWith =>
+      __$SetCopyWithImpl<_Set>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SetsToJson(this);
+    return _$$_SetToJson(this);
   }
 }
 
-abstract class _Sets implements Sets {
-  const factory _Sets(
+abstract class _Set implements Set {
+  const factory _Set(
       {required List<Datum> data,
       required int page,
       required int pageSize,
       required int count,
-      required int totalCount}) = _$_Sets;
+      required int totalCount}) = _$_Set;
 
-  factory _Sets.fromJson(Map<String, dynamic> json) = _$_Sets.fromJson;
+  factory _Set.fromJson(Map<String, dynamic> json) = _$_Set.fromJson;
 
   @override
   List<Datum> get data;
@@ -241,7 +241,7 @@ abstract class _Sets implements Sets {
   int get totalCount;
   @override
   @JsonKey(ignore: true)
-  _$SetsCopyWith<_Sets> get copyWith => throw _privateConstructorUsedError;
+  _$SetCopyWith<_Set> get copyWith => throw _privateConstructorUsedError;
 }
 
 Datum _$DatumFromJson(Map<String, dynamic> json) {

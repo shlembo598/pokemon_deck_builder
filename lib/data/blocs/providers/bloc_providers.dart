@@ -7,7 +7,4 @@ final List<BlocProvider> providersList = [
       return CardBloc()..add(const CardEvent.initial());
     },
   ),
-  BlocProvider<SetsBloc>(create: (context) {
-    return SetsBloc()..add(const SetsEvent.initial());
-  }),
 ];

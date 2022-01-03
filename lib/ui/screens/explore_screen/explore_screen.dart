@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
-import 'package:pokemon_deck_builder/data/models/sets.dart';
+import 'package:pokemon_deck_builder/data/models/set.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
+import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -37,12 +38,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
     return Scaffold(
       body: state.when(
         initial: (data) => const Center(child: CircularProgressIndicator()),
-        loaded: (setsList, max) {
-          return setsList!.isEmpty
+        loaded: (setContainer, max) {
+          return setContainer!.sets.isEmpty
               ? Center(child: Text(S.of(context).message_noData))
               : _SetListWidget(
                   scrollController: _scrollController,
-                  sets: setsList,
+                  sets: setContainer.sets,
                   hasReachedMax: max,
                 );
         },
@@ -78,19 +79,28 @@ class _SetListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => _refreshList(context),
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 1 / 1,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+          ),
+          itemCount: hasReachedMax ? sets.length : sets.length + 1,
+          controller: _scrollController,
+          itemBuilder: (BuildContext context, int index) {
+            return index >= sets.length
+                ? const LoadingIndicatorWidget()
+                : _SetListItem(
+                    set: sets[index],
+                  );
+          },
         ),
-        itemCount: hasReachedMax ? sets.length : sets.length + 1,
-        controller: _scrollController,
-        itemBuilder: (BuildContext context, int index) {
-          return index >= sets.length
-              ? const LoadingIndicatorWidget()
-              : _SetsListItem(
-                  set: sets[index],
-                );
-        },
       ),
     );
   }
@@ -100,41 +110,56 @@ class _SetListWidget extends StatelessWidget {
   }
 }
 
-class _SetsListItem extends StatelessWidget {
+class _SetListItem extends StatelessWidget {
   final Datum set;
 
-  const _SetsListItem({
+  const _SetListItem({
     Key? key,
     required this.set,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
-        child: SizedBox(
-          height: 90,
-          child: Container(
-            color: Colors.white,
-            child: Image.network(
-              set.images.logo,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(15.0),
+      child: Stack(
+        children: [
+          ColoredBox(
+            color: Theme.of(context).cardColor,
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    height: 80,
+                    width: 190,
+                    child: Image.network(
+                      set.images.logo,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    set.series ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(set.releaseDate ?? ''),
+                ],
+              ),
             ),
           ),
-        ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(10),
+              onTap: () {
+                log('Go to details');
+              },
+            ),
+          ),
+        ],
       ),
     );
-  }
-}
-
-class LoadingIndicatorWidget extends StatelessWidget {
-  const LoadingIndicatorWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(child: CircularProgressIndicator());
   }
 }

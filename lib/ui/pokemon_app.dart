@@ -21,31 +21,28 @@ class PokemonApp extends StatelessWidget {
       create: (context) => ThemeBloc(),
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
-          return MultiBlocProvider(
-            providers: providersList,
-            child: MaterialApp(
-              builder: (context, widget) => ResponsiveWrapper.builder(
-                BouncingScrollWrapper.builder(context, widget!),
-                maxWidth: 800,
-                minWidth: 400,
-                defaultScale: true,
-                breakpoints: [
-                  const ResponsiveBreakpoint.resize(400, name: MOBILE),
-                  const ResponsiveBreakpoint.autoScale(800, name: TABLET),
-                ],
-                background: Container(color: const Color(0xFFF5F5F5)),
-              ),
-              localizationsDelegates: const [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
+          return MaterialApp(
+            builder: (context, widget) => ResponsiveWrapper.builder(
+              BouncingScrollWrapper.builder(context, widget!),
+              maxWidth: 800,
+              minWidth: 400,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.resize(400, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(800, name: TABLET),
               ],
-              theme: ThemeChanger.changeTheme(context),
-              debugShowCheckedModeBanner: false,
-              initialRoute: MainNavigationRouteNames.mainScreen,
-              routes: mainNavigation.routes,
+              background: Container(color: const Color(0xFFF5F5F5)),
             ),
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            theme: ThemeChanger.changeTheme(context),
+            debugShowCheckedModeBanner: false,
+            initialRoute: MainNavigationRouteNames.mainScreen,
+            routes: mainNavigation.routes,
           );
         },
       ),

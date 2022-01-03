@@ -1,20 +1,20 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sets.freezed.dart';
-part 'sets.g.dart';
+part 'set.freezed.dart';
+part 'set.g.dart';
 
 @freezed
-class Sets with _$Sets {
+class Set with _$Set {
   @JsonSerializable(explicitToJson: true)
-  const factory Sets({
+  const factory Set({
     required List<Datum> data,
     required int page,
     required int pageSize,
     required int count,
     required int totalCount,
-  }) = _Sets;
+  }) = _Set;
 
-  factory Sets.fromJson(Map<String, dynamic> json) => _$SetsFromJson(json);
+  factory Set.fromJson(Map<String, dynamic> json) => _$SetFromJson(json);
 }
 
 @freezed

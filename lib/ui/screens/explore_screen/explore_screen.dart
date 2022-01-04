@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
+import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   hasReachedMax: max,
                 );
         },
-        error: (data) => Center(child: Text(S.of(context).message_error)),
+        error: (data) => const _FailureWidget(),
       ),
     );
   }
@@ -81,25 +82,28 @@ class _SetListWidget extends StatelessWidget {
       onRefresh: () => _refreshList(context),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: GridView.builder(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
-          ),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 200,
-            childAspectRatio: 1 / 1,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: hasReachedMax ? sets.length : sets.length + 1,
+        child: Scrollbar(
           controller: _scrollController,
-          itemBuilder: (BuildContext context, int index) {
-            return index >= sets.length
-                ? const LoadingIndicatorWidget()
-                : _SetListItem(
-                    set: sets[index],
-                  );
-          },
+          child: GridView.builder(
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 1.5 / 1,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 8,
+            ),
+            itemCount: hasReachedMax ? sets.length : sets.length + 1,
+            controller: _scrollController,
+            itemBuilder: (BuildContext context, int index) {
+              return index >= sets.length
+                  ? const LoadingIndicatorWidget()
+                  : _SetListItem(
+                      set: sets[index],
+                    );
+            },
+          ),
         ),
       ),
     );
@@ -144,7 +148,6 @@ class _SetListItem extends StatelessWidget {
                     set.series ?? '',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(set.releaseDate ?? ''),
                 ],
               ),
             ),
@@ -152,11 +155,33 @@ class _SetListItem extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              borderRadius: BorderRadius.circular(10),
-              onTap: () {
-                log('Go to details');
-              },
+              borderRadius: BorderRadius.circular(15),
+              onTap: () => Navigator.of(context).pushNamed(
+                MainNavigationRouteNames.setScreen,
+                arguments: set,
+              ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FailureWidget extends StatelessWidget {
+  const _FailureWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(S.of(context).message_error),
+          ElevatedButton(
+            onPressed: () =>
+                context.read<SetsBloc>().add(const SetsEvent.initial()),
+            child: Text(S.of(context).explore_screen_errorButtonText),
           ),
         ],
       ),

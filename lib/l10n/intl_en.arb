@@ -1,7 +1,10 @@
 {
   "search_screen_title" : "Search",
   "explore_screen_title" : "Explore",
+  "explore_screen_errorButtonText" : "Try Again",
   "decks_screen_title" : "Decks",
   "message_error" : "Something went wrong",
-  "message_noData" : "No data"
+  "message_noData" : "No data",
+  "setDetails_totalCards" : "Total Cards",
+  "setDetails_ReleaseDate" : "Release date"
 }

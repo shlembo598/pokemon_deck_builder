@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pokemon_deck_builder/data/blocs/theme_bloc/theme_bloc.dart';
 import 'package:pokemon_deck_builder/data/factories/screen_factory.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
-import 'package:pokemon_deck_builder/ui/theme/app_themes.dart';
+import 'package:pokemon_deck_builder/ui/widgets/theme_switcher_widget.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -94,19 +92,8 @@ class _CustomDrawerWidget extends StatelessWidget {
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                context.read<ThemeBloc>().add(ThemeEvent.change(appThemeDark));
-              },
-              child: const Text('Dark'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.read<ThemeBloc>().add(ThemeEvent.change(appThemeLight));
-              },
-              child: const Text('Light'),
-            ),
+          children: const [
+            ThemeSwitcherWidget(),
           ],
         ),
       ),

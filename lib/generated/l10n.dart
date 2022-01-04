@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Try Again`
+  String get explore_screen_errorButtonText {
+    return Intl.message(
+      'Try Again',
+      name: 'explore_screen_errorButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Decks`
   String get decks_screen_title {
     return Intl.message(
@@ -95,6 +105,26 @@ class S {
     return Intl.message(
       'No data',
       name: 'message_noData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Cards`
+  String get setDetails_totalCards {
+    return Intl.message(
+      'Total Cards',
+      name: 'setDetails_totalCards',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Release date`
+  String get setDetails_ReleaseDate {
+    return Intl.message(
+      'Release date',
+      name: 'setDetails_ReleaseDate',
       desc: '',
       args: [],
     );

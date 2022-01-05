@@ -1,38 +1,40 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'set.freezed.dart';
-part 'set.g.dart';
+part 'set_list.freezed.dart';
+part 'set_list.g.dart';
 
 @freezed
-class Set with _$Set {
+class SetList with _$SetList {
   @JsonSerializable(explicitToJson: true)
-  const factory Set({
-    required List<Datum> data,
+  const factory SetList({
+    required List<SetDatum> data,
     required int page,
     required int pageSize,
     required int count,
     required int totalCount,
-  }) = _Set;
+  }) = _SetList;
 
-  factory Set.fromJson(Map<String, dynamic> json) => _$SetFromJson(json);
+  factory SetList.fromJson(Map<String, dynamic> json) =>
+      _$SetListFromJson(json);
 }
 
 @freezed
-class Datum with _$Datum {
-  const factory Datum({
-    required String? id,
-    required String? name,
-    required String? series,
-    required int? printedTotal,
-    required int? total,
+class SetDatum with _$SetDatum {
+  const factory SetDatum({
+    required String id,
+    required String name,
+    required String series,
+    required int printedTotal,
+    required int total,
     required Legalities? legalities,
     required String? ptcgoCode,
     required String? releaseDate,
     required String? updatedAt,
     required Images images,
-  }) = _Datum;
+  }) = _SetDatum;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+  factory SetDatum.fromJson(Map<String, dynamic> json) =>
+      _$SetDatumFromJson(json);
 }
 
 @freezed

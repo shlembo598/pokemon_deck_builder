@@ -3,10 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
-import 'package:pokemon_deck_builder/data/models/set.dart';
+import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
+import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -22,7 +23,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    context.read<SetsBloc>().add(const SetsEvent.fetch());
   }
 
   @override
@@ -38,7 +38,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
     return Scaffold(
       body: state.when(
-        initial: (data) => const Center(child: CircularProgressIndicator()),
+        initial: (data) => Center(child: Text(S.of(context).message_noData)),
+        loading: (data) => const Center(child: CircularProgressIndicator()),
         loaded: (setContainer, max) {
           return setContainer!.sets.isEmpty
               ? Center(child: Text(S.of(context).message_noData))
@@ -63,7 +64,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 }
 
 class _SetListWidget extends StatelessWidget {
-  final List<Datum> sets;
+  final List<SetDatum> sets;
   final bool hasReachedMax;
 
   const _SetListWidget({
@@ -110,12 +111,12 @@ class _SetListWidget extends StatelessWidget {
   }
 
   Future<void> _refreshList(BuildContext context) async {
-    context.read<SetsBloc>().add(const SetsEvent.initial());
+    context.read<SetsBloc>().add(const SetsEvent.create());
   }
 }
 
 class _SetListItem extends StatelessWidget {
-  final Datum set;
+  final SetDatum set;
 
   const _SetListItem({
     Key? key,
@@ -137,15 +138,15 @@ class _SetListItem extends StatelessWidget {
                   SizedBox(
                     height: 80,
                     width: 190,
-                    child: Image.network(
-                      set.images.logo,
+                    child: NetworkImageWidget(
+                      imageUrl: set.images.logo,
                     ),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    set.series ?? '',
+                    set.series,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -180,7 +181,7 @@ class _FailureWidget extends StatelessWidget {
           Text(S.of(context).message_error),
           ElevatedButton(
             onPressed: () =>
-                context.read<SetsBloc>().add(const SetsEvent.initial()),
+                context.read<SetsBloc>().add(const SetsEvent.create()),
             child: Text(S.of(context).explore_screen_errorButtonText),
           ),
         ],

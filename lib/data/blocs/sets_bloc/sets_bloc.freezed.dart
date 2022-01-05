@@ -17,8 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SetsEventTearOff {
   const _$SetsEventTearOff();
 
-  InitialSetsEvent initial() {
-    return const InitialSetsEvent();
+  CreateSetsEvent create() {
+    return const CreateSetsEvent();
   }
 
   FetchSetsEvent fetch() {
@@ -33,38 +33,38 @@ const $SetsEvent = _$SetsEventTearOff();
 mixin _$SetsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function() create,
     required TResult Function() fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InitialSetsEvent value) initial,
+    required TResult Function(CreateSetsEvent value) create,
     required TResult Function(FetchSetsEvent value) fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) =>
@@ -87,37 +87,37 @@ class _$SetsEventCopyWithImpl<$Res> implements $SetsEventCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $InitialSetsEventCopyWith<$Res> {
-  factory $InitialSetsEventCopyWith(
-          InitialSetsEvent value, $Res Function(InitialSetsEvent) then) =
-      _$InitialSetsEventCopyWithImpl<$Res>;
+abstract class $CreateSetsEventCopyWith<$Res> {
+  factory $CreateSetsEventCopyWith(
+          CreateSetsEvent value, $Res Function(CreateSetsEvent) then) =
+      _$CreateSetsEventCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$InitialSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
-    implements $InitialSetsEventCopyWith<$Res> {
-  _$InitialSetsEventCopyWithImpl(
-      InitialSetsEvent _value, $Res Function(InitialSetsEvent) _then)
-      : super(_value, (v) => _then(v as InitialSetsEvent));
+class _$CreateSetsEventCopyWithImpl<$Res> extends _$SetsEventCopyWithImpl<$Res>
+    implements $CreateSetsEventCopyWith<$Res> {
+  _$CreateSetsEventCopyWithImpl(
+      CreateSetsEvent _value, $Res Function(CreateSetsEvent) _then)
+      : super(_value, (v) => _then(v as CreateSetsEvent));
 
   @override
-  InitialSetsEvent get _value => super._value as InitialSetsEvent;
+  CreateSetsEvent get _value => super._value as CreateSetsEvent;
 }
 
 /// @nodoc
 
-class _$InitialSetsEvent extends InitialSetsEvent {
-  const _$InitialSetsEvent() : super._();
+class _$CreateSetsEvent extends CreateSetsEvent {
+  const _$CreateSetsEvent() : super._();
 
   @override
   String toString() {
-    return 'SetsEvent.initial()';
+    return 'SetsEvent.create()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is InitialSetsEvent);
+        (other.runtimeType == runtimeType && other is CreateSetsEvent);
   }
 
   @override
@@ -126,30 +126,30 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function() create,
     required TResult Function() fetch,
   }) {
-    return initial();
+    return create();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
   }) {
-    return initial?.call();
+    return create?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
     required TResult orElse(),
   }) {
-    if (initial != null) {
-      return initial();
+    if (create != null) {
+      return create();
     }
     return orElse();
   }
@@ -157,38 +157,38 @@ class _$InitialSetsEvent extends InitialSetsEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InitialSetsEvent value) initial,
+    required TResult Function(CreateSetsEvent value) create,
     required TResult Function(FetchSetsEvent value) fetch,
   }) {
-    return initial(this);
+    return create(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
   }) {
-    return initial?.call(this);
+    return create?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) {
-    if (initial != null) {
-      return initial(this);
+    if (create != null) {
+      return create(this);
     }
     return orElse();
   }
 }
 
-abstract class InitialSetsEvent extends SetsEvent {
-  const factory InitialSetsEvent() = _$InitialSetsEvent;
-  const InitialSetsEvent._() : super._();
+abstract class CreateSetsEvent extends SetsEvent {
+  const factory CreateSetsEvent() = _$CreateSetsEvent;
+  const CreateSetsEvent._() : super._();
 }
 
 /// @nodoc
@@ -231,7 +231,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
+    required TResult Function() create,
     required TResult Function() fetch,
   }) {
     return fetch();
@@ -240,7 +240,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
   }) {
     return fetch?.call();
@@ -249,7 +249,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
+    TResult Function()? create,
     TResult Function()? fetch,
     required TResult orElse(),
   }) {
@@ -262,7 +262,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(InitialSetsEvent value) initial,
+    required TResult Function(CreateSetsEvent value) create,
     required TResult Function(FetchSetsEvent value) fetch,
   }) {
     return fetch(this);
@@ -271,7 +271,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
   }) {
     return fetch?.call(this);
@@ -280,7 +280,7 @@ class _$FetchSetsEvent extends FetchSetsEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(InitialSetsEvent value)? initial,
+    TResult Function(CreateSetsEvent value)? create,
     TResult Function(FetchSetsEvent value)? fetch,
     required TResult orElse(),
   }) {
@@ -302,6 +302,12 @@ class _$SetsStateTearOff {
 
   InitialSetsState initial([SetListContainer? setListContainer]) {
     return InitialSetsState(
+      setListContainer,
+    );
+  }
+
+  LoadingSetsState loading([SetListContainer? setListContainer]) {
+    return LoadingSetsState(
       setListContainer,
     );
   }
@@ -331,6 +337,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(SetListContainer? setListContainer) loading,
     required TResult Function(
             SetListContainer? setListContainer, bool hasReachedMax)
         loaded,
@@ -340,6 +347,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -348,6 +356,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -357,6 +366,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadingSetsState value) loading,
     required TResult Function(LoadedSetsState value) loaded,
     required TResult Function(ErrorSetsState value) error,
   }) =>
@@ -364,6 +374,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
   }) =>
@@ -371,6 +382,7 @@ mixin _$SetsState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
@@ -494,6 +506,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(SetListContainer? setListContainer) loading,
     required TResult Function(
             SetListContainer? setListContainer, bool hasReachedMax)
         loaded,
@@ -506,6 +519,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -517,6 +531,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -532,6 +547,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadingSetsState value) loading,
     required TResult Function(LoadedSetsState value) loaded,
     required TResult Function(ErrorSetsState value) error,
   }) {
@@ -542,6 +558,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
   }) {
@@ -552,6 +569,7 @@ class _$InitialSetsState extends InitialSetsState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
@@ -573,6 +591,165 @@ abstract class InitialSetsState extends SetsState {
   @override
   @JsonKey(ignore: true)
   $InitialSetsStateCopyWith<InitialSetsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LoadingSetsStateCopyWith<$Res>
+    implements $SetsStateCopyWith<$Res> {
+  factory $LoadingSetsStateCopyWith(
+          LoadingSetsState value, $Res Function(LoadingSetsState) then) =
+      _$LoadingSetsStateCopyWithImpl<$Res>;
+  @override
+  $Res call({SetListContainer? setListContainer});
+
+  @override
+  $SetListContainerCopyWith<$Res>? get setListContainer;
+}
+
+/// @nodoc
+class _$LoadingSetsStateCopyWithImpl<$Res> extends _$SetsStateCopyWithImpl<$Res>
+    implements $LoadingSetsStateCopyWith<$Res> {
+  _$LoadingSetsStateCopyWithImpl(
+      LoadingSetsState _value, $Res Function(LoadingSetsState) _then)
+      : super(_value, (v) => _then(v as LoadingSetsState));
+
+  @override
+  LoadingSetsState get _value => super._value as LoadingSetsState;
+
+  @override
+  $Res call({
+    Object? setListContainer = freezed,
+  }) {
+    return _then(LoadingSetsState(
+      setListContainer == freezed
+          ? _value.setListContainer
+          : setListContainer // ignore: cast_nullable_to_non_nullable
+              as SetListContainer?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadingSetsState extends LoadingSetsState {
+  const _$LoadingSetsState([this.setListContainer]) : super._();
+
+  @override
+  final SetListContainer? setListContainer;
+
+  @override
+  String toString() {
+    return 'SetsState.loading(setListContainer: $setListContainer)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is LoadingSetsState &&
+            const DeepCollectionEquality()
+                .equals(other.setListContainer, setListContainer));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(setListContainer));
+
+  @JsonKey(ignore: true)
+  @override
+  $LoadingSetsStateCopyWith<LoadingSetsState> get copyWith =>
+      _$LoadingSetsStateCopyWithImpl<LoadingSetsState>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(SetListContainer? setListContainer) loading,
+    required TResult Function(
+            SetListContainer? setListContainer, bool hasReachedMax)
+        loaded,
+    required TResult Function(SetListContainer? setListContainer) error,
+  }) {
+    return loading(setListContainer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
+  }) {
+    return loading?.call(setListContainer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
+    TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
+        loaded,
+    TResult Function(SetListContainer? setListContainer)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(setListContainer);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadingSetsState value) loading,
+    required TResult Function(LoadedSetsState value) loaded,
+    required TResult Function(ErrorSetsState value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
+    TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
+    TResult Function(LoadedSetsState value)? loaded,
+    TResult Function(ErrorSetsState value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class LoadingSetsState extends SetsState {
+  const factory LoadingSetsState([SetListContainer? setListContainer]) =
+      _$LoadingSetsState;
+  const LoadingSetsState._() : super._();
+
+  @override
+  SetListContainer? get setListContainer;
+  @override
+  @JsonKey(ignore: true)
+  $LoadingSetsStateCopyWith<LoadingSetsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -660,6 +837,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(SetListContainer? setListContainer) loading,
     required TResult Function(
             SetListContainer? setListContainer, bool hasReachedMax)
         loaded,
@@ -672,6 +850,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -683,6 +862,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -698,6 +878,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadingSetsState value) loading,
     required TResult Function(LoadedSetsState value) loaded,
     required TResult Function(ErrorSetsState value) error,
   }) {
@@ -708,6 +889,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
   }) {
@@ -718,6 +900,7 @@ class _$LoadedSetsState extends LoadedSetsState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
@@ -815,6 +998,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(SetListContainer? setListContainer) initial,
+    required TResult Function(SetListContainer? setListContainer) loading,
     required TResult Function(
             SetListContainer? setListContainer, bool hasReachedMax)
         loaded,
@@ -827,6 +1011,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -838,6 +1023,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(SetListContainer? setListContainer)? initial,
+    TResult Function(SetListContainer? setListContainer)? loading,
     TResult Function(SetListContainer? setListContainer, bool hasReachedMax)?
         loaded,
     TResult Function(SetListContainer? setListContainer)? error,
@@ -853,6 +1039,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(InitialSetsState value) initial,
+    required TResult Function(LoadingSetsState value) loading,
     required TResult Function(LoadedSetsState value) loaded,
     required TResult Function(ErrorSetsState value) error,
   }) {
@@ -863,6 +1050,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
   }) {
@@ -873,6 +1061,7 @@ class _$ErrorSetsState extends ErrorSetsState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(InitialSetsState value)? initial,
+    TResult Function(LoadingSetsState value)? loading,
     TResult Function(LoadedSetsState value)? loaded,
     TResult Function(ErrorSetsState value)? error,
     required TResult orElse(),
@@ -901,7 +1090,8 @@ abstract class ErrorSetsState extends SetsState {
 class _$SetListContainerTearOff {
   const _$SetListContainerTearOff();
 
-  _SetListContainer call({List<Datum> sets = const [], int currentPage = 1}) {
+  _SetListContainer call(
+      {List<SetDatum> sets = const [], int currentPage = 1}) {
     return _SetListContainer(
       sets: sets,
       currentPage: currentPage,
@@ -914,7 +1104,7 @@ const $SetListContainer = _$SetListContainerTearOff();
 
 /// @nodoc
 mixin _$SetListContainer {
-  List<Datum> get sets => throw _privateConstructorUsedError;
+  List<SetDatum> get sets => throw _privateConstructorUsedError;
   int get currentPage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -927,7 +1117,7 @@ abstract class $SetListContainerCopyWith<$Res> {
   factory $SetListContainerCopyWith(
           SetListContainer value, $Res Function(SetListContainer) then) =
       _$SetListContainerCopyWithImpl<$Res>;
-  $Res call({List<Datum> sets, int currentPage});
+  $Res call({List<SetDatum> sets, int currentPage});
 }
 
 /// @nodoc
@@ -948,7 +1138,7 @@ class _$SetListContainerCopyWithImpl<$Res>
       sets: sets == freezed
           ? _value.sets
           : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>,
+              as List<SetDatum>,
       currentPage: currentPage == freezed
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -964,7 +1154,7 @@ abstract class _$SetListContainerCopyWith<$Res>
           _SetListContainer value, $Res Function(_SetListContainer) then) =
       __$SetListContainerCopyWithImpl<$Res>;
   @override
-  $Res call({List<Datum> sets, int currentPage});
+  $Res call({List<SetDatum> sets, int currentPage});
 }
 
 /// @nodoc
@@ -987,7 +1177,7 @@ class __$SetListContainerCopyWithImpl<$Res>
       sets: sets == freezed
           ? _value.sets
           : sets // ignore: cast_nullable_to_non_nullable
-              as List<Datum>,
+              as List<SetDatum>,
       currentPage: currentPage == freezed
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -1003,7 +1193,7 @@ class _$_SetListContainer implements _SetListContainer {
 
   @JsonKey()
   @override
-  final List<Datum> sets;
+  final List<SetDatum> sets;
   @JsonKey()
   @override
   final int currentPage;
@@ -1036,11 +1226,11 @@ class _$_SetListContainer implements _SetListContainer {
 }
 
 abstract class _SetListContainer implements SetListContainer {
-  const factory _SetListContainer({List<Datum> sets, int currentPage}) =
+  const factory _SetListContainer({List<SetDatum> sets, int currentPage}) =
       _$_SetListContainer;
 
   @override
-  List<Datum> get sets;
+  List<SetDatum> get sets;
   @override
   int get currentPage;
   @override

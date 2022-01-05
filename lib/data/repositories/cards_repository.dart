@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:pokemon_deck_builder/configuration/app_configuration.dart';
 import 'package:pokemon_deck_builder/configuration/constants.dart';
-import 'package:pokemon_deck_builder/data/models/set.dart';
+import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/set_list.dart';
 
 class CardsRepository {
   final AppConfiguration configuration = AppConfiguration();
   final Dio httpClient = Dio();
 
-  Future<List<Datum>> getSets([
+  Future<List<SetDatum>> getSets([
     int? page = 1,
     int? size = listSize,
   ]) async {
-    List<Datum> setList = [];
+    List<SetDatum> setList = [];
     try {
       final response = await httpClient.get(
         '${AppConfiguration.host}/sets?page=$page&pageSize=$size&orderBy=-releaseDate',
@@ -24,12 +25,39 @@ class CardsRepository {
         ),
       );
       if (response.statusCode == 200) {
-        setList = Set.fromJson(response.data).data.toList();
+        setList = SetList.fromJson(response.data).data.toList();
       }
     } on DioError catch (_) {
       rethrow;
     }
 
     return setList;
+  }
+
+  Future<List<CardDatum>> getCardsBySetId(
+    String setId, [
+    int? page = 1,
+    int? size = listSize,
+  ]) async {
+    List<CardDatum> cardList = [];
+    try {
+      final response = await httpClient.get(
+        '${AppConfiguration.host}/cards?q=set.id:$setId&page=$page&pageSize=$size&orderBy=name',
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'X-Api-Key': AppConfiguration.apiKey,
+          },
+          responseType: ResponseType.json,
+        ),
+      );
+      if (response.statusCode == 200) {
+        cardList = CardList.fromJson(response.data).data.toList();
+      }
+    } on DioError catch (_) {
+      rethrow;
+    }
+
+    return cardList;
   }
 }

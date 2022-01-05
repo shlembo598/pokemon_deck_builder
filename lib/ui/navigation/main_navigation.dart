@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_deck_builder/data/factories/screen_factory.dart';
-import 'package:pokemon_deck_builder/data/models/set.dart';
+import 'package:pokemon_deck_builder/data/models/set_list.dart';
 
 abstract class MainNavigationRouteNames {
   static const mainScreen = '/';
@@ -26,7 +26,7 @@ class MainNavigation {
   Route<Object> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case MainNavigationRouteNames.setScreen:
-        final set = settings.arguments as Datum;
+        final set = settings.arguments as SetDatum;
         return MaterialPageRoute(
           builder: (_) => _screenFactory.makeSetScreen(set),
         );

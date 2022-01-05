@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokemon_deck_builder/data/models/set.dart';
+import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/data/repositories/cards_repository.dart';
 
 part 'sets_bloc.freezed.dart';
@@ -12,7 +12,7 @@ part 'sets_bloc.freezed.dart';
 class SetsEvent with _$SetsEvent {
   const SetsEvent._();
 
-  const factory SetsEvent.initial() = InitialSetsEvent;
+  const factory SetsEvent.create() = CreateSetsEvent;
 
   const factory SetsEvent.fetch() = FetchSetsEvent;
 }
@@ -24,6 +24,10 @@ class SetsState with _$SetsState {
   const factory SetsState.initial([
     SetListContainer? setListContainer,
   ]) = InitialSetsState;
+
+  const factory SetsState.loading([
+    SetListContainer? setListContainer,
+  ]) = LoadingSetsState;
 
   const factory SetsState.loaded([
     SetListContainer? setListContainer,
@@ -40,16 +44,17 @@ class SetsBloc extends Bloc<SetsEvent, SetsState> {
 
   SetsBloc() : super(const InitialSetsState()) {
     on<SetsEvent>((event, emit) => event.map(
-          initial: (event) => _getInitialData(event, emit),
+          create: (event) => _getInitialData(event, emit),
           fetch: (event) => _fetch(event, emit),
         ));
   }
 
   FutureOr<void> _getInitialData(
-    InitialSetsEvent event,
+    CreateSetsEvent event,
     Emitter<SetsState> emit,
   ) async {
     try {
+      emit(const SetsState.loading());
       final result =
           await cardsRepository.getSets().timeout(const Duration(seconds: 5));
       final SetListContainer container = SetListContainer(sets: result);
@@ -98,7 +103,7 @@ class SetsBloc extends Bloc<SetsEvent, SetsState> {
 @freezed
 class SetListContainer with _$SetListContainer {
   const factory SetListContainer({
-    @Default([]) List<Datum> sets,
+    @Default([]) List<SetDatum> sets,
     @Default(1) int currentPage,
   }) = _SetListContainer;
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pokemon_deck_builder/data/blocs/theme_bloc/theme_bloc.dart';
+import 'package:pokemon_deck_builder/data/utils/theme_changer.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
-import 'package:pokemon_deck_builder/ui/theme/theme_changer.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 

@@ -91,7 +91,7 @@ class _SetListWidget extends StatelessWidget {
             ),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
-              childAspectRatio: 1.5 / 1,
+              childAspectRatio: 1.3 / 1,
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
             ),
@@ -135,6 +135,14 @@ class _SetListItem extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: Image.network(set.images.symbol)),
+                    ],
+                  ),
                   SizedBox(
                     height: 80,
                     width: 190,

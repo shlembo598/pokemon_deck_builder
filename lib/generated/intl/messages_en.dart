@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "decksScreen_noDecksMessage": MessageLookupByLibrary.simpleMessage(
+            "You don\'t have any decks created yet, would you like to create one?"),
         "decks_screen_title": MessageLookupByLibrary.simpleMessage("Decks"),
         "explore_screen_errorButtonText":
             MessageLookupByLibrary.simpleMessage("Try Again"),

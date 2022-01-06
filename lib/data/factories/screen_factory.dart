@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.dart';
+import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
+import 'package:pokemon_deck_builder/ui/screens/card_detail_screen/card_datail_screen.dart';
 import 'package:pokemon_deck_builder/ui/screens/screens.dart';
 import 'package:pokemon_deck_builder/ui/screens/set_screen/set_screen.dart';
 
@@ -28,6 +30,12 @@ class ScreenFactory {
       child: SetScreen(
         set: set,
       ),
+    );
+  }
+
+  Widget makeCardDetailScreen(CardDatum card) {
+    return CardDetailScreen(
+      card: card,
     );
   }
 

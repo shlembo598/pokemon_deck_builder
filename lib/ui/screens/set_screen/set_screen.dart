@@ -4,6 +4,7 @@ import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.da
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
+import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
 import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
 
@@ -169,7 +170,20 @@ class _CardListWidget extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return index >= data.cards.length
               ? const LoadingIndicatorWidget()
-              : NetworkImageWidget(imageUrl: data.cards[index].images!.small);
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      MainNavigationRouteNames.cardDetailScreen,
+                      arguments: data.cards[index],
+                    );
+                  },
+                  child: Hero(
+                    tag: data.cards[index].id,
+                    child: NetworkImageWidget(
+                      imageUrl: data.cards[index].images!.small,
+                    ),
+                  ),
+                );
           // FadeInImage.assetNetwork(
           //   placeholder: AppImages.loading,
           //   image: data.cards[index].images!.small,

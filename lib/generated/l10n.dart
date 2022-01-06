@@ -129,6 +129,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You don't have any decks created yet, would you like to create one?`
+  String get decksScreen_noDecksMessage {
+    return Intl.message(
+      'You don\'t have any decks created yet, would you like to create one?',
+      name: 'decksScreen_noDecksMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

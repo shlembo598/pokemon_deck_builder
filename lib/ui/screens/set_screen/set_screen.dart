@@ -177,11 +177,8 @@ class _CardListWidget extends StatelessWidget {
                       arguments: data.cards[index],
                     );
                   },
-                  child: Hero(
-                    tag: data.cards[index].id,
-                    child: NetworkImageWidget(
-                      imageUrl: data.cards[index].images!.small,
-                    ),
+                  child: NetworkImageWidget(
+                    imageUrl: data.cards[index].images!.small,
                   ),
                 );
           // FadeInImage.assetNetwork(

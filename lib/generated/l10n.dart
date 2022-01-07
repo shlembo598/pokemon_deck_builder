@@ -139,6 +139,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Pricing`
+  String get cardDetailScreen_pricingTitle {
+    return Intl.message(
+      'Pricing',
+      name: 'cardDetailScreen_pricingTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

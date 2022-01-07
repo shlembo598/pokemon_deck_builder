@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
+import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
 
 class CardDetailScreen extends StatelessWidget {
@@ -41,13 +42,10 @@ class CardDetailScreen extends StatelessWidget {
                       cardNumber: cardNumber,
                       cardsInSet: cardsInSet,
                     ),
-                    Hero(
-                      tag: card.id,
-                      child: SizedBox(
-                        height: 550,
-                        child: NetworkImageWidget(
-                          imageUrl: card.images!.large,
-                        ),
+                    SizedBox(
+                      height: 550,
+                      child: NetworkImageWidget(
+                        imageUrl: card.images!.large,
                       ),
                     ),
                     Text(
@@ -110,11 +108,16 @@ class _MarketPriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String tcgPlayerPrice =
-        card.tcgplayer!.prices!.holofoil!.market.toString();
+    final String tcgPlayerNormalPrice = card.tcgplayer!.prices!.normal != null
+        ? card.tcgplayer!.prices!.normal!.market.toString()
+        : '';
+    final String tcgPlayerHoloPrice = card.tcgplayer!.prices!.holofoil != null
+        ? card.tcgplayer!.prices!.holofoil!.market.toString()
+        : '';
     final String tcgPlayerDate =
         DateFormatter.formatDate(card.tcgplayer!.updatedAt);
-    final String cardMarketPrice = card.cardmarket!.prices!['avg1'].toString();
+    final String cardMarketPrice =
+        card.cardmarket!.prices!['averageSellPrice'].toString();
     final String cardMarketDate =
         DateFormatter.formatDate(card.cardmarket!.updatedAt);
 
@@ -125,17 +128,19 @@ class _MarketPriceWidget extends StatelessWidget {
           height: 15,
         ),
         Text(
-          'Pricing',
+          S.of(context).cardDetailScreen_pricingTitle,
           style: Theme.of(context).textTheme.headline6,
         ),
         _MarketPriceItemWidget(
           marketName: 'TcgPlayer',
-          price: tcgPlayerPrice,
+          normalPrice: tcgPlayerNormalPrice == ''
+              ? tcgPlayerHoloPrice
+              : tcgPlayerNormalPrice,
           date: tcgPlayerDate,
         ),
         _MarketPriceItemWidget(
           marketName: 'CardMarket',
-          price: cardMarketPrice,
+          normalPrice: cardMarketPrice,
           date: cardMarketDate,
         ),
       ],
@@ -145,13 +150,13 @@ class _MarketPriceWidget extends StatelessWidget {
 
 class _MarketPriceItemWidget extends StatelessWidget {
   final String marketName;
-  final String price;
+  final String normalPrice;
   final String date;
 
   const _MarketPriceItemWidget({
     Key? key,
     required this.marketName,
-    required this.price,
+    required this.normalPrice,
     required this.date,
   }) : super(key: key);
 
@@ -177,7 +182,7 @@ class _MarketPriceItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Price: $price \uFF04',
+                    'Price: $normalPrice \uFF04',
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.subtitle1,
                   ),

@@ -32,7 +32,7 @@ class CardDatum with _$CardDatum {
     required List<Weakness>? weaknesses,
     required List<String>? retreatCost,
     required int? convertedRetreatCost,
-    required Set? datumSet,
+    required CardSet? set,
     required String? number,
     required String? artist,
     required String? rarity,

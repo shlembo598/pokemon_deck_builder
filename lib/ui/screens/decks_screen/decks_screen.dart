@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/resources/app_images.dart';
 
@@ -80,20 +79,13 @@ class _DialogDetailsWidget extends StatelessWidget {
         ),
         Text(
           S.of(context).decks_screen_title,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-            color: dialogTextColor,
-          ),
+          style: Theme.of(context).textTheme.headline3,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 15.0),
           child: Text(
             S.of(context).decksScreen_noDecksMessage,
-            style: const TextStyle(
-              fontSize: 18,
-              color: dialogTextColor,
-            ),
+            style: Theme.of(context).textTheme.headline6,
             textAlign: TextAlign.center,
           ),
         ),

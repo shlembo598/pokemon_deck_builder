@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:pokemon_deck_builder/data/blocs/theme_bloc/theme_bloc.dart';
 import 'package:pokemon_deck_builder/data/utils/theme_changer.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
@@ -37,6 +38,7 @@ class PokemonApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
+              FormBuilderLocalizations.delegate,
             ],
             theme: ThemeChanger.changeTheme(context),
             debugShowCheckedModeBanner: false,

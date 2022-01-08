@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/widgets/cards_list_widget.dart';
@@ -31,8 +32,11 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Column(
                 children: [
                   FormBuilderTextField(
+                    validator: FormBuilderValidators.required(context),
                     name: 'searchByName',
-                    initialValue: 'Pikachu',
+                    decoration: const InputDecoration(
+                      hintText: 'Enter Pokemon Name',
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -40,9 +44,11 @@ class _SearchScreenState extends State<SearchScreen> {
                               .currentState!.fields['searchByName']!.value ??
                           '';
                       FocusScope.of(context).unfocus();
-                      context
-                          .read<CardSearchBloc>()
-                          .add(CardSearchEvent.find('name:*$pokemonName*'));
+                      if (_formKey.currentState!.validate()) {
+                        context
+                            .read<CardSearchBloc>()
+                            .add(CardSearchEvent.find('name:*$pokemonName*'));
+                      }
                     },
                     child: Text('Search'),
                   ),

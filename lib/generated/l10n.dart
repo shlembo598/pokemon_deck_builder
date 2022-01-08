@@ -149,6 +149,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Nothing found`
+  String get searchScreen_noResults {
+    return Intl.message(
+      'Nothing found',
+      name: 'searchScreen_noResults',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

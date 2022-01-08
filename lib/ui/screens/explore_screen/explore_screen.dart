@@ -137,10 +137,14 @@ class _SetListItem extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
                           width: 20,
                           height: 20,
-                          child: Image.network(set.images.symbol)),
+                          child: Image.network(set.images.symbol),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(

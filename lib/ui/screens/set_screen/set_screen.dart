@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
-import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
-import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
-import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
-import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
+import 'package:pokemon_deck_builder/ui/widgets/cards_list_widget.dart';
+import 'package:pokemon_deck_builder/ui/widgets/cards_number_and_date_widget.dart';
 
 class SetScreen extends StatefulWidget {
   final SetDatum set;
@@ -18,22 +16,6 @@ class SetScreen extends StatefulWidget {
 }
 
 class _SetScreenState extends State<SetScreen> {
-  final _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(
-      _onScroll,
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,36 +23,32 @@ class _SetScreenState extends State<SetScreen> {
         title: Text(S.of(context).explore_screen_title),
         centerTitle: false,
       ),
-      body: RefreshIndicator(
-        onRefresh: () => _refreshList(context),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
+      body: Column(
+        children: [
+          Container(
+            child: Column(
+              children: [
+                _SetTitleWidget(
+                  setName: widget.set.name,
+                  imageUrl: widget.set.images.logo,
+                ),
+                CardsNumberAndDateWidget(
+                  counterName: S.of(context).setDetails_totalCards,
+                  length: widget.set.total.toString(),
+                  releaseDate: widget.set.releaseDate,
+                ),
+              ],
+            ),
           ),
-          child: Column(
-            children: [
-              _SetTitleWidget(
-                setName: widget.set.name,
-                imageUrl: widget.set.images.logo,
-              ),
-              _SetDetailWidget(
-                set: widget.set,
-              ),
-              const _CardListWidget(),
-            ],
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: () => _refreshList(context),
+              child: const _CardListFromSetWidget(),
+            ),
           ),
-        ),
+        ],
       ),
     );
-  }
-
-  void _onScroll() {
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
-      context.read<CardListBloc>().add(const CardListEvent.fetch());
-    }
   }
 
   Future<void> _refreshList(BuildContext context) async {
@@ -114,41 +92,29 @@ class _SetTitleWidget extends StatelessWidget {
   }
 }
 
-class _SetDetailWidget extends StatelessWidget {
-  final SetDatum set;
-
-  const _SetDetailWidget({Key? key, required this.set}) : super(key: key);
+class _CardListFromSetWidget extends StatefulWidget {
+  const _CardListFromSetWidget({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15.0),
-      child: Container(
-        height: 80,
-        width: 250,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _TotalCardsWidget(totalCards: set.total.toString()),
-              const SizedBox(
-                width: 15,
-              ),
-              _ReleaseDateWidget(releaseDate: set.releaseDate ?? ''),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  State<_CardListFromSetWidget> createState() => _CardListFromSetWidgetState();
 }
 
-class _CardListWidget extends StatelessWidget {
-  const _CardListWidget({Key? key}) : super(key: key);
+class _CardListFromSetWidgetState extends State<_CardListFromSetWidget> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(
+      _onScroll,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,100 +124,20 @@ class _CardListWidget extends StatelessWidget {
       initial: (data) => Center(child: Text(S.of(context).message_noData)),
       loading: (data) => const Center(child: CircularProgressIndicator()),
       error: (data) => const _FailureWidget(),
-      loaded: (data, max) => GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 150,
-          childAspectRatio: 1 / 1,
-          mainAxisSpacing: 8,
-        ),
-        itemCount: max ? data!.cards.length : data!.cards.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          return index >= data.cards.length
-              ? const LoadingIndicatorWidget()
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      MainNavigationRouteNames.cardDetailScreen,
-                      arguments: data.cards[index],
-                    );
-                  },
-                  child: NetworkImageWidget(
-                    imageUrl: data.cards[index].images!.small,
-                  ),
-                );
-          // FadeInImage.assetNetwork(
-          //   placeholder: AppImages.loading,
-          //   image: data.cards[index].images!.small,
-          // );
-        },
+      loaded: (data, max) => CardsListWidget(
+        cardListContainer: data,
+        hasReachedMax: max,
+        scrollController: _scrollController,
       ),
     );
   }
-}
 
-class _TotalCardsWidget extends StatelessWidget {
-  final String totalCards;
-
-  const _TotalCardsWidget({Key? key, required this.totalCards})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          S.of(context).setDetails_totalCards,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          totalCards,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ReleaseDateWidget extends StatelessWidget {
-  final String releaseDate;
-
-  const _ReleaseDateWidget({Key? key, required this.releaseDate})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          S.of(context).setDetails_ReleaseDate,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          DateFormatter.formatDate(releaseDate),
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
-      ],
-    );
+  void _onScroll() {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
+      context.read<CardListBloc>().add(const CardListEvent.fetch());
+    }
   }
 }
 

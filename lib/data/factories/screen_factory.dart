@@ -14,7 +14,10 @@ class ScreenFactory {
   }
 
   Widget makeSearchScreen() {
-    return const SearchScreen();
+    return BlocProvider<CardSearchBloc>(
+      create: (context) => CardSearchBloc(),
+      child: SearchScreen(),
+    );
   }
 
   Widget makeExploreScreen() {

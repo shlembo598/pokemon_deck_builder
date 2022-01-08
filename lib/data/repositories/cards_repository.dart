@@ -42,7 +42,34 @@ class CardsRepository {
     List<CardDatum> cardList = [];
     try {
       final response = await httpClient.get(
-        '${AppConfiguration.host}/cards?q=set.id:$setId&page=$page&pageSize=$size&orderBy=name',
+        '${AppConfiguration.host}/cards?q=set.id:$setId&page=$page&pageSize=$size&orderBy=number',
+        options: Options(
+          headers: {
+            'accept': 'application/json',
+            'X-Api-Key': AppConfiguration.apiKey,
+          },
+          responseType: ResponseType.json,
+        ),
+      );
+      if (response.statusCode == 200) {
+        cardList = CardList.fromJson(response.data).data.toList();
+      }
+    } on DioError catch (_) {
+      rethrow;
+    }
+
+    return cardList;
+  }
+
+  Future<List<CardDatum>> searchCard(
+    String parameter, [
+    int? page = 1,
+    int? size = listSize,
+  ]) async {
+    List<CardDatum> cardList = [];
+    try {
+      final response = await httpClient.get(
+        '${AppConfiguration.host}/cards?q=$parameter&page=$page&pageSize=$size',
         options: Options(
           headers: {
             'accept': 'application/json',

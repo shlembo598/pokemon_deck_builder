@@ -8,5 +8,6 @@
   "setDetails_totalCards" : "Total Cards",
   "setDetails_ReleaseDate" : "Release date",
   "decksScreen_noDecksMessage" : "You don't have any decks created yet, would you like to create one?",
-  "cardDetailScreen_pricingTitle" : "Pricing"
+  "cardDetailScreen_pricingTitle" : "Pricing",
+  "searchScreen_noResults" : "Nothing found"
 }

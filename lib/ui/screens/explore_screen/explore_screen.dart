@@ -1,13 +1,13 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';
 import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
+import 'package:pokemon_deck_builder/ui/widgets/text_error_widget.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
@@ -33,16 +33,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('Explore screen rebuild');
     final state = context.watch<SetsBloc>().state;
 
     return Scaffold(
       body: state.when(
-        initial: (data) => Center(child: Text(S.of(context).message_noData)),
+        initial: (data) => const NoDataTextWidget(),
         loading: (data) => const Center(child: CircularProgressIndicator()),
         loaded: (setContainer, max) {
           return setContainer!.sets.isEmpty
-              ? Center(child: Text(S.of(context).message_noData))
+              ? const NoDataTextWidget()
               : _SetListWidget(
                   scrollController: _scrollController,
                   sets: setContainer.sets,
@@ -159,7 +158,7 @@ class _SetListItem extends StatelessWidget {
                   ),
                   Text(
                     set.series,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    style: smallBoldText,
                   ),
                 ],
               ),
@@ -190,11 +189,17 @@ class _FailureWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(S.of(context).message_error),
+          Text(
+            S.of(context).message_error,
+            style: smallText,
+          ),
           ElevatedButton(
             onPressed: () =>
                 context.read<SetsBloc>().add(const SetsEvent.create()),
-            child: Text(S.of(context).explore_screen_errorButtonText),
+            child: Text(
+              S.of(context).explore_screen_errorButtonText,
+              style: smallText,
+            ),
           ),
         ],
       ),

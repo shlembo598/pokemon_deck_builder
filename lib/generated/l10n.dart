@@ -159,6 +159,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Cards on screen`
+  String get searchScreen_cardCounterName {
+    return Intl.message(
+      'Cards on screen',
+      name: 'searchScreen_cardCounterName',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -5,6 +5,7 @@ import 'package:form_builder_validators/localization/l10n.dart';
 import 'package:pokemon_deck_builder/data/blocs/theme_bloc/theme_bloc.dart';
 import 'package:pokemon_deck_builder/data/utils/theme_changer.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
+import 'package:pokemon_deck_builder/ui/theme/app_themes.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 
@@ -41,6 +42,7 @@ class PokemonApp extends StatelessWidget {
               FormBuilderLocalizations.delegate,
             ],
             theme: ThemeChanger.changeTheme(context),
+            darkTheme: appThemeDark,
             debugShowCheckedModeBanner: false,
             initialRoute: MainNavigationRouteNames.mainScreen,
             routes: mainNavigation.routes,

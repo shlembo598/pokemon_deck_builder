@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 
@@ -46,31 +47,22 @@ class _TotalCardsWidget extends StatelessWidget {
   final String totalCards;
   final String counterName;
 
-  const _TotalCardsWidget(
-      {Key? key, required this.totalCards, required this.counterName})
-      : super(key: key);
+  const _TotalCardsWidget({
+    Key? key,
+    required this.totalCards,
+    required this.counterName,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          counterName,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
+        Text(counterName, style: middleText),
         const SizedBox(
           height: 5,
         ),
-        Text(
-          totalCards,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
+        Text(totalCards, style: middleBoldText),
       ],
     );
   }
@@ -93,20 +85,12 @@ class _ReleaseDateWidget extends StatelessWidget {
       children: [
         Text(
           S.of(context).setDetails_ReleaseDate,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: middleText,
         ),
         const SizedBox(
           height: 5,
         ),
-        Text(
-          DateFormatter.formatDate(releaseDate),
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-          ),
-        ),
+        Text(DateFormatter.formatDate(releaseDate), style: middleBoldText),
       ],
     );
   }

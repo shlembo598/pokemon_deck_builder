@@ -10,13 +10,11 @@ class CardsListWidget extends StatelessWidget {
   final CardListContainer? cardListContainer;
   final SearchCardContainer? searchCardContainer;
   final bool hasReachedMax;
-  final ScrollController scrollController;
   const CardsListWidget({
     Key? key,
     this.cardListContainer,
     this.searchCardContainer,
     required this.hasReachedMax,
-    required this.scrollController,
   }) : super(key: key);
 
   @override
@@ -32,7 +30,7 @@ class CardsListWidget extends StatelessWidget {
     }
 
     return GridView.builder(
-      controller: scrollController,
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 150,

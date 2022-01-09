@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "message_error":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "message_noData": MessageLookupByLibrary.simpleMessage("No data"),
+        "searchScreen_cardCounterName":
+            MessageLookupByLibrary.simpleMessage("Cards on screen"),
         "searchScreen_noResults":
             MessageLookupByLibrary.simpleMessage("Nothing found"),
         "search_screen_title": MessageLookupByLibrary.simpleMessage("Search"),

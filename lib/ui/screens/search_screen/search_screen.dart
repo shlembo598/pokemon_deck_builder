@@ -91,12 +91,16 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                  width: 2, color: errorBorderColor),
+                                width: 2,
+                                color: errorBorderColor,
+                              ),
                               borderRadius: BorderRadius.circular(15),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                  width: 2, color: errorBorderColor),
+                                width: 2,
+                                color: errorBorderColor,
+                              ),
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),

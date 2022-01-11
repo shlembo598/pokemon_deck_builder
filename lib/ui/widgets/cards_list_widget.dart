@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
 import 'loading_indicator_widget.dart';
@@ -19,12 +20,12 @@ class CardsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount;
-    List<CardDatum> cardDatum;
+    int itemCount = 0;
+    List<CardDatum> cardDatum = [];
     if (cardListContainer != null) {
       itemCount = cardListContainer!.cards.length;
       cardDatum = cardListContainer!.cards;
-    } else {
+    } else if (searchCardContainer != null) {
       itemCount = searchCardContainer!.cards.length;
       cardDatum = searchCardContainer!.cards;
     }

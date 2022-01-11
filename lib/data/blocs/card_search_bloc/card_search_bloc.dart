@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/repositories/cards_repository.dart';
 
 part 'card_search_bloc.freezed.dart';
@@ -65,20 +65,19 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
     FindCardSearchEvent event,
     Emitter<CardSearchState> emit,
   ) async {
-    const SearchCardContainer container = SearchCardContainer();
     try {
       emit(const CardSearchState.loading());
       final result = await cardsRepository
           .searchCard(event.parameter)
           .timeout(const Duration(seconds: 5));
       emit(CardSearchState.loaded(
-        container.copyWith(cards: result, searchParameter: event.parameter),
+        result.copyWith(searchParameter: event.parameter),
         false,
       ));
     } on TimeoutException {
-      emit(const CardSearchState.error(container));
+      emit(const CardSearchState.error());
     } on dynamic catch (e) {
-      emit(const CardSearchState.error(container));
+      emit(const CardSearchState.error());
       log(e.toString());
       rethrow;
     }
@@ -96,10 +95,10 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
         final result = await cardsRepository
             .searchCard(container.searchParameter, nextPage)
             .timeout(const Duration(seconds: 5));
-        if (result.isEmpty) {
+        if (result.cards.isEmpty) {
           emit(CardSearchState.loaded(container, true));
         } else {
-          cards.addAll(result);
+          cards.addAll(result.cards);
           emit(CardSearchState.loaded(
             container.copyWith(cards: cards, currentPage: nextPage),
             false,
@@ -114,13 +113,4 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
       }
     }
   }
-}
-
-@freezed
-class SearchCardContainer with _$SearchCardContainer {
-  const factory SearchCardContainer({
-    @Default([]) List<CardDatum> cards,
-    @Default(1) int currentPage,
-    @Default('') String searchParameter,
-  }) = _SearchCardContainer;
 }

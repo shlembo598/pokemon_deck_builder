@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:pokemon_deck_builder/configuration/app_configuration.dart';
 import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 
 class CardsRepository {
@@ -61,12 +62,12 @@ class CardsRepository {
     return cardList;
   }
 
-  Future<List<CardDatum>> searchCard(
+  Future<SearchCardContainer> searchCard(
     String parameter, [
     int? page = 1,
     int? size = listSize,
   ]) async {
-    List<CardDatum> cardList = [];
+    SearchCardContainer _container = const SearchCardContainer();
     try {
       final response = await httpClient.get(
         '${AppConfiguration.host}/cards?q=$parameter&page=$page&pageSize=$size',
@@ -79,12 +80,16 @@ class CardsRepository {
         ),
       );
       if (response.statusCode == 200) {
-        cardList = CardList.fromJson(response.data).data.toList();
+        final cardList = CardList.fromJson(response.data).data.toList();
+        final String totalCards =
+            CardList.fromJson(response.data).totalCount.toString();
+        _container = const SearchCardContainer()
+            .copyWith(cards: cardList, totalCards: totalCards);
       }
     } on DioError catch (_) {
       rethrow;
     }
 
-    return cardList;
+    return _container;
   }
 }

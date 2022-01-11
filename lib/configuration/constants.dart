@@ -19,3 +19,17 @@ const TextStyle middleBoldText =
 const TextStyle largeText = TextStyle(fontSize: fontSizeLarge);
 const TextStyle largeBoldText =
     TextStyle(fontSize: fontSizeLarge, fontWeight: FontWeight.w600);
+
+enum pokemonClasses {
+  colorless,
+  darkness,
+  dragon,
+  fairy,
+  fighting,
+  fire,
+  grass,
+  lightning,
+  metal,
+  psychic,
+  water,
+}

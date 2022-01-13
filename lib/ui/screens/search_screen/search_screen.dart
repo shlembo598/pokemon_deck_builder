@@ -61,20 +61,59 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 const _QuickSearchFieldWidget(),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
+                ListView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: [
+                    ExpansionTile(
+                      iconColor: Theme.of(context).toggleableActiveColor,
+                      textColor: Theme.of(context).toggleableActiveColor,
+                      title: const Text(
                         'Advanced search',
                         style: smallText,
                       ),
-                      Divider(),
-                    ],
-                  ),
+                      children: [
+                        const Divider(),
+                        _FilterWidget(
+                          formName: FormNames.rarity.name,
+                          name: 'Rarities',
+                          filterParameters: rarities,
+                          searchKey: 'rarity',
+                        ),
+                        const Divider(),
+                        _FilterWidget(
+                          formName: FormNames.searchByType.name,
+                          name: 'Pokemon type',
+                          filterParameters: pokemonTypes,
+                          searchKey: 'types',
+                        ),
+                        const Divider(),
+                        _FilterWidget(
+                          formName: FormNames.searchBySubtype.name,
+                          name: 'Pokemon subtype',
+                          filterParameters: pokemonSubTypes,
+                          searchKey: 'subtypes',
+                        ),
+                        const Divider(),
+                        _FilterWidget(
+                          formName: FormNames.searchBySupertype.name,
+                          name: 'Pokemon supertype',
+                          filterParameters: pokemonSuperTypes,
+                          searchKey: 'supertype',
+                        ),
+                        const Divider(),
+                        _ChoceFilterWidget(
+                          formName: FormNames.pokemonSeries.name,
+                          name: 'Series',
+                          filterParameters: pokemonSeries,
+                          searchKey: 'set.series',
+                        ),
+                        const Divider(),
+                        _HPRangeWidget(),
+                      ],
+                    ),
+                  ],
                 ),
-                const _ClassesFilterWidget(),
                 const Divider(),
                 const _SearchDataList(),
               ],
@@ -108,98 +147,142 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 }
 
-class _ClassesFilterWidget extends StatelessWidget {
-  const _ClassesFilterWidget({
+class _FilterWidget extends StatelessWidget {
+  final String name;
+  final List<String> filterParameters;
+  final String searchKey;
+  final String formName;
+
+  const _FilterWidget({
+    Key? key,
+    required this.name,
+    required this.filterParameters,
+    required this.searchKey,
+    required this.formName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        ExpansionTile(
+          iconColor: Theme.of(context).toggleableActiveColor,
+          textColor: Theme.of(context).toggleableActiveColor,
+          leading: const Icon(Icons.event),
+          title: Text(name),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: FormBuilderFilterChip(
+                checkmarkColor: Theme.of(context).toggleableActiveColor,
+                name: formName,
+                options: filterParameters
+                    .map(
+                      (parameter) => FormBuilderFieldOption(
+                        value: '$searchKey:$parameter',
+                        child: Text(
+                          parameter,
+                          style: middleText,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _ChoceFilterWidget extends StatelessWidget {
+  final String name;
+  final List<String> filterParameters;
+  final String searchKey;
+  final String formName;
+
+  const _ChoceFilterWidget({
+    Key? key,
+    required this.name,
+    required this.filterParameters,
+    required this.searchKey,
+    required this.formName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        ExpansionTile(
+          iconColor: Theme.of(context).toggleableActiveColor,
+          textColor: Theme.of(context).toggleableActiveColor,
+          leading: const Icon(Icons.event),
+          title: Text(name),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: FormBuilderChoiceChip(
+                // checkmarkColor: Theme.of(context).toggleableActiveColor,
+                name: formName,
+                options: filterParameters
+                    .map(
+                      (parameter) => FormBuilderFieldOption(
+                        value: '$searchKey:$parameter',
+                        child: Text(
+                          parameter,
+                          style: middleText,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _HPRangeWidget extends StatelessWidget {
+  const _HPRangeWidget({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: FormBuilderFilterChip(
-        checkmarkColor: Theme.of(context).toggleableActiveColor,
-        name: 'searchByType',
-        options: [
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.colorless.name}',
-            child: Text(
-              pokemonClasses.colorless.name,
-              style: middleText,
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        ExpansionTile(
+          iconColor: Theme.of(context).toggleableActiveColor,
+          textColor: Theme.of(context).toggleableActiveColor,
+          leading: const Icon(Icons.event),
+          title: const Text('HP Attack Retreat'),
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: FormBuilderRangeSlider(
+                name: FormNames.hpRange.name,
+                // onChanged: _onChanged,
+                min: 0.0,
+                max: 400.0,
+                initialValue: const RangeValues(50, 200),
+                divisions: 80,
+                activeColor: Theme.of(context).toggleableActiveColor,
+                inactiveColor: Theme.of(context).disabledColor,
+                decoration: const InputDecoration(labelText: 'HP Range'),
+              ),
             ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.darkness.name}',
-            child: Text(
-              pokemonClasses.darkness.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.dragon.name}',
-            child: Text(
-              pokemonClasses.dragon.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.fairy.name}',
-            child: Text(
-              pokemonClasses.fairy.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.fighting.name}',
-            child: Text(
-              pokemonClasses.fighting.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.fire.name}',
-            child: Text(
-              pokemonClasses.fire.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.grass.name}',
-            child: Text(
-              pokemonClasses.grass.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.lightning.name}',
-            child: Text(
-              pokemonClasses.lightning.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.metal.name}',
-            child: Text(
-              pokemonClasses.metal.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.psychic.name}',
-            child: Text(
-              pokemonClasses.psychic.name,
-              style: smallText,
-            ),
-          ),
-          FormBuilderFieldOption(
-            value: 'types:${pokemonClasses.water.name}',
-            child: Text(
-              pokemonClasses.water.name,
-              style: smallText,
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -220,10 +303,12 @@ class _QuickSearchFieldWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: FormBuilderTextField(
               // validator: FormBuilderValidators.required(context),
-              name: 'searchByName',
+              name: FormNames.searchByName.name,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search,
-                    color: Theme.of(context).toggleableActiveColor),
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).toggleableActiveColor,
+                ),
                 labelText: 'Search by name',
                 labelStyle:
                     TextStyle(color: Theme.of(context).toggleableActiveColor),

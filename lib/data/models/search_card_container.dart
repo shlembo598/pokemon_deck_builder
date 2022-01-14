@@ -11,5 +11,6 @@ class SearchCardContainer with _$SearchCardContainer {
     @Default(1) int currentPage,
     @Default('') String searchParameter,
     @Default('0') String totalCards,
+    @Default(false) bool showAsList,
   }) = _SearchCardContainer;
 }

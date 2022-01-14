@@ -17,6 +17,10 @@ class CardSearchEvent with _$CardSearchEvent {
   const factory CardSearchEvent.find(String parameter) = FindCardSearchEvent;
 
   const factory CardSearchEvent.fetch() = FetchCardSearchEvent;
+
+  const factory CardSearchEvent.showAsList(
+    bool asList,
+  ) = ShowAsListSearchEvent;
 }
 
 @freezed
@@ -49,6 +53,7 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
           create: (event) => _create(event, emit),
           find: (event) => _find(event, emit),
           fetch: (event) => _fetch(event, emit),
+          showAsList: (event) => _showAsList(event, emit),
         ));
   }
 
@@ -59,6 +64,17 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
     emit(
       const CardSearchState.initial(),
     );
+  }
+
+  FutureOr<void> _showAsList(
+    ShowAsListSearchEvent event,
+    Emitter<CardSearchState> emit,
+  ) {
+    final container = state.searchCardContainer;
+    emit(CardSearchState.loaded(
+      container?.copyWith(showAsList: event.asList),
+      false,
+    ));
   }
 
   FutureOr<void> _find(

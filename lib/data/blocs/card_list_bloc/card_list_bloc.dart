@@ -17,6 +17,10 @@ class CardListEvent with _$CardListEvent {
   ) = CreateCardListEvent;
 
   const factory CardListEvent.fetch() = FetchCardListEvent;
+
+  const factory CardListEvent.showAsList(
+    bool asList,
+  ) = ShowAsListListEvent;
 }
 
 @freezed
@@ -43,10 +47,24 @@ class CardListBloc extends Bloc<CardListEvent, CardListState> {
     on<CardListEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           fetch: (event) => _fetch(event, emit),
+          showAsList: (event) => _showAsList(event, emit),
         ));
   }
 
   final CardsRepository cardsRepository = CardsRepository();
+
+  FutureOr<void> _showAsList(
+    ShowAsListListEvent event,
+    Emitter<CardListState> emit,
+  ) {
+    if (state.cardListContainer != null) {
+      final container = state.cardListContainer;
+      emit(CardListState.loaded(
+        container?.copyWith(showAsList: event.asList),
+        false,
+      ));
+    }
+  }
 
   FutureOr<void> _create(
     CreateCardListEvent event,
@@ -109,5 +127,6 @@ class CardListContainer with _$CardListContainer {
     @Default('sw1') String setId,
     @Default([]) List<CardDatum> cards,
     @Default(1) int currentPage,
+    @Default(false) bool showAsList,
   }) = _CardListContainer;
 }

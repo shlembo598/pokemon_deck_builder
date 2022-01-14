@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
@@ -51,10 +52,16 @@ class _SetScreenState extends State<SetScreen> {
                 setName: widget.set.name,
                 imageUrl: widget.set.images.logo,
               ),
-              CardsNumberAndDateWidget(
-                counterName: S.of(context).setDetails_totalCards,
-                length: widget.set.total.toString(),
-                releaseDate: widget.set.releaseDate,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CardsNumberAndDateWidget(
+                    counterName: S.of(context).setDetails_totalCards,
+                    length: widget.set.total.toString(),
+                    releaseDate: widget.set.releaseDate,
+                  ),
+                  const _ToggleViewWidget(),
+                ],
               ),
               const _CardListFromSetWidget(),
             ],
@@ -123,9 +130,10 @@ class _CardListFromSetWidgetState extends State<_CardListFromSetWidget> {
       initial: (data) => const NoDataTextWidget(),
       loading: (data) => const Center(child: CircularProgressIndicator()),
       error: (data) => const _FailureWidget(),
-      loaded: (data, max) => CardsListWidget(
+      loaded: (data, max) => CardListWidget(
         cardListContainer: data,
         hasReachedMax: max,
+        showAsList: data!.showAsList,
       ),
     );
   }
@@ -151,6 +159,39 @@ class _FailureWidget extends StatelessWidget {
             child: Text(S.of(context).explore_screen_errorButtonText),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ToggleViewWidget extends StatelessWidget {
+  const _ToggleViewWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<CardListBloc>().state;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: IconButton(
+          icon: state.cardListContainer?.showAsList == true
+              ? const FaIcon(FontAwesomeIcons.images)
+              : const FaIcon(FontAwesomeIcons.list),
+          onPressed: () {
+            bool asList =
+                state.cardListContainer?.showAsList == true ? false : true;
+            context.read<CardListBloc>().add(CardListEvent.showAsList(asList));
+          },
+        ),
       ),
     );
   }

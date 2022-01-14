@@ -28,6 +28,7 @@ enum FormNames {
   rarity,
   pokemonSeries,
   hpRange,
+  weaknesses,
 }
 
 const List<String> pokemonTypes = [
@@ -45,6 +46,12 @@ const List<String> pokemonTypes = [
 ];
 
 const List<String> pokemonSuperTypes = [
+  'energy',
+  'pokemon',
+  'trainer',
+];
+
+const List<String> weaknesses = [
   'energy',
   'pokemon',
   'trainer',

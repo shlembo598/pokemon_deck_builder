@@ -37,6 +37,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    PokemonSearcher pokemonSearcher = PokemonSearcher();
+
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => _refreshList(context),
@@ -46,76 +48,10 @@ class _SearchScreenState extends State<SearchScreen> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                        'Quick search',
-                        style: smallText,
-                      ),
-                      Divider(),
-                    ],
-                  ),
-                ),
-                const _QuickSearchFieldWidget(),
-                ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    ExpansionTile(
-                      iconColor: Theme.of(context).toggleableActiveColor,
-                      textColor: Theme.of(context).toggleableActiveColor,
-                      title: const Text(
-                        'Advanced search',
-                        style: smallText,
-                      ),
-                      children: [
-                        const Divider(),
-                        _FilterWidget(
-                          formName: FormNames.rarity.name,
-                          name: 'Rarities',
-                          filterParameters: rarities,
-                          searchKey: 'rarity',
-                        ),
-                        const Divider(),
-                        _FilterWidget(
-                          formName: FormNames.searchByType.name,
-                          name: 'Pokemon type',
-                          filterParameters: pokemonTypes,
-                          searchKey: 'types',
-                        ),
-                        const Divider(),
-                        _FilterWidget(
-                          formName: FormNames.searchBySubtype.name,
-                          name: 'Pokemon subtype',
-                          filterParameters: pokemonSubTypes,
-                          searchKey: 'subtypes',
-                        ),
-                        const Divider(),
-                        _FilterWidget(
-                          formName: FormNames.searchBySupertype.name,
-                          name: 'Pokemon supertype',
-                          filterParameters: pokemonSuperTypes,
-                          searchKey: 'supertype',
-                        ),
-                        const Divider(),
-                        _ChoceFilterWidget(
-                          formName: FormNames.pokemonSeries.name,
-                          name: 'Series',
-                          filterParameters: pokemonSeries,
-                          searchKey: 'set.series',
-                        ),
-                        const Divider(),
-                        _HPRangeWidget(),
-                      ],
-                    ),
-                  ],
-                ),
-                const Divider(),
-                const _SearchDataList(),
+              children: const [
+                _QuickSearchFieldWidget(),
+                _AdvancedSearch(),
+                _SearchResultsList(),
               ],
             ),
           ),
@@ -125,7 +61,9 @@ class _SearchScreenState extends State<SearchScreen> {
         heroTag: 'searchFAB',
         child: const FaIcon(FontAwesomeIcons.search),
         onPressed: () {
-          PokemonSearcher.searchCards(_formKey, context);
+          pokemonSearcher.context = context;
+          pokemonSearcher.key = _formKey;
+          pokemonSearcher.searchCards();
           // _searchCards(_formKey, context);
         },
       ),
@@ -144,6 +82,69 @@ class _SearchScreenState extends State<SearchScreen> {
         !_scrollController.position.outOfRange) {
       context.read<CardSearchBloc>().add(const CardSearchEvent.fetch());
     }
+  }
+}
+
+class _AdvancedSearch extends StatelessWidget {
+  const _AdvancedSearch({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        ExpansionTile(
+          iconColor: Theme.of(context).toggleableActiveColor,
+          textColor: Theme.of(context).toggleableActiveColor,
+          title: const Text(
+            'Advanced search',
+            style: middleText,
+          ),
+          children: [
+            _FilterWidget(
+              formName: FormNames.rarity.name,
+              name: 'Rarities',
+              filterParameters: rarities,
+              searchKey: 'rarity',
+            ),
+            _FilterWidget(
+              formName: FormNames.searchByType.name,
+              name: 'Pokemon type',
+              filterParameters: pokemonTypes,
+              searchKey: 'types',
+            ),
+            _FilterWidget(
+              formName: FormNames.searchBySubtype.name,
+              name: 'Pokemon subtype',
+              filterParameters: pokemonSubTypes,
+              searchKey: 'subtypes',
+            ),
+            _FilterWidget(
+              formName: FormNames.searchBySupertype.name,
+              name: 'Pokemon supertype',
+              filterParameters: pokemonSuperTypes,
+              searchKey: 'supertype',
+            ),
+            _ChoiceFilterWidget(
+              formName: FormNames.pokemonSeries.name,
+              name: 'Series',
+              filterParameters: pokemonSeries,
+              searchKey: 'set.series',
+            ),
+            const _HPRangeWidget(),
+            _FilterWidget(
+              formName: FormNames.weaknesses.name,
+              name: 'Weaknesses',
+              filterParameters: pokemonTypes,
+              searchKey: 'weaknesses.type',
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -170,7 +171,6 @@ class _FilterWidget extends StatelessWidget {
         ExpansionTile(
           iconColor: Theme.of(context).toggleableActiveColor,
           textColor: Theme.of(context).toggleableActiveColor,
-          leading: const Icon(Icons.event),
           title: Text(name),
           children: [
             Padding(
@@ -181,10 +181,10 @@ class _FilterWidget extends StatelessWidget {
                 options: filterParameters
                     .map(
                       (parameter) => FormBuilderFieldOption(
-                        value: '$searchKey:$parameter',
+                        value: '$searchKey:"$parameter"',
                         child: Text(
                           parameter,
-                          style: middleText,
+                          style: smallText,
                         ),
                       ),
                     )
@@ -198,13 +198,13 @@ class _FilterWidget extends StatelessWidget {
   }
 }
 
-class _ChoceFilterWidget extends StatelessWidget {
+class _ChoiceFilterWidget extends StatelessWidget {
   final String name;
   final List<String> filterParameters;
   final String searchKey;
   final String formName;
 
-  const _ChoceFilterWidget({
+  const _ChoiceFilterWidget({
     Key? key,
     required this.name,
     required this.filterParameters,
@@ -221,7 +221,6 @@ class _ChoceFilterWidget extends StatelessWidget {
         ExpansionTile(
           iconColor: Theme.of(context).toggleableActiveColor,
           textColor: Theme.of(context).toggleableActiveColor,
-          leading: const Icon(Icons.event),
           title: Text(name),
           children: [
             Padding(
@@ -263,8 +262,7 @@ class _HPRangeWidget extends StatelessWidget {
         ExpansionTile(
           iconColor: Theme.of(context).toggleableActiveColor,
           textColor: Theme.of(context).toggleableActiveColor,
-          leading: const Icon(Icons.event),
-          title: const Text('HP Attack Retreat'),
+          title: const Text('HP Range'),
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -294,65 +292,69 @@ class _QuickSearchFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 300,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FormBuilderTextField(
-              // validator: FormBuilderValidators.required(context),
-              name: FormNames.searchByName.name,
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
+    return Padding(
+      padding: const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Quick search',
+            style: middleText,
+          ),
+          const Divider(
+            thickness: 2,
+          ),
+          FormBuilderTextField(
+            // validator: FormBuilderValidators.required(context),
+            name: FormNames.searchByName.name,
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.search,
+                color: Theme.of(context).toggleableActiveColor,
+              ),
+              labelText: 'Search by name',
+              labelStyle:
+                  TextStyle(color: Theme.of(context).toggleableActiveColor),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2,
                   color: Theme.of(context).toggleableActiveColor,
                 ),
-                labelText: 'Search by name',
-                labelStyle:
-                    TextStyle(color: Theme.of(context).toggleableActiveColor),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2,
-                    color: Theme.of(context).toggleableActiveColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 2,
-                    color: Theme.of(context).toggleableActiveColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    width: 2,
-                    color: errorBorderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    width: 2,
-                    color: errorBorderColor,
-                  ),
-                  borderRadius: BorderRadius.circular(15),
-                ),
+                borderRadius: BorderRadius.circular(15),
               ),
-              // icon: FaIcon(FontAwesomeIcons.search),
-              // hintText: 'Search by Name',
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 2,
+                  color: Theme.of(context).toggleableActiveColor,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 2,
+                  color: errorBorderColor,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  width: 2,
+                  color: errorBorderColor,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
             ),
+            // icon: FaIcon(FontAwesomeIcons.search),
+            // hintText: 'Search by Name',
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
 
-class _SearchDataList extends StatelessWidget {
-  const _SearchDataList({Key? key}) : super(key: key);
+class _SearchResultsList extends StatelessWidget {
+  const _SearchResultsList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -368,17 +370,60 @@ class _SearchDataList extends StatelessWidget {
             )
           : Column(
               children: [
-                CardsNumberAndDateWidget(
-                    counterName: 'Total Cards',
-                    length: state.searchCardContainer!.totalCards),
-                CardsListWidget(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CardsNumberAndDateWidget(
+                      counterName: 'Total Cards',
+                      length: data.totalCards,
+                    ),
+                    const _ToggleViewWidget(),
+                  ],
+                ),
+                CardListWidget(
                   searchCardContainer: data,
                   hasReachedMax: max,
+                  showAsList: data.showAsList,
                 ),
               ],
             ),
       error: (data) =>
           Center(child: Text(S.of(context).message_noData, style: smallText)),
+    );
+  }
+}
+
+class _ToggleViewWidget extends StatelessWidget {
+  const _ToggleViewWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<CardSearchBloc>().state;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Container(
+        height: 80,
+        width: 80,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: IconButton(
+          icon: state.searchCardContainer?.showAsList == true
+              ? const FaIcon(FontAwesomeIcons.images)
+              : const FaIcon(FontAwesomeIcons.list),
+          onPressed: () {
+            bool asList =
+                state.searchCardContainer?.showAsList == true ? false : true;
+            context
+                .read<CardSearchBloc>()
+                .add(CardSearchEvent.showAsList(asList));
+          },
+        ),
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_deck_builder/data/factories/screen_factory.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
+import 'package:pokemon_deck_builder/ui/screen_factory/screen_factory.dart';
 
 abstract class MainNavigationRouteNames {
   static const mainScreen = '/';
@@ -35,13 +35,8 @@ class MainNavigation {
         );
       case MainNavigationRouteNames.cardDetailScreen:
         final card = settings.arguments as CardDatum;
-        return PageRouteBuilder(
-          pageBuilder: (_, __, ___) =>
-              _screenFactory.makeCardDetailScreen(card),
-          transitionsBuilder: (_, a, __, c) => FadeTransition(
-            opacity: a,
-            child: c,
-          ),
+        return MaterialPageRoute(
+          builder: (_) => _screenFactory.makeCardDetailScreen(card),
         );
       default:
         const widget = Text('Navigation error!!!');

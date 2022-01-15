@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pokemon_deck_builder/data/factories/screen_factory.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
+import 'package:pokemon_deck_builder/ui/screen_factory/screen_factory.dart';
 import 'package:pokemon_deck_builder/ui/widgets/theme_switcher_widget.dart';
 
 class MainScreen extends StatefulWidget {

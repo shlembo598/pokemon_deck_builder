@@ -103,7 +103,7 @@ class _ListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: hasReachedMax ? itemCount : itemCount + 1,
@@ -118,8 +118,7 @@ class _ListWidget extends StatelessWidget {
                   );
                 },
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ListTile(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
@@ -137,6 +136,11 @@ class _ListWidget extends StatelessWidget {
                   ),
                 ),
               );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(
+          height: 10,
+        );
       },
     );
   }

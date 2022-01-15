@@ -16,44 +16,52 @@ class CardDetailScreen extends StatelessWidget {
     final String? cardNumber = card.number.toString();
 
     return Scaffold(
-      body: Center(
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics(),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Theme.of(context).cardColor,
+      body: SafeArea(
+        child: Center(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _BaseCardInfoWidget(
-                      rarity: rarity,
-                      cardNumber: cardNumber,
-                      cardsInSet: cardsInSet,
-                    ),
-                    SizedBox(
-                      height: 550,
-                      child: NetworkImageWidget(
-                        imageUrl: card.images!.large,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Theme.of(context).cardColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.arrow_back),
+                          Spacer(),
+                        ],
                       ),
-                    ),
-                    Text(
-                      card.name,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                    _MarketPriceWidget(card: card),
-                  ],
+                      _BaseCardInfoWidget(
+                        rarity: rarity,
+                        cardNumber: cardNumber,
+                        cardsInSet: cardsInSet,
+                      ),
+                      SizedBox(
+                        height: 550,
+                        child: NetworkImageWidget(
+                          imageUrl: card.images!.large,
+                        ),
+                      ),
+                      Text(
+                        card.name,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                      _MarketPriceWidget(card: card),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -108,18 +116,17 @@ class _MarketPriceWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String tcgPlayerNormalPrice = card.tcgplayer!.prices!.normal != null
-        ? card.tcgplayer!.prices!.normal!.market.toString()
-        : '';
-    final String tcgPlayerHoloPrice = card.tcgplayer!.prices!.holofoil != null
-        ? card.tcgplayer!.prices!.holofoil!.market.toString()
-        : '';
-    final String tcgPlayerDate =
-        DateFormatter.formatDate(card.tcgplayer!.updatedAt);
-    final String cardMarketPrice =
-        card.cardmarket!.prices!['averageSellPrice'].toString();
-    final String cardMarketDate =
-        DateFormatter.formatDate(card.cardmarket!.updatedAt);
+    final String? tcgPlayerNormalPrice =
+        card.tcgplayer?.prices?.normal?.market.toString();
+    final String? tcgPlayerHoloPrice =
+        card.tcgplayer?.prices?.holofoil?.market.toString();
+    final String? tcgPlayerDate =
+        DateFormatter.formatDate(card.tcgplayer?.updatedAt);
+    final String? cardMarketPrice =
+        card.cardmarket?.prices?['averageSellPrice'].toString();
+    final String? cardMarketDate =
+        DateFormatter.formatDate(card.cardmarket?.updatedAt);
+    final String? price = tcgPlayerNormalPrice ?? tcgPlayerHoloPrice;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,15 +140,13 @@ class _MarketPriceWidget extends StatelessWidget {
         ),
         _MarketPriceItemWidget(
           marketName: 'TcgPlayer',
-          normalPrice: tcgPlayerNormalPrice == ''
-              ? tcgPlayerHoloPrice
-              : tcgPlayerNormalPrice,
-          date: tcgPlayerDate,
+          normalPrice: price ?? ' ',
+          date: tcgPlayerDate ?? ' ',
         ),
         _MarketPriceItemWidget(
           marketName: 'CardMarket',
-          normalPrice: cardMarketPrice,
-          date: cardMarketDate,
+          normalPrice: cardMarketPrice ?? ' ',
+          date: cardMarketDate ?? ' ',
         ),
       ],
     );

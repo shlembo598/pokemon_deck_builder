@@ -38,7 +38,8 @@ class CardListWidget extends StatelessWidget {
         ? _ListWidget(
             cardDatum: cardDatum,
             itemCount: itemCount,
-            hasReachedMax: hasReachedMax)
+            hasReachedMax: hasReachedMax,
+          )
         : _GridWidget(
             cardDatum: cardDatum,
             itemCount: itemCount,
@@ -61,30 +62,30 @@ class _GridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+    return SliverGrid(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return index >= itemCount
+              ? const LoadingIndicatorWidget()
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      MainNavigationRouteNames.cardDetailScreen,
+                      arguments: cardDatum[index],
+                    );
+                  },
+                  child: NetworkImageWidget(
+                    imageUrl: cardDatum[index].images!.small,
+                  ),
+                );
+        },
+        childCount: hasReachedMax ? itemCount : itemCount + 1,
+      ),
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 150,
         childAspectRatio: 0.8 / 1,
         mainAxisSpacing: 8,
       ),
-      itemCount: hasReachedMax ? itemCount : itemCount + 1,
-      itemBuilder: (BuildContext context, int index) {
-        return index >= itemCount
-            ? const LoadingIndicatorWidget()
-            : GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    MainNavigationRouteNames.cardDetailScreen,
-                    arguments: cardDatum[index],
-                  );
-                },
-                child: NetworkImageWidget(
-                  imageUrl: cardDatum[index].images!.small,
-                ),
-              );
-      },
     );
   }
 }
@@ -103,45 +104,43 @@ class _ListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: hasReachedMax ? itemCount : itemCount + 1,
-      itemBuilder: (BuildContext context, int index) {
-        return index >= itemCount
-            ? const LoadingIndicatorWidget()
-            : GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pushNamed(
-                    MainNavigationRouteNames.cardDetailScreen,
-                    arguments: cardDatum[index],
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: ListTile(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return index >= itemCount
+              ? const LoadingIndicatorWidget()
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      MainNavigationRouteNames.cardDetailScreen,
+                      arguments: cardDatum[index],
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                      vertical: 5,
                     ),
-                    tileColor: Theme.of(context).cardColor,
-                    title: Text(
-                      cardDatum[index].name,
-                      style: middleBoldText,
-                    ),
-                    subtitle: Text(cardDatum[index].rarity!),
-                    leading: Text(
-                      cardDatum[index].number.toString(),
-                      style: middleText,
+                    child: ListTile(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      tileColor: Theme.of(context).cardColor,
+                      title: Text(
+                        cardDatum[index].name,
+                        style: middleBoldText,
+                      ),
+                      subtitle: Text(cardDatum[index].rarity!),
+                      leading: Text(
+                        cardDatum[index].number.toString(),
+                        style: middleText,
+                      ),
                     ),
                   ),
-                ),
-              );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(
-          height: 10,
-        );
-      },
+                );
+        },
+        childCount: hasReachedMax ? itemCount : itemCount + 1,
+      ),
     );
   }
 }

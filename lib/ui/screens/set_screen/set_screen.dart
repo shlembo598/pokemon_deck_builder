@@ -44,28 +44,22 @@ class _SetScreenState extends State<SetScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshList(context),
-        child: SingleChildScrollView(
+        child: CustomScrollView(
           controller: _scrollController,
-          child: Column(
-            children: [
-              _SetTitleWidget(
-                setName: widget.set.name,
-                imageUrl: widget.set.images.logo,
+          slivers: [
+            _SetTitleWidget(
+              setName: widget.set.name,
+              imageUrl: widget.set.images.logo,
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _ListInfoDelegate(
+                releaseDate: widget.set.releaseDate ?? '',
+                totalCards: widget.set.total,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CardsNumberAndDateWidget(
-                    counterName: S.of(context).setDetails_totalCards,
-                    length: widget.set.total.toString(),
-                    releaseDate: widget.set.releaseDate,
-                  ),
-                  const _ToggleViewWidget(),
-                ],
-              ),
-              const _CardListFromSetWidget(),
-            ],
-          ),
+            ),
+            const _CardListWidget(),
+          ],
         ),
       ),
     );
@@ -86,6 +80,53 @@ class _SetScreenState extends State<SetScreen> {
   }
 }
 
+class _ListInfoDelegate extends SliverPersistentHeaderDelegate {
+  final double height = 95;
+  final int? totalCards;
+  final String releaseDate;
+
+  _ListInfoDelegate({required this.totalCards, required this.releaseDate});
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor.withOpacity(0.8),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CardsNumberAndDateWidget(
+              counterName: S.of(context).setDetails_totalCards,
+              length: totalCards != null ? totalCards.toString() : ' ',
+              releaseDate: releaseDate,
+            ),
+            const _ToggleViewWidget(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+}
+
 class _SetTitleWidget extends StatelessWidget {
   final String setName;
   final String imageUrl;
@@ -98,38 +139,42 @@ class _SetTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: SizedBox(
-            height: 100,
-            width: 350,
-            child: Image.network(imageUrl),
+    return SliverToBoxAdapter(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: SizedBox(
+              height: 100,
+              width: 350,
+              child: Image.network(imageUrl),
+            ),
           ),
-        ),
-        Text(setName, style: largeBoldText),
-      ],
+          Text(setName, style: largeBoldText),
+        ],
+      ),
     );
   }
 }
 
-class _CardListFromSetWidget extends StatefulWidget {
-  const _CardListFromSetWidget({Key? key}) : super(key: key);
+class _CardListWidget extends StatefulWidget {
+  const _CardListWidget({Key? key}) : super(key: key);
 
   @override
-  State<_CardListFromSetWidget> createState() => _CardListFromSetWidgetState();
+  State<_CardListWidget> createState() => _CardListWidgetState();
 }
 
-class _CardListFromSetWidgetState extends State<_CardListFromSetWidget> {
+class _CardListWidgetState extends State<_CardListWidget> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<CardListBloc>().state;
 
     return state.when(
-      initial: (data) => const NoDataTextWidget(),
-      loading: (data) => const Center(child: CircularProgressIndicator()),
-      error: (data) => const _FailureWidget(),
+      initial: (data) => const SliverToBoxAdapter(child: NoDataTextWidget()),
+      loading: (data) => const SliverToBoxAdapter(
+        child: Center(child: CircularProgressIndicator()),
+      ),
+      error: (data) => const SliverToBoxAdapter(child: _FailureWidget()),
       loaded: (data, max) => CardListWidget(
         cardListContainer: data,
         hasReachedMax: max,
@@ -175,23 +220,15 @@ class _ToggleViewWidget extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
-      child: Container(
-        height: 80,
-        width: 80,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        child: IconButton(
-          icon: state.cardListContainer?.showAsList == true
-              ? const FaIcon(FontAwesomeIcons.images)
-              : const FaIcon(FontAwesomeIcons.list),
-          onPressed: () {
-            bool asList =
-                state.cardListContainer?.showAsList == true ? false : true;
-            context.read<CardListBloc>().add(CardListEvent.showAsList(asList));
-          },
-        ),
+      child: IconButton(
+        icon: state.cardListContainer?.showAsList == true
+            ? const FaIcon(FontAwesomeIcons.images)
+            : const FaIcon(FontAwesomeIcons.list),
+        onPressed: () {
+          bool asList =
+              state.cardListContainer?.showAsList == true ? false : true;
+          context.read<CardListBloc>().add(CardListEvent.showAsList(asList));
+        },
       ),
     );
   }

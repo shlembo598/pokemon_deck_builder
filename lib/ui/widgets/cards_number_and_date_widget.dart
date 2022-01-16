@@ -16,27 +16,19 @@ class CardsNumberAndDateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
-      child: Container(
-        height: 80,
-        width: 250,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-        ),
-        child: Center(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _TotalCardsWidget(
-                counterName: counterName ?? ' ',
-                totalCards: length ?? ' ',
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              _ReleaseDateWidget(releaseDate: releaseDate ?? ''),
-            ],
-          ),
+      child: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _TotalCardsWidget(
+              counterName: counterName ?? ' ',
+              totalCards: length ?? ' ',
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            _ReleaseDateWidget(releaseDate: releaseDate ?? ''),
+          ],
         ),
       ),
     );

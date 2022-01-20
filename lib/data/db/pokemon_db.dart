@@ -110,6 +110,13 @@ class PokemonDB {
     return result.map((json) => DeckDBModel.fromJson(json)).toList();
   }
 
+  Future<int> deleteDeck(int id) async {
+    final db = await instance.database;
+
+    return await db.delete(deckDbModelTableName,
+        where: '${DeckDbFields.id} = ?', whereArgs: [id]);
+  }
+
   Future close() async {
     final db = await instance.database;
     db.close();

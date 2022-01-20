@@ -1,13 +1,31 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
+import 'package:pokemon_deck_builder/data/db/pokemon_db.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/resources/app_images.dart';
 
-class DecksScreen extends StatelessWidget {
+class DecksScreen extends StatefulWidget {
   const DecksScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DecksScreen> createState() => _DecksScreenState();
+}
+
+class _DecksScreenState extends State<DecksScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // refreshDecks();
+  }
+
+  @override
+  void dispose() {
+    PokemonDB.instance.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +44,22 @@ class DecksScreen extends StatelessWidget {
               },
               child: const Text('Test'),
             ),
+            ElevatedButton(
+              onPressed: () async {
+                final decks = await PokemonDB.instance.readAllDecks();
+                log('------------------- New Deck ID is ${decks.toString()}');
+              },
+              child: const Text('Read All Decks'),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          const newDeck = DeckDBModel(name: 'Test');
+          final id = await PokemonDB.instance.createDeck(newDeck);
+          log('------------------- New Deck ID is $id');
+        },
         child: const Icon(FontAwesomeIcons.plus),
       ),
     );

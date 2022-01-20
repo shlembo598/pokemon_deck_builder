@@ -46,9 +46,9 @@ class CardSearchState with _$CardSearchState {
 }
 
 class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
-  final CardsRepository cardsRepository = CardsRepository();
+  final CardsRepository cardsRepository;
 
-  CardSearchBloc() : super(const InitialCardSearchState()) {
+  CardSearchBloc(this.cardsRepository) : super(const InitialCardSearchState()) {
     on<CardSearchEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           find: (event) => _find(event, emit),

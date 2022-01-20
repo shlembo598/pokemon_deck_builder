@@ -43,15 +43,15 @@ class CardListState with _$CardListState {
 }
 
 class CardListBloc extends Bloc<CardListEvent, CardListState> {
-  CardListBloc() : super(const InitialCardListState()) {
+  final CardsRepository cardsRepository;
+
+  CardListBloc(this.cardsRepository) : super(const InitialCardListState()) {
     on<CardListEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           fetch: (event) => _fetch(event, emit),
           showAsList: (event) => _showAsList(event, emit),
         ));
   }
-
-  final CardsRepository cardsRepository = CardsRepository();
 
   FutureOr<void> _showAsList(
     ShowAsListListEvent event,

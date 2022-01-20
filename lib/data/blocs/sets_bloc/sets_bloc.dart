@@ -40,9 +40,9 @@ class SetsState with _$SetsState {
 }
 
 class SetsBloc extends Bloc<SetsEvent, SetsState> {
-  final CardsRepository cardsRepository = CardsRepository();
+  final CardsRepository cardsRepository;
 
-  SetsBloc() : super(const InitialSetsState()) {
+  SetsBloc(this.cardsRepository) : super(const InitialSetsState()) {
     on<SetsEvent>((event, emit) => event.map(
           create: (event) => _getInitialData(event, emit),
           fetch: (event) => _fetch(event, emit),

@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
+import 'package:pokemon_deck_builder/data/blocs/card_to_deck_bloc/card_to_deck_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
@@ -62,21 +67,28 @@ class _GridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final state = context.watch<CardToDeckBloc>().state;
+
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
           return index >= itemCount
               ? const LoadingIndicatorWidget()
-              : GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      MainNavigationRouteNames.cardDetailScreen,
-                      arguments: cardDatum[index],
-                    );
-                  },
-                  child: NetworkImageWidget(
-                    imageUrl: cardDatum[index].images!.small,
-                  ),
+              : Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          MainNavigationRouteNames.cardDetailScreen,
+                          arguments: cardDatum[index],
+                        );
+                      },
+                      child: NetworkImageWidget(
+                        imageUrl: cardDatum[index].images!.small,
+                      ),
+                    ),
+                    const _AddRemoveCardWidget(),
+                  ],
                 );
         },
         childCount: hasReachedMax ? itemCount : itemCount + 1,
@@ -85,6 +97,103 @@ class _GridWidget extends StatelessWidget {
         maxCrossAxisExtent: 150,
         childAspectRatio: 0.8 / 1,
         mainAxisSpacing: 8,
+      ),
+    );
+  }
+}
+
+class _AddRemoveCardWidget extends StatelessWidget {
+  const _AddRemoveCardWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CardToDeckBloc>(
+      create: (context) => CardToDeckBloc(),
+      child: BlocBuilder<CardToDeckBloc, CardToDeckState>(
+        builder: (context, state) {
+          return state.when(
+            added: () => const _AddRemoveToggleWidget(
+              nameState: 'remove',
+            ),
+            removed: () => const _AddRemoveToggleWidget(
+              nameState: 'add',
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _AddRemoveToggleWidget extends StatelessWidget {
+  final String nameState;
+
+  const _AddRemoveToggleWidget({
+    Key? key,
+    required this.nameState,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget widget = const SizedBox.shrink();
+    switch (nameState) {
+      case 'add':
+        widget = Positioned(
+          right: 14,
+          child: GestureDetector(
+            onTap: () {
+              context.read<CardToDeckBloc>().add(const CardToDeckEvent.add());
+              log('Add');
+            },
+            child: const _ToggleIconWidget(
+              color: Colors.grey,
+            ),
+          ),
+        );
+        break;
+      case 'remove':
+        widget = Positioned(
+          right: 14,
+          child: GestureDetector(
+            onTap: () {
+              context
+                  .read<CardToDeckBloc>()
+                  .add(const CardToDeckEvent.remove());
+              log('Remove');
+            },
+            child: const _ToggleIconWidget(
+              color: Colors.green,
+            ),
+          ),
+        );
+        break;
+    }
+
+    return widget;
+  }
+}
+
+class _ToggleIconWidget extends StatelessWidget {
+  final Color color;
+  const _ToggleIconWidget({
+    Key? key,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 30,
+      height: 30,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: FaIcon(
+          FontAwesomeIcons.solidCheckCircle,
+          color: color,
+        ),
       ),
     );
   }

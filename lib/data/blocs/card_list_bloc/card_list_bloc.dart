@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -14,38 +13,44 @@ class CardListEvent with _$CardListEvent {
 
   const factory CardListEvent.create(
     String setId,
-  ) = CreateCardListEvent;
+  ) = _CreateCardListEvent;
 
-  const factory CardListEvent.fetch() = FetchCardListEvent;
+  const factory CardListEvent.fetch() = _FetchCardListEvent;
 
   const factory CardListEvent.showAsList(
     bool asList,
-  ) = ShowAsListListEvent;
+  ) = _ShowAsListListEvent;
 }
 
 @freezed
 class CardListState with _$CardListState {
   const CardListState._();
 
-  const factory CardListState.initial([CardListContainer? cardListContainer]) =
-      InitialCardListState;
+  CardListContainer? get container => maybeWhen<CardListContainer?>(
+        orElse: () => null,
+        loaded: (container, _) => container,
+      );
 
-  const factory CardListState.loading([CardListContainer? cardListContainer]) =
-      LoadingCardListState;
+  const factory CardListState.initial(CardListContainer? cardListContainer) =
+      _InitialCardListState;
 
-  const factory CardListState.loaded([
+  const factory CardListState.loading(CardListContainer? cardListContainer) =
+      _LoadingCardListState;
+
+  const factory CardListState.loaded(
     CardListContainer? cardListContainer,
-    @Default(false) bool hasReachedMax,
-  ]) = LoadedCardListState;
+    bool hasReachedMax,
+  ) = _LoadedCardListState;
 
-  const factory CardListState.error([CardListContainer? cardListContainer]) =
-      ErrorCardListState;
+  const factory CardListState.error(CardListContainer? cardListContainer) =
+      _ErrorCardListState;
 }
 
 class CardListBloc extends Bloc<CardListEvent, CardListState> {
   final CardsRepository cardsRepository;
 
-  CardListBloc(this.cardsRepository) : super(const InitialCardListState()) {
+  CardListBloc(this.cardsRepository)
+      : super(const _InitialCardListState(null)) {
     on<CardListEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           fetch: (event) => _fetch(event, emit),
@@ -54,7 +59,7 @@ class CardListBloc extends Bloc<CardListEvent, CardListState> {
   }
 
   FutureOr<void> _showAsList(
-    ShowAsListListEvent event,
+    _ShowAsListListEvent event,
     Emitter<CardListState> emit,
   ) {
     if (state.cardListContainer != null) {
@@ -67,12 +72,12 @@ class CardListBloc extends Bloc<CardListEvent, CardListState> {
   }
 
   FutureOr<void> _create(
-    CreateCardListEvent event,
+    _CreateCardListEvent event,
     Emitter<CardListState> emit,
   ) async {
     final CardListContainer container = CardListContainer(setId: event.setId);
     try {
-      emit(const CardListState.loading());
+      emit(CardListState.loading(state.container));
       final result = await cardsRepository
           .getCardsBySetId(event.setId)
           .timeout(const Duration(seconds: 5));
@@ -82,15 +87,14 @@ class CardListBloc extends Bloc<CardListEvent, CardListState> {
       ));
     } on TimeoutException {
       emit(CardListState.error(container));
-    } on dynamic catch (e) {
+    } on Object {
       emit(CardListState.error(container));
-      log(e.toString());
       rethrow;
     }
   }
 
   FutureOr<void> _fetch(
-    FetchCardListEvent event,
+    _FetchCardListEvent event,
     Emitter<CardListState> emit,
   ) async {
     if (state.cardListContainer != null) {
@@ -112,9 +116,8 @@ class CardListBloc extends Bloc<CardListEvent, CardListState> {
         }
       } on TimeoutException {
         emit(CardListState.error(container));
-      } on dynamic catch (e) {
+      } on Object {
         emit(CardListState.error(container));
-        log(e.toString());
         rethrow;
       }
     }

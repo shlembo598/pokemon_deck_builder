@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,9 +11,9 @@ part 'sets_bloc.freezed.dart';
 class SetsEvent with _$SetsEvent {
   const SetsEvent._();
 
-  const factory SetsEvent.create() = CreateSetsEvent;
+  const factory SetsEvent.create() = _CreateSetsEvent;
 
-  const factory SetsEvent.fetch() = FetchSetsEvent;
+  const factory SetsEvent.fetch() = _FetchSetsEvent;
 }
 
 @freezed
@@ -23,26 +22,26 @@ class SetsState with _$SetsState {
 
   const factory SetsState.initial([
     SetListContainer? setListContainer,
-  ]) = InitialSetsState;
+  ]) = _InitialSetsState;
 
   const factory SetsState.loading([
     SetListContainer? setListContainer,
-  ]) = LoadingSetsState;
+  ]) = _LoadingSetsState;
 
   const factory SetsState.loaded([
     SetListContainer? setListContainer,
     @Default(false) bool hasReachedMax,
-  ]) = LoadedSetsState;
+  ]) = _LoadedSetsState;
 
   const factory SetsState.error([
     SetListContainer? setListContainer,
-  ]) = ErrorSetsState;
+  ]) = _ErrorSetsState;
 }
 
 class SetsBloc extends Bloc<SetsEvent, SetsState> {
   final CardsRepository cardsRepository;
 
-  SetsBloc(this.cardsRepository) : super(const InitialSetsState()) {
+  SetsBloc(this.cardsRepository) : super(const _InitialSetsState()) {
     on<SetsEvent>((event, emit) => event.map(
           create: (event) => _getInitialData(event, emit),
           fetch: (event) => _fetch(event, emit),
@@ -50,7 +49,7 @@ class SetsBloc extends Bloc<SetsEvent, SetsState> {
   }
 
   FutureOr<void> _getInitialData(
-    CreateSetsEvent event,
+    _CreateSetsEvent event,
     Emitter<SetsState> emit,
   ) async {
     try {
@@ -64,14 +63,13 @@ class SetsBloc extends Bloc<SetsEvent, SetsState> {
       ));
     } on TimeoutException {
       emit(const SetsState.error());
-    } on dynamic catch (e) {
+    } on Object {
       emit(const SetsState.error());
-      log(e.toString());
       rethrow;
     }
   }
 
-  FutureOr<void> _fetch(FetchSetsEvent event, Emitter<SetsState> emit) async {
+  FutureOr<void> _fetch(_FetchSetsEvent event, Emitter<SetsState> emit) async {
     if (state.setListContainer != null) {
       final container = state.setListContainer;
       final int nextPage = container!.currentPage + 1;
@@ -91,9 +89,8 @@ class SetsBloc extends Bloc<SetsEvent, SetsState> {
         }
       } on TimeoutException {
         emit(const SetsState.error());
-      } on dynamic catch (e) {
+      } on Object {
         emit(const SetsState.error());
-        log(e.toString());
         rethrow;
       }
     }

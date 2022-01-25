@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -12,15 +11,15 @@ part 'card_search_bloc.freezed.dart';
 class CardSearchEvent with _$CardSearchEvent {
   const CardSearchEvent._();
 
-  const factory CardSearchEvent.create() = CreateCardSearchEvent;
+  const factory CardSearchEvent.create() = _CreateCardSearchEvent;
 
-  const factory CardSearchEvent.find(String parameter) = FindCardSearchEvent;
+  const factory CardSearchEvent.find(String parameter) = _FindCardSearchEvent;
 
-  const factory CardSearchEvent.fetch() = FetchCardSearchEvent;
+  const factory CardSearchEvent.fetch() = _FetchCardSearchEvent;
 
   const factory CardSearchEvent.showAsList(
     bool asList,
-  ) = ShowAsListSearchEvent;
+  ) = _ShowAsListSearchEvent;
 }
 
 @freezed
@@ -29,26 +28,27 @@ class CardSearchState with _$CardSearchState {
 
   const factory CardSearchState.initial([
     SearchCardContainer? searchCardContainer,
-  ]) = InitialCardSearchState;
+  ]) = _InitialCardSearchState;
 
   const factory CardSearchState.loading([
     SearchCardContainer? searchCardContainer,
-  ]) = LoadingCardSearchState;
+  ]) = _LoadingCardSearchState;
 
   const factory CardSearchState.loaded([
     SearchCardContainer? searchCardContainer,
     @Default(false) bool hasReachedMax,
-  ]) = LoadedCardSearchState;
+  ]) = _LoadedCardSearchState;
 
   const factory CardSearchState.error([
     SearchCardContainer? searchCardContainer,
-  ]) = ErrorCardSearchState;
+  ]) = _ErrorCardSearchState;
 }
 
 class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
   final CardsRepository cardsRepository;
 
-  CardSearchBloc(this.cardsRepository) : super(const InitialCardSearchState()) {
+  CardSearchBloc(this.cardsRepository)
+      : super(const _InitialCardSearchState()) {
     on<CardSearchEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           find: (event) => _find(event, emit),
@@ -58,7 +58,7 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
   }
 
   FutureOr<void> _create(
-    CreateCardSearchEvent event,
+    _CreateCardSearchEvent event,
     Emitter<CardSearchState> emit,
   ) {
     emit(
@@ -67,7 +67,7 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
   }
 
   FutureOr<void> _showAsList(
-    ShowAsListSearchEvent event,
+    _ShowAsListSearchEvent event,
     Emitter<CardSearchState> emit,
   ) {
     final container = state.searchCardContainer;
@@ -78,7 +78,7 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
   }
 
   FutureOr<void> _find(
-    FindCardSearchEvent event,
+    _FindCardSearchEvent event,
     Emitter<CardSearchState> emit,
   ) async {
     try {
@@ -92,15 +92,14 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
       ));
     } on TimeoutException {
       emit(const CardSearchState.error());
-    } on dynamic catch (e) {
+    } on Object {
       emit(const CardSearchState.error());
-      log(e.toString());
       rethrow;
     }
   }
 
   FutureOr<void> _fetch(
-    FetchCardSearchEvent event,
+    _FetchCardSearchEvent event,
     Emitter<CardSearchState> emit,
   ) async {
     if (state.searchCardContainer != null) {
@@ -122,9 +121,8 @@ class CardSearchBloc extends Bloc<CardSearchEvent, CardSearchState> {
         }
       } on TimeoutException {
         emit(CardSearchState.error(container));
-      } on dynamic catch (e) {
+      } on Object {
         emit(CardSearchState.error(container));
-        log(e.toString());
         rethrow;
       }
     }

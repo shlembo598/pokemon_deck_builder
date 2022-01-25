@@ -67,8 +67,6 @@ class _GridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final state = context.watch<CardToDeckBloc>().state;
-
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
@@ -87,7 +85,9 @@ class _GridWidget extends StatelessWidget {
                         imageUrl: cardDatum[index].images!.small,
                       ),
                     ),
-                    const _AddRemoveCardWidget(),
+                    _AddRemoveCardWidget(
+                      cardDatum: cardDatum[index],
+                    ),
                   ],
                 );
         },
@@ -103,7 +103,9 @@ class _GridWidget extends StatelessWidget {
 }
 
 class _AddRemoveCardWidget extends StatelessWidget {
-  const _AddRemoveCardWidget({Key? key}) : super(key: key);
+  final CardDatum cardDatum;
+  const _AddRemoveCardWidget({Key? key, required this.cardDatum})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +114,12 @@ class _AddRemoveCardWidget extends StatelessWidget {
       child: BlocBuilder<CardToDeckBloc, CardToDeckState>(
         builder: (context, state) {
           return state.when(
-            added: () => const _AddRemoveToggleWidget(
+            added: () => _AddRemoveToggleWidget(
+              cardDatum: cardDatum,
               nameState: 'remove',
             ),
-            removed: () => const _AddRemoveToggleWidget(
+            removed: () => _AddRemoveToggleWidget(
+              cardDatum: cardDatum,
               nameState: 'add',
             ),
           );
@@ -126,11 +130,13 @@ class _AddRemoveCardWidget extends StatelessWidget {
 }
 
 class _AddRemoveToggleWidget extends StatelessWidget {
+  final CardDatum cardDatum;
   final String nameState;
 
   const _AddRemoveToggleWidget({
     Key? key,
     required this.nameState,
+    required this.cardDatum,
   }) : super(key: key);
 
   @override
@@ -142,7 +148,9 @@ class _AddRemoveToggleWidget extends StatelessWidget {
           right: 14,
           child: GestureDetector(
             onTap: () {
-              context.read<CardToDeckBloc>().add(const CardToDeckEvent.add());
+              context
+                  .read<CardToDeckBloc>()
+                  .add(CardToDeckEvent.add(cardDatum: cardDatum));
               log('Add');
             },
             child: const _ToggleIconWidget(
@@ -158,7 +166,7 @@ class _AddRemoveToggleWidget extends StatelessWidget {
             onTap: () {
               context
                   .read<CardToDeckBloc>()
-                  .add(const CardToDeckEvent.remove());
+                  .add(CardToDeckEvent.remove(cardDatum: cardDatum));
               log('Remove');
             },
             child: const _ToggleIconWidget(

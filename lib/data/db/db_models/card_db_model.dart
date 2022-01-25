@@ -29,10 +29,10 @@ class CardDBModel with _$CardDBModel {
   const factory CardDBModel(
     @JsonKey(name: 'id', required: true, disallowNullValue: true) String id,
     @JsonKey(name: 'name', required: true, disallowNullValue: true) String name,
-    @JsonKey(name: 'cardData', required: true, disallowNullValue: true)
+    @JsonKey(name: 'card_data', required: true, disallowNullValue: true)
         String cardData,
-    @JsonKey(name: 'imageSmall') @Unit8ListConverter() Uint8List imageSmall,
-    @JsonKey(name: 'imageLarge') @Unit8ListConverter() Uint8List imageLarge,
+    @JsonKey(name: 'image_small') @Unit8ListConverter() Uint8List imageSmall,
+    @JsonKey(name: 'image_large') @Unit8ListConverter() Uint8List imageLarge,
   ) = _CardDBModel;
 
   factory CardDBModel.fromJson(Map<String, dynamic> json) =>

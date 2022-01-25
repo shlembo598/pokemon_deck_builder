@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pokemon_deck_builder/data/db/db_models/card_db_model.dart';
 import 'package:pokemon_deck_builder/data/db/db_models/deck_cards_db_model.dart';
+import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db_models/deck_db_model.dart';
@@ -60,12 +63,23 @@ class PokemonDB {
     )''');
   }
 
-  void addCard(CardDBModel card) async {
+  void addCard(CardDatum cardDatum) async {
     final db = await instance.database;
-    await db.insert(cardDbModelTableName, card.toJson());
+    final id = cardDatum.id;
+    final name = cardDatum.name;
+    final cardData = json.encode(cardDatum.toString());
+
+    final responseData = await get(Uri.parse(cardDatum.images!.small));
+    final imageSmall = responseData.bodyBytes;
+
+    var image = await get(Uri.parse(cardDatum.images!.small));
+    var bytes = image.bodyBytes;
+
+    final newCard = CardDBModel(id, name, cardData, imageSmall, bytes);
+    await db.insert(cardDbModelTableName, newCard.toJson());
   }
 
-  Future<CardDBModel> readCard(int id) async {
+  Future<CardDBModel> readCard(String id) async {
     final db = await instance.database;
     final maps = await db.query(
       cardDbModelTableName,
@@ -81,11 +95,12 @@ class PokemonDB {
     }
   }
 
-  Future<DeckDBModel> createDeck(DeckDBModel deck) async {
+  Future<DeckDBModel> createDeck(String deckName) async {
     final db = await instance.database;
-    final id = await db.insert(deckDbModelTableName, deck.toJson());
+    final newDeck = DeckDBModel(name: deckName);
+    final id = await db.insert(deckDbModelTableName, newDeck.toJson());
 
-    return deck.copyWith(id: id);
+    return newDeck.copyWith(id: id);
   }
 
   Future<DeckDBModel> readDeck(int id) async {

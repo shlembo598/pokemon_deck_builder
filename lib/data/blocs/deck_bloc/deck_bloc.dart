@@ -15,13 +15,13 @@ class DeckEvent with _$DeckEvent {
     String name,
   ) = CreateDeckEvent;
 
-  const factory DeckEvent.read() = ReadDeckEvent;
+  const factory DeckEvent.read() = _ReadDeckEvent;
 
-  const factory DeckEvent.update() = UpdateDeckEvent;
+  const factory DeckEvent.update() = _UpdateDeckEvent;
 
   const factory DeckEvent.delete(
     int id,
-  ) = DeleteDeckEvent;
+  ) = _DeleteDeckEvent;
 }
 
 @freezed
@@ -30,15 +30,15 @@ class DeckState with _$DeckState {
 
   const factory DeckState.initial([
     List<DeckDBModel>? deckList,
-  ]) = InitialDeckState;
+  ]) = _InitialDeckState;
 
   const factory DeckState.loaded([
     List<DeckDBModel>? deckList,
-  ]) = LoadedDeckState;
+  ]) = _LoadedDeckState;
 }
 
 class DeckBloc extends Bloc<DeckEvent, DeckState> {
-  DeckBloc() : super(const InitialDeckState()) {
+  DeckBloc() : super(const _InitialDeckState()) {
     on<DeckEvent>((event, emit) => event.map(
           create: (event) => _create(event, emit),
           read: (event) => _read(event, emit),
@@ -51,24 +51,23 @@ class DeckBloc extends Bloc<DeckEvent, DeckState> {
     CreateDeckEvent event,
     Emitter<DeckState> emit,
   ) async {
-    final newDeck = DeckDBModel(name: event.name);
-    await PokemonDB.instance.createDeck(newDeck);
+    await PokemonDB.instance.createDeck(event.name);
     add(const DeckEvent.read());
   }
 
-  FutureOr<void> _read(ReadDeckEvent event, Emitter<DeckState> emit) async {
+  FutureOr<void> _read(_ReadDeckEvent event, Emitter<DeckState> emit) async {
     List<DeckDBModel> decks = [];
     decks = await PokemonDB.instance.readAllDecks();
     emit(DeckState.loaded(decks));
   }
 
   FutureOr<void> _update(
-    UpdateDeckEvent event,
+    _UpdateDeckEvent event,
     Emitter<DeckState> emit,
   ) {}
 
   FutureOr<void> _delete(
-    DeleteDeckEvent event,
+    _DeleteDeckEvent event,
     Emitter<DeckState> emit,
   ) async {
     await PokemonDB.instance.deleteDeck(event.id);

@@ -240,13 +240,13 @@ class _BottomSheetDeckListState extends State<_BottomSheetDeckList> {
                         ),
                         child: ListTile(
                           onTap: () {
-                            // final deckId = decksList[index].id;
-                            // widget.cardToDeckBloc.add(
-                            //   CardToDeckEvent.add(
-                            //     cardDatum: widget.cardDatum,
-                            //     deckId: deckId,
-                            //   ),
-                            // );
+                            final deckId = decksList[index].id;
+                            widget.cardToDeckBloc.add(
+                              CardToDeckEvent.add(
+                                cardDatum: widget.cardDatum,
+                                deckId: deckId,
+                              ),
+                            );
                             Navigator.of(context).pop();
                           },
                           shape: RoundedRectangleBorder(

@@ -54,12 +54,12 @@ class PokemonDB {
     ${DeckDbFields.name} $textTypeNoNull
     )''');
 
-    await db.execute('''CREATE TABLE $deckCardsDBModel(
-    ${DeckCardsDFields.id} $idType,
-    ${DeckCardsDFields.cardId} $textTypeNoNull,
-    ${DeckCardsDFields.deckId} $integerTypeNotNull,
-    FOREIGN KEY (${DeckCardsDFields.cardId}) REFERENCES $cardDbModelTableName (${CardDbFields.id}),
-    FOREIGN KEY (${DeckCardsDFields.deckId}) REFERENCES $deckDbModelTableName (${DeckDbFields.id})
+    await db.execute('''CREATE TABLE $deckCardsDBModelTableName(
+    ${DeckCardsDBFields.id} $idType,
+    ${DeckCardsDBFields.cardId} $textTypeNoNull,
+    ${DeckCardsDBFields.deckId} $integerTypeNotNull,
+    FOREIGN KEY (${DeckCardsDBFields.cardId}) REFERENCES $cardDbModelTableName (${CardDbFields.id}),
+    FOREIGN KEY (${DeckCardsDBFields.deckId}) REFERENCES $deckDbModelTableName (${DeckDbFields.id})
     )''');
   }
 
@@ -77,6 +77,12 @@ class PokemonDB {
 
     final newCard = CardDBModel(id, name, cardData, imageSmall, bytes);
     await db.insert(cardDbModelTableName, newCard.toJson());
+  }
+
+  void addCardToDeck(String cardId, int deckId) async {
+    final db = await instance.database;
+    final cardInDeck = DeckCardsDBModel(cardId: cardId, deckId: deckId);
+    await db.insert(deckCardsDBModelTableName, cardInDeck.toJson());
   }
 
   Future<CardDBModel> readCard(String id) async {
@@ -115,6 +121,34 @@ class PokemonDB {
       return DeckDBModel.fromJson(maps.first);
     } else {
       throw Exception('ID $id not found');
+    }
+  }
+
+  Future<List<CardDBModel>> readCardsDeck(int deckId) async {
+    final db = await instance.database;
+
+    ///На случай чистки таблиц
+    // await db.rawQuery(
+    //   'DELETE FROM $cardDbModelTableName',
+    // );
+    // await db.rawQuery(
+    //   'DELETE FROM $deckCardsDBModelTableName',
+    // );
+
+    final maps = await db.rawQuery(
+      'SELECT $cardDbModelTableName.* FROM $cardDbModelTableName, '
+      '$deckCardsDBModelTableName WHERE '
+      '$cardDbModelTableName.${CardDbFields.id} = '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} AND '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
+    );
+
+    if (maps.isNotEmpty) {
+      final cardList = maps.map((json) => CardDBModel.fromJson(json)).toList();
+
+      return cardList;
+    } else {
+      throw Exception('ID $deckId not found');
     }
   }
 

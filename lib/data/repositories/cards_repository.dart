@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:pokemon_deck_builder/configuration/app_configuration.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 
 class CardsRepository {
   final AppConfiguration configuration = AppConfiguration();

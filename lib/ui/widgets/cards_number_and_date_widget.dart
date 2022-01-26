@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 

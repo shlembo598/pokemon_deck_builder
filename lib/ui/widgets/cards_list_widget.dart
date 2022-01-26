@@ -3,13 +3,15 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_to_deck_bloc/card_to_deck_bloc.dart';
+import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
+import 'add_deck_db_widget.dart';
 import 'loading_indicator_widget.dart';
 import 'network_image_widget.dart';
 
@@ -104,6 +106,7 @@ class _GridWidget extends StatelessWidget {
 
 class _AddRemoveCardWidget extends StatelessWidget {
   final CardDatum cardDatum;
+
   const _AddRemoveCardWidget({Key? key, required this.cardDatum})
       : super(key: key);
 
@@ -113,12 +116,16 @@ class _AddRemoveCardWidget extends StatelessWidget {
       create: (context) => CardToDeckBloc(),
       child: BlocBuilder<CardToDeckBloc, CardToDeckState>(
         builder: (context, state) {
+          final cardToDeckBloc = context.read<CardToDeckBloc>();
+
           return state.when(
             added: () => _AddRemoveToggleWidget(
+              cardToDeckBloc: cardToDeckBloc,
               cardDatum: cardDatum,
               nameState: 'remove',
             ),
             removed: () => _AddRemoveToggleWidget(
+              cardToDeckBloc: cardToDeckBloc,
               cardDatum: cardDatum,
               nameState: 'add',
             ),
@@ -130,6 +137,7 @@ class _AddRemoveCardWidget extends StatelessWidget {
 }
 
 class _AddRemoveToggleWidget extends StatelessWidget {
+  final CardToDeckBloc cardToDeckBloc;
   final CardDatum cardDatum;
   final String nameState;
 
@@ -137,6 +145,7 @@ class _AddRemoveToggleWidget extends StatelessWidget {
     Key? key,
     required this.nameState,
     required this.cardDatum,
+    required this.cardToDeckBloc,
   }) : super(key: key);
 
   @override
@@ -148,9 +157,18 @@ class _AddRemoveToggleWidget extends StatelessWidget {
           right: 14,
           child: GestureDetector(
             onTap: () {
-              context
-                  .read<CardToDeckBloc>()
-                  .add(CardToDeckEvent.add(cardDatum: cardDatum));
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return _BottomSheetDeckList(
+                    cardToDeckBloc: cardToDeckBloc,
+                    cardDatum: cardDatum,
+                  );
+                },
+              );
+              // context
+              //     .read<CardToDeckBloc>()
+              //     .add(CardToDeckEvent.add(cardDatum: cardDatum));
               log('Add');
             },
             child: const _ToggleIconWidget(
@@ -181,8 +199,90 @@ class _AddRemoveToggleWidget extends StatelessWidget {
   }
 }
 
+class _BottomSheetDeckList extends StatefulWidget {
+  final CardDatum cardDatum;
+  final CardToDeckBloc cardToDeckBloc;
+
+  const _BottomSheetDeckList({
+    Key? key,
+    required this.cardDatum,
+    required this.cardToDeckBloc,
+  }) : super(key: key);
+
+  @override
+  _BottomSheetDeckListState createState() => _BottomSheetDeckListState();
+}
+
+class _BottomSheetDeckListState extends State<_BottomSheetDeckList> {
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<DeckBloc>().state;
+
+    return state.when(
+      initial: (decksList) => const CircularProgressIndicator(),
+      loaded: (decksList) => decksList != null && decksList.isNotEmpty
+          ? Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: FaIcon(FontAwesomeIcons.caretDown),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: decksList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 5,
+                        ),
+                        child: ListTile(
+                          onTap: () {
+                            // final deckId = decksList[index].id;
+                            // widget.cardToDeckBloc.add(
+                            //   CardToDeckEvent.add(
+                            //     cardDatum: widget.cardDatum,
+                            //     deckId: deckId,
+                            //   ),
+                            // );
+                            Navigator.of(context).pop();
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          tileColor: Theme.of(context).cardColor,
+                          title: Text(decksList[index].name ?? ' '),
+                          leading: Text((index + 1).toString()),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )
+          : Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "You don't have any decks yet, do you want to create one?",
+                    ),
+                  ),
+                  AddDeckFBWidget(),
+                ],
+              ),
+            ),
+    );
+  }
+}
+
 class _ToggleIconWidget extends StatelessWidget {
   final Color color;
+
   const _ToggleIconWidget({
     Key? key,
     required this.color,

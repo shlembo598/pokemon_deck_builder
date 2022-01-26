@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
 import 'package:pokemon_deck_builder/data/db/pokemon_db.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/resources/app_images.dart';
+import 'package:pokemon_deck_builder/ui/widgets/add_deck_db_widget.dart';
 
 class DecksScreen extends StatefulWidget {
   const DecksScreen({Key? key}) : super(key: key);
@@ -66,25 +66,10 @@ class _DecksScreenState extends State<DecksScreen> {
       ),
       floatingActionButton: state.when(
         initial: (decksList) => null,
-        loaded: (decksList) =>
-            decksList != null && decksList.isEmpty ? null : const _AddDeckFB(),
+        loaded: (decksList) => decksList != null && decksList.isEmpty
+            ? null
+            : const AddDeckFBWidget(),
       ),
-    );
-  }
-}
-
-class _AddDeckFB extends StatelessWidget {
-  const _AddDeckFB({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () async {
-        context.read<DeckBloc>().add(const DeckEvent.create('Deck'));
-      },
-      child: const Icon(FontAwesomeIcons.plus),
     );
   }
 }
@@ -116,7 +101,7 @@ class EmptyDecksWidget extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          _AddDeckFB(),
+          const AddDeckFBWidget(),
         ],
       ),
     );

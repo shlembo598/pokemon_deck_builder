@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 
 class AdvancedSearchWidget extends StatelessWidget {
   const AdvancedSearchWidget({

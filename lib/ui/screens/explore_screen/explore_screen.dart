@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/sets_bloc/sets_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 import 'package:pokemon_deck_builder/ui/widgets/loading_indicator_widget.dart';

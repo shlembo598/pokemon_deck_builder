@@ -27,10 +27,11 @@ class CardDbFields {
 @freezed
 class CardDBModel with _$CardDBModel {
   const factory CardDBModel(
-    @JsonKey(name: 'id', required: true, disallowNullValue: true) String id,
-    @JsonKey(name: 'name', required: true, disallowNullValue: true) String name,
+    @JsonKey(name: 'id', required: true, disallowNullValue: true) String? id,
+    @JsonKey(name: 'name', required: true, disallowNullValue: true)
+        String? name,
     @JsonKey(name: 'card_data', required: true, disallowNullValue: true)
-        String cardData,
+        String? cardData,
     @JsonKey(name: 'image_small') @Unit8ListConverter() Uint8List imageSmall,
     @JsonKey(name: 'image_large') @Unit8ListConverter() Uint8List imageLarge,
   ) = _CardDBModel;

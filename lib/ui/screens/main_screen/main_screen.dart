@@ -26,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           _screenTitleText(
             context,
@@ -42,6 +43,7 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
         currentIndex: _selectedTab,
         items: [
           BottomNavigationBarItem(

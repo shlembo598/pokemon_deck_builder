@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/widgets/cards_list_widget.dart';
 import 'package:pokemon_deck_builder/ui/widgets/cards_number_and_date_widget.dart';

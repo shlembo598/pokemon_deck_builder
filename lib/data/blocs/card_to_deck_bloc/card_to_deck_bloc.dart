@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pokemon_deck_builder/data/db/pokemon_db.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 
 part 'card_to_deck_bloc.freezed.dart';
@@ -10,7 +11,7 @@ part 'card_to_deck_bloc.freezed.dart';
 class CardToDeckEvent with _$CardToDeckEvent {
   const CardToDeckEvent._();
 
-  const factory CardToDeckEvent.add({CardDatum? cardDatum}) =
+  const factory CardToDeckEvent.add({CardDatum? cardDatum, int? deckId}) =
       _AddCardToDeckEvent;
 
   const factory CardToDeckEvent.remove({CardDatum? cardDatum}) =
@@ -38,8 +39,11 @@ class CardToDeckBloc extends Bloc<CardToDeckEvent, CardToDeckState> {
     _AddCardToDeckEvent event,
     Emitter<CardToDeckState> emit,
   ) async {
-    // PokemonDB.instance.addCard(event.cardDatum!);
-    emit(CardToDeckState.added());
+    final card = event.cardDatum!;
+    final deckId = event.deckId!;
+    PokemonDB.instance.addCard(card);
+    PokemonDB.instance.addCardToDeck(event.cardDatum!.id, deckId);
+    emit(const CardToDeckState.added());
   }
 
   FutureOr<void> _remove(
@@ -48,6 +52,6 @@ class CardToDeckBloc extends Bloc<CardToDeckEvent, CardToDeckState> {
   ) async {
     // final findedCard = await PokemonDB.instance.readCard(event.cardDatum!.id);
     // log(findedCard.imageSmall.length.toString());
-    emit(CardToDeckState.removed());
+    emit(const CardToDeckState.removed());
   }
 }

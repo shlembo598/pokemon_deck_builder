@@ -71,6 +71,7 @@ class DeckBloc extends Bloc<DeckEvent, DeckState> {
     Emitter<DeckState> emit,
   ) async {
     await PokemonDB.instance.deleteDeck(event.id);
+    // await PokemonDB.instance.readCardsDeck(event.id);
     add(const DeckEvent.read());
   }
 }

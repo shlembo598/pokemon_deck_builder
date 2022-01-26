@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
+import 'package:pokemon_deck_builder/ui/widgets/custom_fb_text_field_widget.dart';
 
 class QuickSearchWidget extends StatelessWidget {
   const QuickSearchWidget({
@@ -21,48 +21,10 @@ class QuickSearchWidget extends StatelessWidget {
           const Divider(
             thickness: 2,
           ),
-          FormBuilderTextField(
-            // validator: FormBuilderValidators.required(context),
+          CustomFBTextFieldWidget(
+            label: 'Search by name',
+            errorText: 'The field cannot be empty',
             name: FormNames.searchByName.name,
-            decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: Theme.of(context).toggleableActiveColor,
-              ),
-              labelText: 'Search by name',
-              labelStyle:
-                  TextStyle(color: Theme.of(context).toggleableActiveColor),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 2,
-                  color: Theme.of(context).toggleableActiveColor,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 2,
-                  color: Theme.of(context).toggleableActiveColor,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  width: 2,
-                  color: errorBorderColor,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  width: 2,
-                  color: errorBorderColor,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            // icon: FaIcon(FontAwesomeIcons.search),
-            // hintText: 'Search by Name',
           ),
         ],
       ),

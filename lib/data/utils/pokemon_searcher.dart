@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:pokemon_deck_builder/configuration/constants.dart';
 import 'package:pokemon_deck_builder/data/blocs/card_search_bloc/card_search_bloc.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 
 class PokemonSearcher {
   late GlobalKey<FormBuilderState> _key;

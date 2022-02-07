@@ -24,6 +24,13 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "cardDetailScreen_pricingTitle":
             MessageLookupByLibrary.simpleMessage("Pricing"),
+        "deckDetailScreen_emptyDeck": MessageLookupByLibrary.simpleMessage(
+            "You haven\'t added any cards yet"),
+        "deckDetailScreen_removeCardButtonText":
+            MessageLookupByLibrary.simpleMessage("Remove card"),
+        "decksScreen_deleteDeckDialogTitle":
+            MessageLookupByLibrary.simpleMessage(
+                "Do you really want to delete deck with name:"),
         "decksScreen_noDecksMessage": MessageLookupByLibrary.simpleMessage(
             "You don\'t have any decks created yet, would you like to create one?"),
         "decks_screen_title": MessageLookupByLibrary.simpleMessage("Decks"),
@@ -33,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "message_error":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "message_noData": MessageLookupByLibrary.simpleMessage("No data"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "searchScreen_cardCounterName":
             MessageLookupByLibrary.simpleMessage("Cards on screen"),
         "searchScreen_noResults":
@@ -41,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "setDetails_ReleaseDate":
             MessageLookupByLibrary.simpleMessage("Release date"),
         "setDetails_totalCards":
-            MessageLookupByLibrary.simpleMessage("Total Cards")
+            MessageLookupByLibrary.simpleMessage("Total Cards"),
+        "yes": MessageLookupByLibrary.simpleMessage("Yes")
       };
 }

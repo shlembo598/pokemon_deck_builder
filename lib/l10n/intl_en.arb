@@ -1,4 +1,6 @@
 {
+  "no" : "No",
+  "yes" : "Yes",
   "search_screen_title" : "Search",
   "explore_screen_title" : "Explore",
   "explore_screen_errorButtonText" : "Try Again",
@@ -10,5 +12,8 @@
   "decksScreen_noDecksMessage" : "You don't have any decks created yet, would you like to create one?",
   "cardDetailScreen_pricingTitle" : "Pricing",
   "searchScreen_noResults" : "Nothing found",
-  "searchScreen_cardCounterName" : "Cards on screen"
+  "searchScreen_cardCounterName" : "Cards on screen",
+  "deckDetailScreen_removeCardButtonText" : "Remove card",
+  "deckDetailScreen_emptyDeck" : "You haven't added any cards yet",
+  "decksScreen_deleteDeckDialogTitle" : "Do you really want to delete deck with name:"
 }

@@ -13,3 +13,5 @@ final appThemeDark = themeDark.copyWith(
   ),
   appBarTheme: const AppBarTheme(backgroundColor: Colors.black45),
 );
+
+const Color iconColor = Colors.grey;

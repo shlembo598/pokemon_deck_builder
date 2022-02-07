@@ -14,7 +14,7 @@ class CardDbFields {
     name,
     cardData,
     imageSmall,
-    imageLarge
+    imageLarge,
   ];
 
   static const String id = 'id';

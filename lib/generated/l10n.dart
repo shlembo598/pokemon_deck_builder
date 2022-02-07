@@ -50,6 +50,26 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Search`
   String get search_screen_title {
     return Intl.message(
@@ -165,6 +185,36 @@ class S {
     return Intl.message(
       'Cards on screen',
       name: 'searchScreen_cardCounterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove card`
+  String get deckDetailScreen_removeCardButtonText {
+    return Intl.message(
+      'Remove card',
+      name: 'deckDetailScreen_removeCardButtonText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You haven't added any cards yet`
+  String get deckDetailScreen_emptyDeck {
+    return Intl.message(
+      'You haven\'t added any cards yet',
+      name: 'deckDetailScreen_emptyDeck',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you really want to delete deck with name:`
+  String get decksScreen_deleteDeckDialogTitle {
+    return Intl.message(
+      'Do you really want to delete deck with name:',
+      name: 'decksScreen_deleteDeckDialogTitle',
       desc: '',
       args: [],
     );

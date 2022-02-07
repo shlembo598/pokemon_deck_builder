@@ -14,7 +14,7 @@ class CardToDeckEvent with _$CardToDeckEvent {
   const factory CardToDeckEvent.add({CardDatum? cardDatum, int? deckId}) =
       _AddCardToDeckEvent;
 
-  const factory CardToDeckEvent.remove({CardDatum? cardDatum}) =
+  const factory CardToDeckEvent.remove({String? cardId, int? deckId}) =
       _RemoveCardToDeckEvent;
 }
 
@@ -50,8 +50,11 @@ class CardToDeckBloc extends Bloc<CardToDeckEvent, CardToDeckState> {
     _RemoveCardToDeckEvent event,
     Emitter<CardToDeckState> emit,
   ) async {
-    // final findedCard = await PokemonDB.instance.readCard(event.cardDatum!.id);
-    // log(findedCard.imageSmall.length.toString());
-    emit(const CardToDeckState.removed());
+    final remove = await PokemonDB.instance
+        .removeCardFromDeck(event.cardId!, event.deckId!);
+    if (remove) {
+      emit(const CardToDeckState.removed());
+      emit(const CardToDeckState.added());
+    }
   }
 }

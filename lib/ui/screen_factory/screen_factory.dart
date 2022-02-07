@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
-import 'package:pokemon_deck_builder/data/blocs/card_list_bloc/card_list_bloc.dart';
+import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/data/repositories/cards_repository.dart';
-import 'package:pokemon_deck_builder/ui/screens/card_detail_screen/card_datail_screen.dart';
 import 'package:pokemon_deck_builder/ui/screens/screens.dart';
-import 'package:pokemon_deck_builder/ui/screens/set_screen/set_screen.dart';
 
 class ScreenFactory {
   final CardsRepository cardsRepository = CardsRepository();
@@ -19,7 +17,7 @@ class ScreenFactory {
   Widget makeSearchScreen() {
     return BlocProvider<CardSearchBloc>(
       create: (context) => CardSearchBloc(cardsRepository),
-      child: SearchScreen(),
+      child: const SearchScreen(),
     );
   }
 
@@ -49,5 +47,15 @@ class ScreenFactory {
 
   Widget makeDecksScreen() {
     return const DecksScreen();
+  }
+
+  Widget makeDeckDetailScreen(DeckDBModel deck) {
+    return BlocProvider<DeckDetailBloc>(
+      create: (context) => DeckDetailBloc()..add(DeckDetailEvent.load(deck)),
+      child: DeckDetailScreen(
+        deckId: deck.id!,
+        deckName: deck.name ?? '',
+      ),
+    );
   }
 }

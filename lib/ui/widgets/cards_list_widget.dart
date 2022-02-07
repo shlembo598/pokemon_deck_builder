@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +9,7 @@ import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
+import '../theme/app_themes.dart';
 import 'add_deck_db_widget.dart';
 import 'loading_indicator_widget.dart';
 import 'network_image_widget.dart';
@@ -87,7 +86,7 @@ class _GridWidget extends StatelessWidget {
                         imageUrl: cardDatum[index].images!.small,
                       ),
                     ),
-                    _AddRemoveCardWidget(
+                    AddRemoveCardWidget(
                       cardDatum: cardDatum[index],
                     ),
                   ],
@@ -104,10 +103,10 @@ class _GridWidget extends StatelessWidget {
   }
 }
 
-class _AddRemoveCardWidget extends StatelessWidget {
+class AddRemoveCardWidget extends StatelessWidget {
   final CardDatum cardDatum;
 
-  const _AddRemoveCardWidget({Key? key, required this.cardDatum})
+  const AddRemoveCardWidget({Key? key, required this.cardDatum})
       : super(key: key);
 
   @override
@@ -118,16 +117,10 @@ class _AddRemoveCardWidget extends StatelessWidget {
         builder: (context, state) {
           final cardToDeckBloc = context.read<CardToDeckBloc>();
 
-          return state.when(
-            added: () => _AddRemoveToggleWidget(
+          return state.maybeWhen(
+            orElse: () => _AddCardToDeckWidget(
               cardToDeckBloc: cardToDeckBloc,
               cardDatum: cardDatum,
-              nameState: 'remove',
-            ),
-            removed: () => _AddRemoveToggleWidget(
-              cardToDeckBloc: cardToDeckBloc,
-              cardDatum: cardDatum,
-              nameState: 'add',
             ),
           );
         },
@@ -136,66 +129,35 @@ class _AddRemoveCardWidget extends StatelessWidget {
   }
 }
 
-class _AddRemoveToggleWidget extends StatelessWidget {
+class _AddCardToDeckWidget extends StatelessWidget {
   final CardToDeckBloc cardToDeckBloc;
   final CardDatum cardDatum;
-  final String nameState;
 
-  const _AddRemoveToggleWidget({
+  const _AddCardToDeckWidget({
     Key? key,
-    required this.nameState,
     required this.cardDatum,
     required this.cardToDeckBloc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Widget widget = const SizedBox.shrink();
-    switch (nameState) {
-      case 'add':
-        widget = Positioned(
-          right: 14,
-          child: GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: (context) {
-                  return _BottomSheetDeckList(
-                    cardToDeckBloc: cardToDeckBloc,
-                    cardDatum: cardDatum,
-                  );
-                },
+    return Positioned(
+      right: 14,
+      child: GestureDetector(
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return _BottomSheetDeckList(
+                cardToDeckBloc: cardToDeckBloc,
+                cardDatum: cardDatum,
               );
-              // context
-              //     .read<CardToDeckBloc>()
-              //     .add(CardToDeckEvent.add(cardDatum: cardDatum));
-              log('Add');
             },
-            child: const _ToggleIconWidget(
-              color: Colors.grey,
-            ),
-          ),
-        );
-        break;
-      case 'remove':
-        widget = Positioned(
-          right: 14,
-          child: GestureDetector(
-            onTap: () {
-              context
-                  .read<CardToDeckBloc>()
-                  .add(CardToDeckEvent.remove(cardDatum: cardDatum));
-              log('Remove');
-            },
-            child: const _ToggleIconWidget(
-              color: Colors.green,
-            ),
-          ),
-        );
-        break;
-    }
-
-    return widget;
+          );
+        },
+        child: const _AddCardIconWidget(),
+      ),
+    );
   }
 }
 
@@ -280,12 +242,9 @@ class _BottomSheetDeckListState extends State<_BottomSheetDeckList> {
   }
 }
 
-class _ToggleIconWidget extends StatelessWidget {
-  final Color color;
-
-  const _ToggleIconWidget({
+class _AddCardIconWidget extends StatelessWidget {
+  const _AddCardIconWidget({
     Key? key,
-    required this.color,
   }) : super(key: key);
 
   @override
@@ -297,10 +256,10 @@ class _ToggleIconWidget extends StatelessWidget {
         color: Colors.white,
         shape: BoxShape.circle,
       ),
-      child: Center(
+      child: const Center(
         child: FaIcon(
-          FontAwesomeIcons.solidCheckCircle,
-          color: color,
+          FontAwesomeIcons.plus,
+          color: iconColor,
         ),
       ),
     );

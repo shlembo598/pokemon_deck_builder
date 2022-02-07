@@ -67,16 +67,19 @@ class PokemonDB {
     final db = await instance.database;
     final id = cardDatum.id;
     final name = cardDatum.name;
-    final cardData = json.encode(cardDatum.toString());
+    final cardData = json.encode(cardDatum);
 
-    final responseData = await get(Uri.parse(cardDatum.images!.small));
-    final imageSmall = responseData.bodyBytes;
+    CardDBModel? cardDBModel = await readCard(id);
+    if (cardDBModel == null) {
+      final responseData = await get(Uri.parse(cardDatum.images!.small));
+      final imageSmall = responseData.bodyBytes;
 
-    var image = await get(Uri.parse(cardDatum.images!.small));
-    var bytes = image.bodyBytes;
+      var image = await get(Uri.parse(cardDatum.images!.small));
+      var bytes = image.bodyBytes;
 
-    final newCard = CardDBModel(id, name, cardData, imageSmall, bytes);
-    await db.insert(cardDbModelTableName, newCard.toJson());
+      final newCard = CardDBModel(id, name, cardData, imageSmall, bytes);
+      await db.insert(cardDbModelTableName, newCard.toJson());
+    }
   }
 
   void addCardToDeck(String cardId, int deckId) async {
@@ -85,7 +88,33 @@ class PokemonDB {
     await db.insert(deckCardsDBModelTableName, cardInDeck.toJson());
   }
 
-  Future<CardDBModel> readCard(String id) async {
+  Future<bool> removeCardFromDeck(String cardId, int deckId) async {
+    final db = await instance.database;
+
+    final similarCardsNumberAmount = await db.rawQuery(
+      'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} = "$cardId" AND '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
+    );
+
+    if (similarCardsNumberAmount.isNotEmpty) {
+      List<int?> similarCardId = similarCardsNumberAmount
+          .map((json) => DeckCardsDBModel.fromJson(json).id)
+          .toList();
+      final lastCardId = similarCardId.last;
+      await db.delete(
+        deckCardsDBModelTableName,
+        where: '${DeckCardsDBFields.id} = ?',
+        whereArgs: [lastCardId],
+      );
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<CardDBModel?> readCard(String id) async {
     final db = await instance.database;
     final maps = await db.query(
       cardDbModelTableName,
@@ -94,11 +123,7 @@ class PokemonDB {
       whereArgs: [id],
     );
 
-    if (maps.isNotEmpty) {
-      return CardDBModel.fromJson(maps.first);
-    } else {
-      throw Exception('ID $id not found');
-    }
+    return maps.isNotEmpty ? CardDBModel.fromJson(maps.first) : null;
   }
 
   Future<DeckDBModel> createDeck(String deckName) async {

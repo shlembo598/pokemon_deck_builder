@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/ui/screen_factory/screen_factory.dart';
@@ -8,6 +9,7 @@ abstract class MainNavigationRouteNames {
   static const searchScreen = '/search_screen';
   static const exploreScreen = '/explore_screen';
   static const decksScreen = '/decks_screen';
+  static const deckDetailScreen = '/decks_screen/deck_detail_screen';
   static const setScreen = '/explore_screen/set_screen';
   static const cardDetailScreen =
       '/explore_screen/set_screen/card_detail_screen';
@@ -37,6 +39,11 @@ class MainNavigation {
         final card = settings.arguments as CardDatum;
         return MaterialPageRoute(
           builder: (_) => _screenFactory.makeCardDetailScreen(card),
+        );
+      case MainNavigationRouteNames.deckDetailScreen:
+        final deck = settings.arguments as DeckDBModel;
+        return MaterialPageRoute(
+          builder: (_) => _screenFactory.makeDeckDetailScreen(deck),
         );
       default:
         const widget = Text('Navigation error!!!');

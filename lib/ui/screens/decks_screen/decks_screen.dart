@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
+import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
 import 'package:pokemon_deck_builder/data/db/pokemon_db.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/resources/app_images.dart';
+import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
+import 'package:pokemon_deck_builder/ui/theme/app_themes.dart';
 import 'package:pokemon_deck_builder/ui/widgets/add_deck_db_widget.dart';
 
 class DecksScreen extends StatefulWidget {
@@ -45,6 +49,17 @@ class _DecksScreenState extends State<DecksScreen> {
                       vertical: 5,
                     ),
                     child: ListTile(
+                      onTap: () {
+                        final deck = DeckDBModel(
+                          id: decksList[index].id,
+                          name: decksList[index].name,
+                        );
+                        Navigator.pushNamed(
+                          context,
+                          MainNavigationRouteNames.deckDetailScreen,
+                          arguments: deck,
+                        );
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
                       ),
@@ -55,7 +70,14 @@ class _DecksScreenState extends State<DecksScreen> {
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           final id = decksList[index].id;
-                          context.read<DeckBloc>().add(DeckEvent.delete(id!));
+                          final deckName = decksList[index].name ?? ' ';
+                          showDialog(
+                            context: context,
+                            builder: (context) => _DeckDeleteWarningDialog(
+                              deckId: id!,
+                              deckName: deckName,
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -69,6 +91,81 @@ class _DecksScreenState extends State<DecksScreen> {
         loaded: (decksList) => decksList != null && decksList.isEmpty
             ? null
             : const AddDeckFBWidget(),
+      ),
+    );
+  }
+}
+
+class _DeckDeleteWarningDialog extends StatelessWidget {
+  final int deckId;
+  final String deckName;
+
+  const _DeckDeleteWarningDialog({
+    Key? key,
+    required this.deckId,
+    required this.deckName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ButtonStyle buttonStyle = ButtonStyle(
+      backgroundColor: MaterialStateProperty.all<Color>(
+        Theme.of(context).colorScheme.secondary,
+      ),
+    );
+
+    return AlertDialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+      ),
+      contentPadding: const EdgeInsets.only(top: 10.0),
+      content: SizedBox(
+        width: 200,
+        height: 170,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(
+              FontAwesomeIcons.questionCircle,
+              size: 50,
+              color: iconColor,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              '${S.of(context).decksScreen_deleteDeckDialogTitle} $deckName',
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    context.read<DeckBloc>().add(DeckEvent.delete(deckId));
+                    Navigator.pop(context);
+                  },
+                  child: Text(S.of(context).yes),
+                  style: buttonStyle,
+                ),
+                const SizedBox(
+                  width: 25,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(S.of(context).no),
+                  style: buttonStyle,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

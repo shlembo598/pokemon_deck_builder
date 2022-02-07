@@ -14,7 +14,7 @@ class AddDeckFBWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () async {
+      onPressed: () {
         showDialog(
           context: context,
           builder: (context) => const _CreateDeckDialogWidget(),

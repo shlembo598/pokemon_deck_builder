@@ -9,6 +9,8 @@ import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
+import '../../data/blocs/card_to_deck_bloc/card_to_deck_bloc.dart';
+import '../../generated/l10n.dart';
 import '../theme/app_themes.dart';
 import 'add_deck_db_widget.dart';
 import 'loading_indicator_widget.dart';
@@ -113,7 +115,11 @@ class AddRemoveCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<CardToDeckBloc>(
       create: (context) => CardToDeckBloc(),
-      child: BlocBuilder<CardToDeckBloc, CardToDeckState>(
+      child: BlocConsumer<CardToDeckBloc, CardToDeckState>(
+        listener: (context, state) {
+          state.maybeWhen(
+              orElse: () => null, overflowed: () => _showSnackBar(context));
+        },
         builder: (context, state) {
           final cardToDeckBloc = context.read<CardToDeckBloc>();
 
@@ -227,19 +233,30 @@ class _BottomSheetDeckListState extends State<_BottomSheetDeckList> {
           : Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "You don't have any decks yet, do you want to create one?",
+                      S.of(context).decksScreen_emptyDecksText,
                     ),
                   ),
-                  AddDeckFBWidget(),
+                  const AddDeckFBWidget(),
                 ],
               ),
             ),
     );
   }
+}
+
+void _showSnackBar(BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    duration: const Duration(seconds: 2),
+    content: Text(
+      S.of(context).addCard_overflowWarningSnackBarMessage,
+      style: middleBoldText,
+      textAlign: TextAlign.center,
+    ),
+  ));
 }
 
 class _AddCardIconWidget extends StatelessWidget {

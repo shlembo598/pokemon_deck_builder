@@ -22,15 +22,22 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addCard_overflowWarningSnackBarMessage":
+            MessageLookupByLibrary.simpleMessage(
+                "You cannot add more than 4 identical cards to the deck"),
         "cardDetailScreen_pricingTitle":
             MessageLookupByLibrary.simpleMessage("Pricing"),
         "deckDetailScreen_emptyDeck": MessageLookupByLibrary.simpleMessage(
             "You haven\'t added any cards yet"),
         "deckDetailScreen_removeCardButtonText":
             MessageLookupByLibrary.simpleMessage("Remove card"),
+        "decksScreen_addDeckDialogTitle": MessageLookupByLibrary.simpleMessage(
+            "To create a deck, please enter a name"),
         "decksScreen_deleteDeckDialogTitle":
             MessageLookupByLibrary.simpleMessage(
                 "Do you really want to delete deck with name:"),
+        "decksScreen_emptyDecksText": MessageLookupByLibrary.simpleMessage(
+            "You don\'t have any decks yet, do you want to create one?"),
         "decksScreen_noDecksMessage": MessageLookupByLibrary.simpleMessage(
             "You don\'t have any decks created yet, would you like to create one?"),
         "decks_screen_title": MessageLookupByLibrary.simpleMessage("Decks"),

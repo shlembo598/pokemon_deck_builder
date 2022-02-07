@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
+import 'package:pokemon_deck_builder/data/utils/constants.dart';
 
+import '../../generated/l10n.dart';
 import 'custom_fb_text_field_widget.dart';
 
 class AddDeckFBWidget extends StatelessWidget {
@@ -46,20 +48,28 @@ class _CreateDeckDialogWidgetState extends State<_CreateDeckDialogWidget> {
       content: FormBuilder(
         key: _formKey,
         child: SizedBox(
-          width: 200,
+          width: 320,
           height: 170,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  S.of(context).decksScreen_addDeckDialogTitle,
+                  style: middleText,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 const CustomFBTextFieldWidget(
                   label: 'Enter deck name',
                   errorText: 'The field cannot be empty',
                   name: 'deckName',
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
                 ElevatedButton(
                   onPressed: () {

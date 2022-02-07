@@ -82,20 +82,31 @@ class PokemonDB {
     }
   }
 
-  void addCardToDeck(String cardId, int deckId) async {
+  Future<bool> addCardToDeck(String cardId, int deckId) async {
     final db = await instance.database;
     final cardInDeck = DeckCardsDBModel(cardId: cardId, deckId: deckId);
-    await db.insert(deckCardsDBModelTableName, cardInDeck.toJson());
+
+    final similarCardsNumberAmount = await _getSimilarCards(cardId, deckId);
+
+    if (similarCardsNumberAmount.length < 4) {
+      await db.insert(deckCardsDBModelTableName, cardInDeck.toJson());
+
+      return true;
+    }
+
+    return false;
   }
 
   Future<bool> removeCardFromDeck(String cardId, int deckId) async {
     final db = await instance.database;
 
-    final similarCardsNumberAmount = await db.rawQuery(
-      'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
-      '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} = "$cardId" AND '
-      '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
-    );
+    // final similarCardsNumberAmount = await db.rawQuery(
+    //   'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
+    //   '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} = "$cardId" AND '
+    //   '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
+    // );
+
+    final similarCardsNumberAmount = await _getSimilarCards(cardId, deckId);
 
     if (similarCardsNumberAmount.isNotEmpty) {
       List<int?> similarCardId = similarCardsNumberAmount
@@ -200,5 +211,17 @@ class PokemonDB {
   Future close() async {
     final db = await instance.database;
     db.close();
+  }
+
+  Future<List<Map<String, Object?>>> _getSimilarCards(
+      String cardId, int deckId) async {
+    final db = await instance.database;
+    final similarCardsNumberAmount = await db.rawQuery(
+      'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} = "$cardId" AND '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
+    );
+
+    return similarCardsNumberAmount;
   }
 }

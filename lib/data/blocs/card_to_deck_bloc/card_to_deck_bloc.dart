@@ -24,6 +24,8 @@ class CardToDeckState with _$CardToDeckState {
 
   const factory CardToDeckState.added() = _AddedCardToDeckState;
 
+  const factory CardToDeckState.overflowed() = _OverflowedCardToDeckState;
+
   const factory CardToDeckState.removed() = _RemovedCardToDeckState;
 }
 
@@ -42,8 +44,14 @@ class CardToDeckBloc extends Bloc<CardToDeckEvent, CardToDeckState> {
     final card = event.cardDatum!;
     final deckId = event.deckId!;
     PokemonDB.instance.addCard(card);
-    PokemonDB.instance.addCardToDeck(event.cardDatum!.id, deckId);
-    emit(const CardToDeckState.added());
+    final isAdded =
+        await PokemonDB.instance.addCardToDeck(event.cardDatum!.id, deckId);
+    if (isAdded) {
+      emit(const CardToDeckState.added());
+    } else {
+      emit(const CardToDeckState.overflowed());
+      emit(const CardToDeckState.added());
+    }
   }
 
   FutureOr<void> _remove(

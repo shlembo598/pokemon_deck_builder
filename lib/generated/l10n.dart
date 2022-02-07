@@ -219,6 +219,36 @@ class S {
       args: [],
     );
   }
+
+  /// `You don't have any decks yet, do you want to create one?`
+  String get decksScreen_emptyDecksText {
+    return Intl.message(
+      'You don\'t have any decks yet, do you want to create one?',
+      name: 'decksScreen_emptyDecksText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To create a deck, please enter a name`
+  String get decksScreen_addDeckDialogTitle {
+    return Intl.message(
+      'To create a deck, please enter a name',
+      name: 'decksScreen_addDeckDialogTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You cannot add more than 4 identical cards to the deck`
+  String get addCard_overflowWarningSnackBarMessage {
+    return Intl.message(
+      'You cannot add more than 4 identical cards to the deck',
+      name: 'addCard_overflowWarningSnackBarMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

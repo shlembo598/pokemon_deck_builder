@@ -17,6 +17,7 @@ class CustomFBTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FormBuilderTextField(
+      autofocus: true,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(

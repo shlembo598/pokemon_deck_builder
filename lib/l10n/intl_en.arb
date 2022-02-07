@@ -15,5 +15,8 @@
   "searchScreen_cardCounterName" : "Cards on screen",
   "deckDetailScreen_removeCardButtonText" : "Remove card",
   "deckDetailScreen_emptyDeck" : "You haven't added any cards yet",
-  "decksScreen_deleteDeckDialogTitle" : "Do you really want to delete deck with name:"
+  "decksScreen_deleteDeckDialogTitle" : "Do you really want to delete deck with name:",
+  "decksScreen_emptyDecksText" : "You don't have any decks yet, do you want to create one?",
+  "decksScreen_addDeckDialogTitle" : "To create a deck, please enter a name",
+  "addCard_overflowWarningSnackBarMessage" : "You cannot add more than 4 identical cards to the deck"
 }

@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
-import 'package:pokemon_deck_builder/data/blocs/card_to_deck_bloc/card_to_deck_bloc.dart';
-import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
-import '../../data/blocs/card_to_deck_bloc/card_to_deck_bloc.dart';
 import '../../generated/l10n.dart';
 import '../theme/app_themes.dart';
-import 'add_deck_db_widget.dart';
-import 'loading_indicator_widget.dart';
-import 'network_image_widget.dart';
+import 'app_widgets.dart';
 
 class CardListWidget extends StatelessWidget {
   final CardListContainer? cardListContainer;
@@ -118,7 +113,9 @@ class AddRemoveCardWidget extends StatelessWidget {
       child: BlocConsumer<CardToDeckBloc, CardToDeckState>(
         listener: (context, state) {
           state.maybeWhen(
-              orElse: () => null, overflowed: () => _showSnackBar(context));
+            orElse: () => null,
+            overflowed: () => _showSnackBar(context),
+          );
         },
         builder: (context, state) {
           final cardToDeckBloc = context.read<CardToDeckBloc>();

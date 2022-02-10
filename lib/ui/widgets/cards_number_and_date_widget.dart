@@ -9,7 +9,7 @@ class CardsNumberAndDateWidget extends StatelessWidget {
   final String? counterName;
 
   const CardsNumberAndDateWidget(
-      {Key? key, this.length, this.releaseDate, this.counterName})
+      {Key? key, this.length, this.releaseDate, this.counterName,})
       : super(key: key);
 
   @override

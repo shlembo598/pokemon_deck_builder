@@ -214,7 +214,9 @@ class PokemonDB {
   }
 
   Future<List<Map<String, Object?>>> _getSimilarCards(
-      String cardId, int deckId) async {
+    String cardId,
+    int deckId,
+  ) async {
     final db = await instance.database;
     final similarCardsNumberAmount = await db.rawQuery(
       'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '

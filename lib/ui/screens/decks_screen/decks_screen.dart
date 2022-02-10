@@ -125,7 +125,7 @@ class _DeckDeleteWarningDialog extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FaIcon(
+            const FaIcon(
               FontAwesomeIcons.questionCircle,
               size: 50,
               color: iconColor,

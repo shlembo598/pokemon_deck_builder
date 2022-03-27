@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
+import 'package:pokemon_deck_builder/data/blocs/deck_statistics_bloc/deck_statistics_bloc.dart';
 import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
@@ -50,8 +51,17 @@ class ScreenFactory {
   }
 
   Widget makeDeckDetailScreen(DeckDBModel deck) {
-    return BlocProvider<DeckDetailBloc>(
-      create: (context) => DeckDetailBloc()..add(DeckDetailEvent.load(deck)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DeckDetailBloc>(
+          create: (context) =>
+              DeckDetailBloc()..add(DeckDetailEvent.load(deck)),
+        ),
+        BlocProvider<DeckStatisticsBloc>(
+          create: (context) =>
+              DeckStatisticsBloc()..add(DeckStatisticsEvent.create(deck.id!)),
+        ),
+      ],
       child: DeckDetailScreen(
         deckId: deck.id!,
         deckName: deck.name ?? '',

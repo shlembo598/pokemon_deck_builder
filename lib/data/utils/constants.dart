@@ -47,7 +47,7 @@ const List<String> pokemonTypes = [
 
 const List<String> pokemonSuperTypes = [
   'energy',
-  'pokemon',
+  'pokémon',
   'trainer',
 ];
 

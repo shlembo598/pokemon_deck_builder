@@ -38,51 +38,53 @@ class _DecksScreenState extends State<DecksScreen> {
       body: state.when(
         initial: (decksList) => const CircularProgressIndicator(),
         loaded: (decksList) => decksList != null && decksList.isNotEmpty
-            ? ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: decksList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 5,
-                    ),
-                    child: ListTile(
-                      onTap: () {
-                        final deck = DeckDBModel(
-                          id: decksList[index].id,
-                          name: decksList[index].name,
-                        );
-                        Navigator.pushNamed(
-                          context,
-                          MainNavigationRouteNames.deckDetailScreen,
-                          arguments: deck,
-                        );
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+            ? Scrollbar(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: decksList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 5,
                       ),
-                      tileColor: Theme.of(context).cardColor,
-                      title: Text(decksList[index].name ?? ' '),
-                      leading: Text((index + 1).toString()),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          final id = decksList[index].id;
-                          final deckName = decksList[index].name ?? ' ';
-                          showDialog(
-                            context: context,
-                            builder: (context) => _DeckDeleteWarningDialog(
-                              deckId: id!,
-                              deckName: deckName,
-                            ),
+                      child: ListTile(
+                        onTap: () {
+                          final deck = DeckDBModel(
+                            id: decksList[index].id,
+                            name: decksList[index].name,
+                          );
+                          Navigator.pushNamed(
+                            context,
+                            MainNavigationRouteNames.deckDetailScreen,
+                            arguments: deck,
                           );
                         },
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        tileColor: Theme.of(context).cardColor,
+                        title: Text(decksList[index].name ?? ' '),
+                        leading: Text((index + 1).toString()),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            final id = decksList[index].id;
+                            final deckName = decksList[index].name ?? ' ';
+                            showDialog(
+                              context: context,
+                              builder: (context) => _DeckDeleteWarningDialog(
+                                deckId: id!,
+                                deckName: deckName,
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               )
             : const EmptyDecksWidget(),
       ),

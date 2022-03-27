@@ -27,6 +27,9 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
+        actions: const [
+          ThemeSwitcherWidget(),
+        ],
         title: Text(
           _screenTitleText(
             context,

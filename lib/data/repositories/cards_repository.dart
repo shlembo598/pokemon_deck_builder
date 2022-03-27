@@ -6,7 +6,6 @@ import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/data/utils/constants.dart';
 
 class CardsRepository {
-  final AppConfiguration configuration = AppConfiguration();
   final Dio httpClient = Dio();
 
   Future<List<SetDatum>> getSets([

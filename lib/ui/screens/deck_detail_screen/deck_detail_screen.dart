@@ -1,10 +1,16 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
+import 'package:pokemon_deck_builder/data/blocs/deck_statistics_bloc/deck_statistics_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../../../data/utils/constants.dart';
+import '../../navigation/main_navigation.dart';
 
 class DeckDetailScreen extends StatefulWidget {
   final String deckName;
@@ -27,7 +33,8 @@ class _DeckDetailScreenState extends State<DeckDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.deckName),
+        title: Text(widget
+            .deckName), //TODO Реализовать возможность смены названия колоды
       ),
       body: state.maybeWhen(
         orElse: () => const _NoCardInDeckWidget(),
@@ -42,62 +49,229 @@ class _DeckDetailScreenState extends State<DeckDetailScreen> {
                       )),
                   );
                 },
-                child: ListView.builder(
-                  itemExtent: 150,
-                  shrinkWrap: true,
+                child: CustomScrollView(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: cardDBList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 5,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                        ),
-                        height: 150,
-                        child: Row(
-                          children: [
-                            Image.memory(
-                              cardDBList[index].imageSmall,
-                              scale: 2,
-                              height: 150,
-                            ),
-                            Expanded(
-                              child: Column(
-                                children: [
-                                  Text(cardDBList[index].name ?? ' '),
-                                  // Text(_getCardData(cardDBList[index].cardData!)),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      context.read<CardToDeckBloc>().add(
-                                            CardToDeckEvent.remove(
-                                              deckId: widget.deckId,
-                                              cardId: _getCardData(
-                                                cardDBList[index].cardData!,
-                                              ).id,
-                                            ),
-                                          );
-                                    },
-                                    child: Text(S
-                                        .of(context)
-                                        .deckDetailScreen_removeCardButtonText),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+                  slivers: [
+                    const SliverToBoxAdapter(child: _DeckStatisticsWidget()),
+                    _CardListWidget(
+                      deckId: widget.deckId,
+                      cardDBList: cardDBList,
+                    ),
+                  ],
                 ),
               )
             : const _NoCardInDeckWidget(),
+      ),
+    );
+  }
+}
+
+class _DeckStatisticsWidget extends StatelessWidget {
+  const _DeckStatisticsWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+          child: ExpansionTile(
+            iconColor: Theme.of(context).toggleableActiveColor,
+            textColor: Theme.of(context).toggleableActiveColor,
+            title: const Text(
+              'Deck statistics',
+              style: middleText,
+            ),
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  _SupertypeChartWidget(),
+                  _TypesChartWidget(),
+                  _DeckCostWidget(),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SupertypeChartWidget extends StatelessWidget {
+  const _SupertypeChartWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final statisticsState = context.watch<DeckStatisticsBloc>().state;
+
+    return statisticsState.when(
+      loaded: (typesData, superTypesData, totalCards, totalDeckPrice) =>
+          SfCircularChart(
+        title: ChartTitle(text: 'Deck Description'),
+        legend: Legend(
+          isVisible: true,
+          toggleSeriesVisibility: false,
+        ),
+        series: <CircularSeries<TypesData, String>>[
+          PieSeries<TypesData, String>(
+            dataSource: typesData,
+            xValueMapper: (TypesData sales, _) => sales.type,
+            yValueMapper: (TypesData sales, _) => sales.count,
+            dataLabelSettings: const DataLabelSettings(
+              isVisible: true,
+            ),
+            legendIconType: LegendIconType.circle,
+          ),
+        ],
+      ),
+      initial: () => const SizedBox.shrink(),
+      loading: () => const CircularProgressIndicator(),
+    );
+  }
+}
+
+class _TypesChartWidget extends StatelessWidget {
+  const _TypesChartWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final statisticsState = context.watch<DeckStatisticsBloc>().state;
+
+    return statisticsState.when(
+      loaded: (typesData, superTypesData, totalCards, totalDeckPrice) =>
+          SfCartesianChart(
+        title: ChartTitle(text: 'Type Description'),
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(),
+        series: <ColumnSeries<TypesData, String>>[
+          ColumnSeries<TypesData, String>(
+            dataSource: superTypesData!,
+            xValueMapper: (TypesData sales, _) => sales.type,
+            yValueMapper: (TypesData sales, _) => sales.count,
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+          ),
+        ],
+      ),
+      initial: () => const SizedBox.shrink(),
+      loading: () => const CircularProgressIndicator(),
+    );
+  }
+}
+
+class _DeckCostWidget extends StatelessWidget {
+  const _DeckCostWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final statisticsState = context.watch<DeckStatisticsBloc>().state;
+
+    return statisticsState.when(
+      loaded: (typesData, superTypesData, totalCards, totalDeckPrice) =>
+          Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              children: [
+                const Text('Total cards'),
+                Text(
+                  totalCards.toString(),
+                  style: const TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Total deck cost: ',
+                  style: middleText,
+                ),
+                Text(
+                  '${totalDeckPrice?.toStringAsFixed(2)} \uFF04',
+                  style: const TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      initial: () => const SizedBox.shrink(),
+      loading: () => const CircularProgressIndicator(),
+    );
+  }
+}
+
+class _CardListWidget extends StatelessWidget {
+  final int deckId;
+  final List cardDBList;
+
+  const _CardListWidget({
+    Key? key,
+    required this.deckId,
+    required this.cardDBList,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          final image = cardDBList[index].imageSmall;
+          final name = cardDBList[index].name;
+          final cardId = _getCardData(
+            cardDBList[index].cardData!,
+          ).id;
+          final supertype = _getCardData(
+            cardDBList[index].cardData!,
+          ).supertype.toString();
+          final type = _getCardData(
+                    cardDBList[index].cardData!,
+                  ).types.toString() ==
+                  'null'
+              ? ' '
+              : _getCardData(
+                  cardDBList[index].cardData!,
+                ).types.toString();
+          final CardDatum cardDatum = _getCardData(cardDBList[index]
+              .cardData!); //TODO Доделать отображение фото в детальной информации
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                MainNavigationRouteNames.cardDetailScreen,
+                arguments: cardDatum,
+              );
+            },
+            child: _ListItemWidget(
+              image: image,
+              name: name,
+              deckId: deckId,
+              cardId: cardId,
+              type: type,
+              supertype: supertype,
+            ),
+          );
+        },
+        childCount: cardDBList.length,
       ),
     );
   }
@@ -107,6 +281,95 @@ class _DeckDetailScreenState extends State<DeckDetailScreen> {
     final card = CardDatum.fromJson(jsonData);
 
     return card;
+  }
+}
+
+class _ListItemWidget extends StatelessWidget {
+  final Uint8List image;
+  final String name;
+  final int deckId;
+  final String cardId;
+  final String type;
+  final String supertype;
+
+  const _ListItemWidget({
+    Key? key,
+    required this.image,
+    required this.name,
+    required this.deckId,
+    required this.cardId,
+    required this.type,
+    required this.supertype,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10.0,
+        vertical: 5,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(20),
+          ),
+        ),
+        height: 150,
+        child: Row(
+          children: [
+            Image.memory(
+              image,
+              scale: 2,
+              height: 150,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: largeBoldText,
+                    ),
+                    Text(
+                      supertype,
+                      style: middleText,
+                    ),
+                    Text(
+                      type,
+                      style: middleText,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: IconButton(
+                onPressed: () {
+                  context.read<CardToDeckBloc>().add(
+                        CardToDeckEvent.remove(
+                          deckId: deckId,
+                          cardId: cardId,
+                        ),
+                      );
+                  context
+                      .read<DeckStatisticsBloc>()
+                      .add(DeckStatisticsEvent.create(deckId));
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  size: 50,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

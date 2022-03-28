@@ -7,6 +7,7 @@ import 'package:pokemon_deck_builder/data/models/search_card_container.dart';
 import 'package:pokemon_deck_builder/data/utils/constants.dart';
 import 'package:pokemon_deck_builder/ui/navigation/main_navigation.dart';
 
+import '../../data/models/card_with_offline_data.dart';
 import '../../generated/l10n.dart';
 import '../theme/app_themes.dart';
 import 'app_widgets.dart';
@@ -76,7 +77,8 @@ class _GridWidget extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).pushNamed(
                           MainNavigationRouteNames.cardDetailScreen,
-                          arguments: cardDatum[index],
+                          arguments:
+                              CardWithOfflineData(cardDatum: cardDatum[index]),
                         );
                       },
                       child: NetworkImageWidget(

@@ -3,9 +3,11 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:l/l.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_statistics_bloc/deck_statistics_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/card_with_offline_data.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -235,8 +237,6 @@ class _CardListWidget extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          final image = cardDBList[index].imageSmall;
-          final name = cardDBList[index].name;
           final cardId = _getCardData(
             cardDBList[index].cardData!,
           ).id;
@@ -251,19 +251,22 @@ class _CardListWidget extends StatelessWidget {
               : _getCardData(
                   cardDBList[index].cardData!,
                 ).types.toString();
-          final CardDatum cardDatum = _getCardData(cardDBList[index]
-              .cardData!); //TODO Доделать отображение фото в детальной информации
+          final CardDatum cardDatum = _getCardData(cardDBList[index].cardData!);
 
           return GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(
                 MainNavigationRouteNames.cardDetailScreen,
-                arguments: cardDatum,
+                arguments: CardWithOfflineData(
+                  cardDatum: cardDatum,
+                  imageLarge: cardDBList[index].imageLarge,
+                ),
               );
+              l.vvvvvv(cardDatum);
             },
             child: _ListItemWidget(
-              image: image,
-              name: name,
+              image: cardDBList[index].imageSmall,
+              name: cardDBList[index].name,
               deckId: deckId,
               cardId: cardId,
               type: type,

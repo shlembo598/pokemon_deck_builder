@@ -1,19 +1,25 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/card_with_offline_data.dart';
 import 'package:pokemon_deck_builder/data/utils/date_formatter.dart';
 import 'package:pokemon_deck_builder/generated/l10n.dart';
 import 'package:pokemon_deck_builder/ui/widgets/network_image_widget.dart';
 
 class CardDetailScreen extends StatelessWidget {
-  final CardDatum card;
+  final CardWithOfflineData? card;
 
   const CardDetailScreen({Key? key, required this.card}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final String cardsInSet = card.set!.total.toString();
-    final String? rarity = card.rarity;
-    final String? cardNumber = card.number.toString();
+    final String? cardsInSet = card?.cardDatum?.set?.total.toString();
+    final String? rarity = card?.cardDatum?.rarity;
+    final String? cardNumber = card?.cardDatum?.number.toString();
+    final String? imageUrl = card?.cardDatum?.images?.large;
+    final Uint8List? imageLarge = card?.imageLarge;
+    final String? cardName = card?.cardDatum?.name;
 
     return Scaffold(
       body: SafeArea(
@@ -47,19 +53,24 @@ class CardDetailScreen extends StatelessWidget {
                       _BaseCardInfoWidget(
                         rarity: rarity,
                         cardNumber: cardNumber,
-                        cardsInSet: cardsInSet,
+                        cardsInSet: cardsInSet ?? ' ',
                       ),
                       SizedBox(
                         height: 550,
-                        child: NetworkImageWidget(
-                          imageUrl: card.images!.large,
-                        ),
+                        child: imageLarge != null
+                            ? Image.memory(
+                                imageLarge,
+                                fit: BoxFit.fitHeight,
+                              )
+                            : NetworkImageWidget(
+                                imageUrl: imageUrl!,
+                              ),
                       ),
                       Text(
-                        card.name,
+                        cardName ?? '',
                         style: Theme.of(context).textTheme.headline4,
                       ),
-                      _MarketPriceWidget(card: card),
+                      _MarketPriceWidget(card: card!.cardDatum!),
                     ],
                   ),
                 ),

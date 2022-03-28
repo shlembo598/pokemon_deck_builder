@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_statistics_bloc/deck_statistics_bloc.dart';
 import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
-import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/card_with_offline_data.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/data/repositories/cards_repository.dart';
 import 'package:pokemon_deck_builder/ui/screens/screens.dart';
@@ -40,7 +40,7 @@ class ScreenFactory {
     );
   }
 
-  Widget makeCardDetailScreen(CardDatum card) {
+  Widget makeCardDetailScreen(CardWithOfflineData card) {
     return CardDetailScreen(
       card: card,
     );

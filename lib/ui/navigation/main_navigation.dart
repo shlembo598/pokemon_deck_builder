@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokemon_deck_builder/data/db/db_models/deck_db_model.dart';
-import 'package:pokemon_deck_builder/data/models/card_list.dart';
+import 'package:pokemon_deck_builder/data/models/card_with_offline_data.dart';
 import 'package:pokemon_deck_builder/data/models/set_list.dart';
 import 'package:pokemon_deck_builder/ui/screen_factory/screen_factory.dart';
 
@@ -36,7 +36,8 @@ class MainNavigation {
           builder: (_) => _screenFactory.makeSetScreen(set),
         );
       case MainNavigationRouteNames.cardDetailScreen:
-        final card = settings.arguments as CardDatum;
+        final card = settings.arguments as CardWithOfflineData;
+
         return MaterialPageRoute(
           builder: (_) => _screenFactory.makeCardDetailScreen(card),
         );

@@ -4,6 +4,7 @@ export 'card_to_deck_bloc/card_to_deck_bloc.dart';
 export 'deck_bloc/deck_bloc.dart';
 export 'deck_detail_bloc/deck_detail_bloc.dart';
 export 'deck_name_bloc/deck_name_bloc.dart';
+export 'deck_statistics_bloc/deck_statistics_bloc.dart';
 export 'providers/bloc_providers.dart';
 export 'sets_bloc/sets_bloc.dart';
 export 'theme_bloc/theme_bloc.dart';

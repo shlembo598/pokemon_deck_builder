@@ -4,3 +4,6 @@ codegen: get
 get:
 	@echo "Getting dependencies"
 	@flutter pub get
+build_apk:
+	@echo "Build APK"
+	@flutter build apk --release --dart-define API_KEY=

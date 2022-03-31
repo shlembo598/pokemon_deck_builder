@@ -64,7 +64,6 @@ class _MainScreenState extends State<MainScreen> {
         ],
         onTap: onSelectTab,
       ),
-      drawer: const _CustomDrawerWidget(),
     );
   }
 }
@@ -84,24 +83,4 @@ String _screenTitleText(BuildContext context, int index) {
   }
 
   return title;
-}
-
-class _CustomDrawerWidget extends StatelessWidget {
-  const _CustomDrawerWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            ThemeSwitcherWidget(),
-          ],
-        ),
-      ),
-    );
-  }
 }

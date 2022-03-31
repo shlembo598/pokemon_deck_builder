@@ -17,7 +17,10 @@ class DeckEvent with _$DeckEvent {
 
   const factory DeckEvent.read() = _ReadDeckEvent;
 
-  const factory DeckEvent.update() = _UpdateDeckEvent;
+  const factory DeckEvent.update(
+    int deckId,
+    String newDeckName,
+  ) = _UpdateDeckEvent;
 
   const factory DeckEvent.delete(
     int id,
@@ -35,6 +38,10 @@ class DeckState with _$DeckState {
   const factory DeckState.loaded([
     List<DeckDBModel>? deckList,
   ]) = _LoadedDeckState;
+
+  const factory DeckState.updated(
+    String newDeckName,
+  ) = _UpdatedDeckState;
 }
 
 class DeckBloc extends Bloc<DeckEvent, DeckState> {
@@ -64,7 +71,14 @@ class DeckBloc extends Bloc<DeckEvent, DeckState> {
   FutureOr<void> _update(
     _UpdateDeckEvent event,
     Emitter<DeckState> emit,
-  ) {}
+  ) async {
+    String deckName = event.newDeckName;
+    await PokemonDB.instance.renameDeck(
+      event.deckId,
+      deckName,
+    );
+    emit(DeckState.updated(deckName));
+  }
 
   FutureOr<void> _delete(
     _DeleteDeckEvent event,

@@ -87,8 +87,9 @@ class PokemonDB {
     final cardInDeck = DeckCardsDBModel(cardId: cardId, deckId: deckId);
 
     final similarCardsNumberAmount = await _getSimilarCards(cardId, deckId);
+    final cardsNumberAmount = await _getCardsAmount(deckId);
 
-    if (similarCardsNumberAmount.length < 4) {
+    if (similarCardsNumberAmount.length < 4 && cardsNumberAmount < 60) {
       await db.insert(deckCardsDBModelTableName, cardInDeck.toJson());
 
       return true;
@@ -99,13 +100,6 @@ class PokemonDB {
 
   Future<bool> removeCardFromDeck(String cardId, int deckId) async {
     final db = await instance.database;
-
-    // final similarCardsNumberAmount = await db.rawQuery(
-    //   'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
-    //   '$deckCardsDBModelTableName.${DeckCardsDBFields.cardId} = "$cardId" AND '
-    //   '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
-    // );
-
     final similarCardsNumberAmount = await _getSimilarCards(cardId, deckId);
 
     if (similarCardsNumberAmount.isNotEmpty) {
@@ -143,6 +137,13 @@ class PokemonDB {
     final id = await db.insert(deckDbModelTableName, newDeck.toJson());
 
     return newDeck.copyWith(id: id);
+  }
+
+  Future<void> renameDeck(int deckId, String deckName) async {
+    final db = await instance.database;
+    await db.rawQuery(
+      "UPDATE $deckDbModelTableName SET ${DeckDbFields.name}='$deckName'  WHERE ${DeckDbFields.id} = $deckId",
+    );
   }
 
   Future<DeckDBModel> readDeck(int id) async {
@@ -225,5 +226,18 @@ class PokemonDB {
     );
 
     return similarCardsNumberAmount;
+  }
+
+  Future<int> _getCardsAmount(
+    int deckId,
+  ) async {
+    final db = await instance.database;
+    final cards = await db.rawQuery(
+      'SELECT $deckCardsDBModelTableName.* FROM $deckCardsDBModelTableName WHERE '
+      '$deckCardsDBModelTableName.${DeckCardsDBFields.deckId} = $deckId',
+    );
+    final cardsNumberAmount = cards.length;
+
+    return cardsNumberAmount;
   }
 }

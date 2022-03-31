@@ -113,13 +113,18 @@ class _ListInfoDelegate extends SliverPersistentHeaderDelegate {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CardsNumberAndDateWidget(
-              counterName: 'Total Cards',
-              length: totalCards,
+            Expanded(
+              child: CardsNumberAndDateWidget(
+                counterName: 'Total Cards',
+                length: totalCards,
+              ),
             ),
-            const _ToggleViewWidget(),
+            state.maybeWhen(
+              orElse: () => const SizedBox.shrink(),
+              loaded: (data, max) => Expanded(child: const _ToggleViewWidget()),
+            ),
           ],
         ),
       ),

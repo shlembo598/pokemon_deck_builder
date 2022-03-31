@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:l/l.dart';
 import 'package:pokemon_deck_builder/data/blocs/blocs.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_statistics_bloc/deck_statistics_bloc.dart';
 import 'package:pokemon_deck_builder/data/models/card_list.dart';
@@ -13,6 +12,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../data/utils/constants.dart';
 import '../../navigation/main_navigation.dart';
+import '../../widgets/create_rename_deck_dialog_widget.dart';
 
 class DeckDetailScreen extends StatefulWidget {
   final String deckName;
@@ -31,14 +31,22 @@ class DeckDetailScreen extends StatefulWidget {
 class _DeckDetailScreenState extends State<DeckDetailScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<DeckDetailBloc>().state;
+    final deckDetailState = context.watch<DeckDetailBloc>().state;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget
-            .deckName), //TODO Реализовать возможность смены названия колоды
+        actions: [
+          IconButton(
+            onPressed: () => _showInfoDialog(context),
+            icon: const Icon(Icons.info),
+          ),
+        ],
+        title: _DeckTitleWidget(
+          deckId: widget.deckId,
+          deckName: widget.deckName,
+        ),
       ),
-      body: state.maybeWhen(
+      body: deckDetailState.maybeWhen(
         orElse: () => const _NoCardInDeckWidget(),
         loaded: (cardDBList) => cardDBList != null && cardDBList.isNotEmpty
             ? BlocListener<CardToDeckBloc, CardToDeckState>(
@@ -64,6 +72,92 @@ class _DeckDetailScreenState extends State<DeckDetailScreen> {
               )
             : const _NoCardInDeckWidget(),
       ),
+    );
+  }
+
+  void _showInfoDialog(BuildContext context) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          actions: [
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(S.of(context).close),
+            ),
+          ],
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(S.of(context).deckInfo_dialog_text),
+              ],
+            ),
+          ),
+        ),
+      );
+}
+
+class _DeckTitleWidget extends StatelessWidget {
+  final int deckId;
+  final String deckName;
+  const _DeckTitleWidget({
+    Key? key,
+    required this.deckId,
+    required this.deckName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final deckNameState = context.watch<DeckNameBloc>().state;
+    final deckNameBloc = context.watch<DeckNameBloc>();
+
+    return GestureDetector(
+      onTap: () => _showRenameDeckDialog(context, deckId),
+      child: BlocListener<DeckBloc, DeckState>(
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () => null,
+            updated: (newDeckName) =>
+                deckNameBloc.add(DeckNameEvent.update(newDeckName)),
+          );
+        },
+        child: deckNameState.when(
+          initial: () => _TitleTextWidget(deckName: deckName),
+          updated: (newDeckName) => _TitleTextWidget(deckName: newDeckName),
+        ),
+      ),
+    );
+  }
+
+  void _showRenameDeckDialog(BuildContext context, int deckId) => showDialog(
+        context: context,
+        builder: (context) => CreateRenameDeckDialogWidget(
+          deckOldId: deckId,
+        ),
+      );
+}
+
+class _TitleTextWidget extends StatelessWidget {
+  const _TitleTextWidget({
+    Key? key,
+    required this.deckName,
+  }) : super(key: key);
+
+  final String deckName;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Text(deckName),
+        const SizedBox(
+          width: 5,
+        ),
+        const Icon(
+          Icons.edit,
+          size: 15,
+        ),
+      ],
     );
   }
 }
@@ -262,7 +356,6 @@ class _CardListWidget extends StatelessWidget {
                   imageLarge: cardDBList[index].imageLarge,
                 ),
               );
-              l.vvvvvv(cardDatum);
             },
             child: _ListItemWidget(
               image: cardDBList[index].imageSmall,

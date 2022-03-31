@@ -53,6 +53,10 @@ class ScreenFactory {
   Widget makeDeckDetailScreen(DeckDBModel deck) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<DeckNameBloc>(
+          create: (context) =>
+              DeckNameBloc()..add(const DeckNameEvent.create()),
+        ),
         BlocProvider<DeckDetailBloc>(
           create: (context) =>
               DeckDetailBloc()..add(DeckDetailEvent.load(deck)),

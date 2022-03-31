@@ -87,12 +87,14 @@ class _DecksScreenState extends State<DecksScreen> {
                 ),
               )
             : const EmptyDecksWidget(),
+        updated: (_) => const SizedBox.shrink(),
       ),
       floatingActionButton: state.when(
         initial: (decksList) => null,
         loaded: (decksList) => decksList != null && decksList.isEmpty
             ? null
             : const AddDeckFBWidget(),
+        updated: (_) => null,
       ),
     );
   }

@@ -243,6 +243,7 @@ class _BottomSheetDeckListState extends State<_BottomSheetDeckList> {
                 ],
               ),
             ),
+      updated: (_) => const SizedBox.shrink(),
     );
   }
 }
@@ -322,7 +323,7 @@ class _ListWidget extends StatelessWidget {
                         cardDatum[index].name,
                         style: middleBoldText,
                       ),
-                      subtitle: Text(cardDatum[index].rarity!),
+                      subtitle: Text(cardDatum[index].rarity ?? ''),
                       leading: Text(
                         cardDatum[index].number.toString(),
                         style: middleText,

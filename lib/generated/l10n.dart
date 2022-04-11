@@ -269,6 +269,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Deck statistics`
+  String get deckDetailScreen_statistics_title {
+    return Intl.message(
+      'Deck statistics',
+      name: 'deckDetailScreen_statistics_title',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

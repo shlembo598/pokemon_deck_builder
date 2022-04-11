@@ -48,20 +48,7 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Theme.of(context).colorScheme.secondary,
         currentIndex: _selectedTab,
-        items: [
-          BottomNavigationBarItem(
-            icon: const FaIcon(FontAwesomeIcons.search),
-            label: S.of(context).search_screen_title,
-          ),
-          BottomNavigationBarItem(
-            icon: const FaIcon(FontAwesomeIcons.compass),
-            label: S.of(context).explore_screen_title,
-          ),
-          BottomNavigationBarItem(
-            icon: const FaIcon(FontAwesomeIcons.buffer),
-            label: S.of(context).decks_screen_title,
-          ),
-        ],
+        items: _getItems(context),
         onTap: onSelectTab,
       ),
     );
@@ -83,4 +70,23 @@ String _screenTitleText(BuildContext context, int index) {
   }
 
   return title;
+}
+
+List<BottomNavigationBarItem> _getItems(BuildContext context) {
+  final List<BottomNavigationBarItem> _itemsList = [
+    BottomNavigationBarItem(
+      icon: const FaIcon(FontAwesomeIcons.search),
+      label: S.of(context).search_screen_title,
+    ),
+    BottomNavigationBarItem(
+      icon: const FaIcon(FontAwesomeIcons.compass),
+      label: S.of(context).explore_screen_title,
+    ),
+    BottomNavigationBarItem(
+      icon: const FaIcon(FontAwesomeIcons.buffer),
+      label: S.of(context).decks_screen_title,
+    ),
+  ];
+
+  return _itemsList;
 }

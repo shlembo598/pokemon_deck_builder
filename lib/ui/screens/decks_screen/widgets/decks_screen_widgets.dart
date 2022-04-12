@@ -1,3 +1,4 @@
+export 'add_deck_widget.dart';
 export 'deck_delete_warning_dialog_widget.dart';
 export 'deck_list_tile_widget.dart';
 export 'decks_list_widget.dart';

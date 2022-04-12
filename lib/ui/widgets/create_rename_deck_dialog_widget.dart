@@ -32,7 +32,7 @@ class _CreateRenameDeckDialogWidgetState
         key: _formKey,
         child: SizedBox(
           width: 320,
-          height: 170,
+          height: 190,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

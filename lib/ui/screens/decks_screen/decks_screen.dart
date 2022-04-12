@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_deck_builder/data/blocs/deck_bloc/deck_bloc.dart';
-import 'package:pokemon_deck_builder/ui/widgets/add_deck_db_widget.dart';
 
 import 'widgets/decks_screen_widgets.dart';
 
@@ -22,7 +21,7 @@ class DecksScreen extends StatelessWidget {
             : const EmptyDecksWidget(),
         updated: (_) => const SizedBox.shrink(),
       ),
-      floatingActionButton: const AddDeckFBWidget(),
+      floatingActionButton: const AddDeckWidget(),
     );
   }
 }

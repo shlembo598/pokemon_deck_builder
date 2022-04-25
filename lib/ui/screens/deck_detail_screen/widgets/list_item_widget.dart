@@ -84,7 +84,7 @@ class ListItemWidget extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.delete,
-                  size: 50,
+                  size: 30,
                 ),
               ),
             ),
